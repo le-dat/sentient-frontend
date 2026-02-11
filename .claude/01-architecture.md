@@ -14,11 +14,11 @@ Sentient Finance is built on a **4-layer architecture** that separates concerns 
 
 ### The Problem
 
-- **Crypto markets 24/7** — Constant monitoring pressure, missed opportunities khi ngủ, stress khi biến động.
-- **Missed opportunities** — Không kịp phản ứng khi giá chạm mức mong muốn; bỏ lỡ entry/exit point.
-- **Cross-chain fragmentation** — Tài sản phân tán; khó quản lý tổng thể; nhiều ví/giao diện.
-- **Custodial bot risk** — Bot yêu cầu private key; rủi ro hack server; phụ thuộc dịch vụ tập trung.
-- **Manual complexity** — Tự tính rebalancing, slippage, gas; thiếu công cụ tự động hóa an toàn.
+- **Crypto markets 24/7** — Constant monitoring pressure, missed opportunities while sleeping, stress during volatility.
+- **Missed opportunities** — Can't react when price hits target levels; miss entry/exit points.
+- **Cross-chain fragmentation** — Assets scattered across chains; hard to manage holistically; multiple wallets/interfaces.
+- **Custodial bot risk** — Bots require private keys; server hack risk; centralized service dependency.
+- **Manual complexity** — Manual rebalancing, slippage, and gas calculations; lack of safe automation tools.
 
 ### Existing Solutions Fall Short
 
@@ -33,11 +33,11 @@ Sentient Finance is built on a **4-layer architecture** that separates concerns 
 
 ### The Solution: Sentient Finance
 
-- **Non-Custodial Architecture** — Smart contract vault cá nhân; bạn giữ 100% quyền; không chia sẻ key; withdraw bất cứ lúc nào.
-- **True Multi-Chain** — Deploy vault trên Ethereum, Arbitrum, Base; quản lý tổng hợp qua 1 dashboard; chiến lược độc lập từng chain.
-- **AI-Assisted Strategy** — AI phân tích volatility và xu hướng; đề xuất buy/sell threshold; tự động điều chỉnh; cảnh báo rủi ro real-time.
-- **Decentralized Execution** — Chainlink CRE thực thi; không phụ thuộc server; minh bạch, audit được; uptime 24/7.
-- **On-Chain Rule Enforcement** — Mọi quy tắc enforce bởi smart contract; AI không thể vượt giới hạn; max trade size, slippage protection, router allowlist, cooldown.
+- **Non-Custodial Architecture** — Personal smart contract vault; you retain 100% control; no key sharing; withdraw anytime.
+- **True Multi-Chain** — Deploy vaults on Ethereum, Arbitrum, Base; unified management via single dashboard; independent strategies per chain.
+- **AI-Assisted Strategy** — AI analyzes volatility and trends; suggests buy/sell thresholds; auto-adjusts; real-time risk alerts.
+- **Decentralized Execution** — Chainlink CRE executes trades; no server dependency; transparent, auditable; 24/7 uptime.
+- **On-Chain Rule Enforcement** — All rules enforced by smart contract; AI cannot exceed limits; max trade size, slippage protection, router allowlist, cooldown period.
 
 ---
 
@@ -70,8 +70,8 @@ Sentient Finance is built on a **4-layer architecture** that separates concerns 
 **Purpose:** On-chain foundation for non-custodial vault management
 
 **Components:**
-- **VaultFactory** — Deploy vault mới cho mỗi user (EIP-1167 minimal proxy); mapping user → vault; emit `VaultCreated`. Mỗi chain có VaultFactory riêng; gas-optimized.
-- **PortfolioVault** — Vault cá nhân; state: `owner`, `executor` (CRE), `rules` (token → Rule), `allowedRouters`, `maxTradeAmount`. Key functions: `initialize()`, `setTokenRule()`, `deposit()`, `withdraw()`, `executeSwap()` (CRE only, rule-constrained), `pause()`/`unpause()`.
+- **VaultFactory** — Deploys new vault for each user (EIP-1167 minimal proxy); maintains user → vault mapping; emits `VaultCreated`. One factory per chain; gas-optimized.
+- **PortfolioVault** — Personal vault; state: `owner`, `executor` (CRE), `rules` (token pair → Rule), `allowedRouters`, cooldown period. Key functions: `initialize()`, `setTokenRule()`, `deposit()`, `withdraw()`, `executeSwap()` (CRE only, rule-constrained), `pause()`/`unpause()`.
 
 **Why This Design:**
 - **EIP-1167 Minimal Proxy:** Reduces deployment cost by 10x (~100k gas vs ~1M gas)
@@ -85,9 +85,9 @@ Sentient Finance is built on a **4-layer architecture** that separates concerns 
 **Purpose:** Decentralized 24/7 execution engine
 
 **Components:**
-- **Price Monitor** — Subscribe Chainlink Price Feeds; track real-time price; so sánh với user-defined thresholds.
-- **Trigger Logic** — Check `currentPrice >= sellThreshold` hoặc `currentPrice <= buyThreshold`; validate cooldown.
-- **Execution Engine** — Gọi `vault.executeSwap()` khi điều kiện thỏa; handle failure; emit events.
+- **Price Monitor** — Subscribes to Chainlink Price Feeds; tracks real-time prices; compares against user-defined thresholds.
+- **Trigger Logic** — Checks `currentPrice >= sellThreshold` or `currentPrice <= buyThreshold`; validates cooldown period has passed.
+- **Execution Engine** — Calls `vault.executeSwap()` when conditions met; handles failures; emits events.
 
 **Flow:**
 ```
@@ -107,10 +107,10 @@ Price Feed + User Rules → CRE Workflow → executeSwap()
 **Purpose:** Market analysis and strategy optimization
 
 **Components:**
-- **Market Analyzer** — Historical price, volatility, trend, market regime.
-- **Threshold Optimizer** — Đề xuất buy/sell threshold; adjust theo volatility; backtest.
-- **Risk Monitor** — Portfolio risk score; abnormal volatility; alert user.
-- **Rebalancing Logic (Future)** — Gợi ý rebalancing; tối ưu allocation; cross-chain.
+- **Market Analyzer** — Analyzes historical prices, volatility, trends, market regimes.
+- **Threshold Optimizer** — Suggests buy/sell thresholds; adjusts based on volatility; backtests strategies.
+- **Risk Monitor** — Calculates portfolio risk score; detects abnormal volatility; alerts users.
+- **Rebalancing Logic (Future)** — Suggests rebalancing; optimizes allocation; cross-chain insights.
 
 **AI Output:**
 ```json
@@ -134,11 +134,11 @@ Price Feed + User Rules → CRE Workflow → executeSwap()
 **Purpose:** Unified interface for multi-chain portfolio management
 
 **Features:**
-- **Portfolio Overview** — Tổng hợp tài sản, PnL, allocation across all chains
-- **Vault Management** — Vault per chain, enable/disable AI, set rules
-- **Execution History** — List tx, filter by chain/token/date, tx hash links
-- **AI Insights** — Recommendations, risk alerts, strategy metrics
-- **Chain Selector** — Ethereum, Arbitrum, Base; vault address; deploy vault button
+- **Portfolio Overview** — Aggregates assets, P&L, allocation across all chains
+- **Vault Management** — One vault per chain; enable/disable AI; configure rules
+- **Execution History** — Transaction list; filterable by chain/token/date; explorer links
+- **AI Insights** — Market recommendations; risk alerts; strategy performance metrics
+- **Chain Selector** — Switch between Ethereum, Arbitrum, Base; view vault addresses; deploy new vaults
 
 **Real-time Sync:**
 - WebSocket connections per chain
@@ -158,9 +158,9 @@ Price Feed + User Rules → CRE Workflow → executeSwap()
 - **Supported DEXs** (Uniswap V3 + chain-specific DEXs)
 
 **Frontend Aggregation:**
-- Unified dashboard aggregates vault state từ mỗi chain
-- Real-time sync (WebSocket/Subgraph)
-- Single UX for multi-chain portfolio
+- Unified dashboard aggregates vault state from each chain
+- Real-time synchronization (WebSocket/Subgraph)
+- Single user experience for multi-chain portfolio management
 
 **Supported Chains:**
 - **Ethereum** — Largest liquidity, most established DeFi
@@ -206,15 +206,15 @@ Smart Contract Events → Subgraph → Frontend (real-time updates)
 - **DEXs:** Uniswap V3, 1inch, Camelot, Aerodrome
 
 ### Backend
-- **AI Engine:** Python, scikit-learn, pandas, FastAPI
+- **AI Engine:** Python 3.11, scikit-learn, pandas, FastAPI
 - **Database:** PostgreSQL + TimescaleDB
 - **Indexing:** The Graph (Subgraphs)
 
 ### Frontend
-- **Framework:** Next.js 14 (React 18), TypeScript
-- **Web3:** wagmi v2, viem, RainbowKit
-- **State:** Zustand, TanStack Query
-- **Styling:** TailwindCSS, shadcn/ui
+- **Framework:** Next.js 16 (React 19), TypeScript 5.x
+- **Web3:** wagmi v2, viem v2, RainbowKit
+- **State:** Zustand, TanStack Query (React Query v5)
+- **Styling:** TailwindCSS, shadcn/ui (Radix UI)
 
 ---
 
@@ -245,17 +245,17 @@ Smart Contract Events → Subgraph → Frontend (real-time updates)
 ## Value Proposition
 
 **For Users:**
-- **Sleep well** — AI giám sát 24/7; không cần monitor thị trường
-- **Stay in control** — Own 100% tài sản; withdraw bất cứ lúc nào
-- **Never miss** — Auto execute khi chạm threshold; không bỏ lỡ cơ hội
-- **Multi-chain ease** — 1 dashboard cho tất cả chains
+- **Sleep well** — AI monitors 24/7; no need to watch markets constantly
+- **Stay in control** — Own 100% of assets; withdraw anytime
+- **Never miss opportunities** — Auto-execute when thresholds hit; capture every opportunity
+- **Multi-chain simplicity** — One dashboard for all chains
 - **Security first** — Non-custodial, decentralized, audited
 
 **For Developers:**
-- **Composable** — Smart contracts có thể integrate vào DeFi protocols khác
-- **Extensible** — Dễ add chain/strategy mới
-- **Open source** — Minh bạch, audit được, community-driven
-- **Standard compliant** — ERC-20, EIP-1167, Chainlink standards
+- **Composable** — Smart contracts can integrate with other DeFi protocols
+- **Extensible** — Easy to add new chains and strategies
+- **Open source** — Transparent, auditable, community-driven
+- **Standards compliant** — ERC-20, EIP-1167, Chainlink standards
 
 ---
 

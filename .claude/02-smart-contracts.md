@@ -34,7 +34,7 @@ function createVault() external returns (address vault)
 ```
 - **Description:** Creates a personal vault for the caller using EIP-1167 clone
 - **Access:** Public (anyone can create)
-- **Gas Cost:** ~100,000 gas
+- **Gas Cost:** ~100,000 gas (Ethereum), ~50,000 gas (L2s)
 - **Returns:** Address of newly created vault
 - **Emits:** `VaultCreated(user, vault)`
 - **Reverts if:** User already has a vault
@@ -87,7 +87,8 @@ address public executor;                                // Chainlink CRE (can ex
 bool public paused;                                     // Emergency pause flag
 mapping(address => TokenRule) public tokenRules;        // Token → trading rule
 mapping(address => bool) public isRouterAllowed;        // Allowed DEX routers
-uint256 public constant COOLDOWN_PERIOD = 5 minutes;    // Cooldown between trades
+uint256 public constant DEFAULT_COOLDOWN = 24 hours;    // Default cooldown between trades
+uint256 public constant MIN_COOLDOWN = 1 hours;         // Minimum allowed cooldown
 uint256 public constant MAX_SLIPPAGE = 50;              // 0.5% = 50 basis points
 ```
 
@@ -95,22 +96,30 @@ uint256 public constant MAX_SLIPPAGE = 50;              // 0.5% = 50 basis point
 
 ```solidity
 struct TokenRule {
-    bool enabled;              // Rule active/inactive
-    uint256 buyThreshold;      // USD price to trigger buy (18 decimals)
-    uint256 sellThreshold;     // USD price to trigger sell (18 decimals)
-    uint256 maxTradeAmount;    // Max tokens per trade
-    uint256 lastTradeTime;     // Timestamp of last trade (for cooldown)
+    address tokenIn;           // Input token address
+    address tokenOut;          // Output token address
+    uint256 buyThreshold;      // USD price to trigger buy (8 decimals)
+    uint256 sellThreshold;     // USD price to trigger sell (8 decimals)
+    uint256 maxTradeSize;      // Maximum trade amount (in tokenIn decimals)
+    uint256 slippageBps;       // Slippage tolerance in basis points (100 = 1%)
+    uint256 cooldownPeriod;    // Time between trades (seconds)
+    uint256 lastExecuted;      // Timestamp of last execution
+    bool enabled;              // Whether rule is active
 }
 ```
 
 **Example:**
 ```solidity
 TokenRule({
-    enabled: true,
-    buyThreshold: 2700 * 1e18,  // Buy at $2,700
-    sellThreshold: 3000 * 1e18, // Sell at $3,000
-    maxTradeAmount: 10 * 1e18,  // Max 10 ETH per trade
-    lastTradeTime: 1704067200   // Unix timestamp
+    tokenIn: USDC_ADDRESS,
+    tokenOut: WETH_ADDRESS,
+    buyThreshold: 270000000000,  // Buy at $2,700 (8 decimals)
+    sellThreshold: 300000000000, // Sell at $3,000 (8 decimals)
+    maxTradeSize: 1000 * 1e6,    // Max 1000 USDC per trade
+    slippageBps: 100,            // 1% slippage
+    cooldownPeriod: 86400,       // 24 hours
+    lastExecuted: 1704067200,    // Unix timestamp
+    enabled: true
 })
 ```
 
@@ -298,10 +307,14 @@ All rules enforced on-chain in `executeSwap()`:
 - Pause vault
 
 ### 3. Cooldown Period
+
 Prevents rapid-fire execution:
-- Minimum 5 minutes between trades for same token
-- Protects against DoS attacks
-- Reduces gas costs
+- Default 24 hours between trades for same token pair
+- User-configurable (minimum 1 hour)
+- Protects against DoS attacks and price manipulation
+- Reduces gas costs and limits MEV exposure
+
+See [Security Model](07-security.md#cooldown-period) for detailed rationale.
 
 ### 4. Slippage Protection
 Max 0.5% slippage:

@@ -16,9 +16,9 @@ The Sentient Finance dashboard is a React-based web application that provides a 
 
 ### Core Framework
 
-- **React 19** — Component library with concurrent rendering
-- **Next.js 16** — App Router, Server Components, API routes, optimized production builds
-- **TypeScript** — Type safety throughout the codebase
+- **React 19** — Component library with enhanced concurrent features, actions, and optimistic updates
+- **Next.js 16** — App Router, Server Components, Server Actions, API routes, optimized production builds
+- **TypeScript 5.x** — Type safety throughout the codebase
 
 ### Styling & UI
 
@@ -29,13 +29,13 @@ The Sentient Finance dashboard is a React-based web application that provides a 
 
 ### Blockchain Interaction
 
-- **wagmi** — React Hooks for Ethereum (wallet connection, contract calls, transaction signing)
-- **viem** — TypeScript interface for Ethereum JSON-RPC, replacing ethers.js (faster, smaller bundle)
-- **RainbowKit** — Beautiful wallet connection modal (MetaMask, Coinbase Wallet, WalletConnect)
+- **wagmi v2** — React Hooks for Ethereum (wallet connection, contract calls, transaction signing)
+- **viem v2** — TypeScript interface for Ethereum JSON-RPC, replacing ethers.js (faster, smaller bundle)
+- **RainbowKit** — Wallet connection modal (MetaMask, Coinbase Wallet, WalletConnect)
 
 ### Data Fetching
 
-- **TanStack Query (React Query)** — Server state management, caching, automatic refetching
+- **TanStack Query v5 (React Query)** — Server state management, caching, automatic refetching
 - **The Graph** — Indexing vault events (VaultCreated, SwapExecuted, etc.)
 - **Chainlink Price Feeds** — Real-time prices (fetched via smart contract calls)
 

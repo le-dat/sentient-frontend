@@ -15,31 +15,31 @@
 
 ## What is Sentient Finance?
 
-Sentient Finance là giao thức quản lý danh mục đầu tư đa chuỗi phi tập trung, được hỗ trợ bởi AI, cho phép người dùng tự động hóa quản lý tài sản trên nhiều blockchain trong khi vẫn giữ toàn quyền kiểm soát tài sản của mình.
+Sentient Finance is a decentralized, AI-powered, multi-chain portfolio management protocol that enables users to automate asset management across multiple blockchains while maintaining full custody and control of their assets.
 
 ### Core Features
 
-| | |
-|--|--|
-| **Non-Custodial** | Bạn giữ 100% quyền kiểm soát tài sản; không chia sẻ private key; smart contract vault cá nhân cho mỗi người dùng. |
-| **AI-Powered** | AI phân tích thị trường và đề xuất chiến lược; tự động điều chỉnh ngưỡng giao dịch; giám sát volatility và rủi ro. |
-| **Multi-Chain** | Hỗ trợ Ethereum, Arbitrum, Base; một vault trên mỗi chain; quản lý tổng hợp qua dashboard thống nhất. |
-| **Decentralized Execution** | Sử dụng Chainlink CRE để thực thi; không phụ thuộc server tập trung; minh bạch và có thể audit. |
+| Feature | Description |
+|---------|-------------|
+| **Non-Custodial** | You retain 100% control of your assets; no private key sharing; personal smart contract vault for each user. |
+| **AI-Powered** | AI analyzes markets and suggests strategies; automatically adjusts trading thresholds; monitors volatility and risk. |
+| **Multi-Chain** | Supports Ethereum, Arbitrum, Base; one vault per chain; unified management via single dashboard. |
+| **Decentralized Execution** | Uses Chainlink CRE for execution; no centralized server dependency; transparent and auditable. |
 
 ### How It Works
 
-1. Bạn tạo vault cá nhân trên blockchain
-2. Bạn deposit tài sản vào vault
-3. Bạn thiết lập quy tắc giao dịch (buy/sell thresholds)
-4. AI giám sát thị trường 24/7
-5. Chainlink CRE tự động thực thi giao dịch khi đạt điều kiện
-6. Bạn có thể rút tiền bất cứ lúc nào
+1. You create a personal vault on the blockchain
+2. You deposit assets into your vault
+3. You set trading rules (buy/sell thresholds)
+4. AI monitors markets 24/7
+5. Chainlink CRE automatically executes trades when conditions are met
+6. You can withdraw funds at any time
 
 ### Key Principles
 
-- **1 User = 1 Vault per Chain** — Mỗi người dùng có vault riêng trên mỗi blockchain; tài sản được cách ly hoàn toàn.
-- **AI Suggests, You Control** — AI đề xuất chiến lược; bạn là người quyết định cuối cùng; mọi quy tắc được enforce on-chain.
-- **CRE Executes, You Own** — Chainlink CRE chỉ thực thi trong phạm vi quy tắc; không thể rút tiền hoặc thay đổi cấu hình; bạn giữ full quyền withdraw.
+- **1 User = 1 Vault per Chain** — Each user has a dedicated vault on each blockchain; assets are completely isolated.
+- **AI Suggests, You Control** — AI suggests strategies; you make the final decisions; all rules are enforced on-chain.
+- **CRE Executes, You Own** — Chainlink CRE only executes within rule boundaries; cannot withdraw funds or change configuration; you retain full withdrawal rights.
 
 ---
 
@@ -82,6 +82,7 @@ Sentient Finance là giao thức quản lý danh mục đầu tư đa chuỗi ph
 
 ### 👨‍💻 For Developers
 - [**Architecture**](01-architecture.md) — System design, component interactions, and data flow
+- [**Tech Stack**](TECH_STACK.md) — Complete technology version reference (React 19, Next.js 16, Solidity, etc.)
 - [**Smart Contracts**](02-smart-contracts.md) — VaultFactory & PortfolioVault detailed specifications
 - [**Automation (CRE)**](03-automation-cre.md) — Chainlink CRE integration and execution workflows
 - [**AI Engine**](04-ai-engine.md) — Market analysis, threshold optimization, and risk monitoring
@@ -92,16 +93,17 @@ Sentient Finance là giao thức quản lý danh mục đầu tư đa chuỗi ph
 
 ### 🗺️ Project Planning
 - [**Roadmap**](11-roadmap.md) — Product phases, milestones, and future features
+- [**Changelog**](CHANGELOG.md) — Documentation updates and version history
 
 ---
 
 ## Who Should Use This?
 
-- Traders chủ động muốn tự động hóa chiến lược
-- Investors dài hạn muốn DCA tự động
-- Multi-chain users quản lý tài sản trên nhiều chain
-- Busy professionals không có thời gian theo dõi 24/7
-- Risk-conscious users ưu tiên bảo mật non-custodial
+- Active traders who want to automate their strategies
+- Long-term investors who want automated DCA (dollar-cost averaging)
+- Multi-chain users managing assets across multiple blockchains
+- Busy professionals who don't have time to monitor markets 24/7
+- Risk-conscious users who prioritize non-custodial security
 
 ---
 

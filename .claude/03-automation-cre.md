@@ -221,21 +221,20 @@ checkInterval: 30s
 ## Security Considerations
 
 ### Executor Permissions
-**What CRE CAN do:**
-- ✅ Call `vault.executeSwap()` when rules are met
-- ✅ Monitor price feeds
-- ✅ Trigger automated trades
 
-**What CRE CANNOT do:**
-- ❌ Withdraw funds from vault
-- ❌ Change trading rules
-- ❌ Pause/unpause vault
-- ❌ Transfer vault ownership
+For detailed executor permissions and security implications, see [Security Model - Executor Limitations](07-security.md#executor-limitations).
+
+**Summary:**
+- ✅ **CAN:** Call `vault.executeSwap()` when rules are met
+- ❌ **CANNOT:** Withdraw funds, change rules, pause vault, or transfer ownership
 
 ### DoS Protection
-- **Cooldown period:** 5 minutes between trades (prevents spam)
+
+See [Security Model - DoS Protection](07-security.md#dos-protection) for detailed analysis.
+
+- **Cooldown period:** Default 24 hours, user-configurable (min 1 hour) - prevents spam and manipulation
 - **Max trade amount:** Enforced per rule (limits exposure per execution)
-- **Gas price limits:** Skip execution if gas too high
+- **Gas price limits:** Skip execution if gas exceeds threshold (200 gwei on Ethereum)
 
 ### Oracle Security
 - **Chainlink feeds:** Most reliable oracles (99.9% uptime)

@@ -175,10 +175,13 @@ The Chainlink CRE executor has **LIMITED** permissions:
 
 ### Cooldown Period
 
-- **Purpose:** Prevent rapid trading, reduce manipulation risk, limit MEV damage
-- **Default:** 24 hours between trades for same rule
-- **Configurable:** User can adjust (minimum 1 hour)
-- **Enforcement:** On-chain; CRE cannot bypass
+Prevents rapid trading and manipulation attacks.
+
+- **Purpose:** Prevent rapid trading, reduce manipulation risk, limit MEV damage, protect against DoS
+- **Default:** 24 hours between trades for same token pair
+- **Configurable:** User can adjust per rule (minimum 1 hour enforced on-chain)
+- **Enforcement:** On-chain validation in `executeSwap()`; CRE cannot bypass
+- **Implementation:** See [Smart Contracts - TokenRule](02-smart-contracts.md#tokenrule-struct) for details
 
 ### Max Trade Size
 

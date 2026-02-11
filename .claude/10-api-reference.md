@@ -114,10 +114,10 @@ interface IPortfolioVault {
         address tokenIn;        // Input token address
         address tokenOut;       // Output token address
         uint256 buyThreshold;   // Price to trigger buy (USD with 8 decimals)
-        uint256 sellThreshold;  // Price to trigger sell
-        uint256 maxTradeSize;   // Maximum trade amount
+        uint256 sellThreshold;  // Price to trigger sell (USD with 8 decimals)
+        uint256 maxTradeSize;   // Maximum trade amount (in tokenIn decimals)
         uint256 slippageBps;    // Slippage tolerance in basis points (100 = 1%)
-        uint256 cooldownPeriod; // Time between trades (seconds)
+        uint256 cooldownPeriod; // Time between trades (seconds, default 24h, min 1h)
         uint256 lastExecuted;   // Timestamp of last execution
         bool enabled;           // Whether rule is active
     }

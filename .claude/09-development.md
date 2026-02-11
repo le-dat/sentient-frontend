@@ -14,10 +14,10 @@ This guide will help you set up a local development environment, run tests, and 
 
 | Layer | Technologies |
 |-------|-------------|
-| **Smart Contracts** | Solidity 0.8.20, Hardhat, OpenZeppelin, Chainlink |
+| **Smart Contracts** | Solidity 0.8.20+, Hardhat, OpenZeppelin, Chainlink |
 | **Automation** | Chainlink CRE, The Graph, Tenderly |
-| **AI Engine** | Python 3.11, FastAPI, scikit-learn, PostgreSQL |
-| **Frontend** | React 18, Next.js 14, TailwindCSS, wagmi, viem |
+| **AI Engine** | Python 3.11+, FastAPI, scikit-learn, PostgreSQL 15+ |
+| **Frontend** | React 19, Next.js 16, TypeScript 5.x, TailwindCSS, wagmi v2, viem v2 |
 | **Deployment** | Vercel (frontend), AWS ECS (AI), Ethereum/Arbitrum/Base (contracts) |
 
 ---
@@ -75,8 +75,8 @@ cre-wallet/
 
 ### Required Software
 
-- **Node.js** 18+ (LTS) — [nodejs.org](https://nodejs.org)
-- **pnpm** 8+ — `npm install -g pnpm`
+- **Node.js** 20+ (LTS recommended) — [nodejs.org](https://nodejs.org) (Required for Next.js 16 and React 19)
+- **pnpm** 9+ — `npm install -g pnpm`
 - **Python** 3.11+ — [python.org](https://python.org)
 - **PostgreSQL** 15+ — [postgresql.org](https://postgresql.org) (for AI engine)
 - **Git** — [git-scm.com](https://git-scm.com)

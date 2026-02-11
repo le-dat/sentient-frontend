@@ -126,9 +126,11 @@ Want help setting optimal thresholds?
 
 ### Cooldown Period
 
-- **Default:** 24 hours between trades for the same rule
-- **Why:** Prevents rapid trading in volatile markets; reduces gas costs; protects against manipulation
-- **Can you change it?** Yes, update the rule (minimum 1 hour recommended)
+- **Default:** 24 hours between trades for the same token pair
+- **Why:** Prevents rapid trading in volatile markets; reduces gas costs; protects against manipulation; limits MEV exposure
+- **Can you change it?** Yes, configure per rule when setting thresholds (minimum 1 hour enforced by smart contract)
+
+For technical details, see [Security Model - Cooldown Period](../07-security.md#cooldown-period).
 
 ### Slippage Protection
 
