@@ -183,9 +183,9 @@ This document serves as the single source of truth for all technology versions u
 - Optimized bundle size
 
 ### Breaking Changes to Watch
-- **wagmi v2:** Requires viem v2 (no ethers.js)
-- **TanStack Query v5:** New API, improved TypeScript support
-- **pnpm 9:** May require Node.js 20+ for certain features
+- **wagmi:** Requires viem (no ethers.js)
+- **TanStack Query:** New API, improved TypeScript support
+- **pnpm:** May require Node.js 20+ for certain features
 
 ---
 
@@ -211,7 +211,7 @@ When making technology changes:
 
 - [React 19 Release Notes](https://react.dev/blog/2024/04/25/react-19)
 - [Next.js 16 Documentation](https://nextjs.org/docs)
-- [wagmi v2 Migration Guide](https://wagmi.sh/react/guides/migrate-from-v1-to-v2)
+- [wagmi Migration Guide](https://wagmi.sh/react/guides/migrate-from-v1-to-v2)
 - [viem Documentation](https://viem.sh)
 - [OpenZeppelin Contracts](https://docs.openzeppelin.com/contracts)
 - [Chainlink Documentation](https://docs.chain.link)

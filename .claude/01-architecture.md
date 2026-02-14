@@ -212,7 +212,7 @@ Smart Contract Events → Subgraph → Frontend (real-time updates)
 
 ### Frontend
 - **Framework:** Next.js 16 (React 19), TypeScript 5.x
-- **Web3:** wagmi v2, viem v2, RainbowKit
+- **Web3:** wagmi, viem, RainbowKit
 - **State:** Zustand, TanStack Query (React Query v5)
 - **Styling:** TailwindCSS, shadcn/ui (Radix UI)
 

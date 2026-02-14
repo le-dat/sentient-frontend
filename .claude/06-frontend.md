@@ -29,8 +29,8 @@ The Sentient Finance dashboard is a React-based web application that provides a 
 
 ### Blockchain Interaction
 
-- **wagmi v2** — React Hooks for Ethereum (wallet connection, contract calls, transaction signing)
-- **viem v2** — TypeScript interface for Ethereum JSON-RPC, replacing ethers.js (faster, smaller bundle)
+- **wagmi** — React Hooks for Ethereum (wallet connection, contract calls, transaction signing)
+- **viem** — TypeScript interface for Ethereum JSON-RPC, replacing ethers.js (faster, smaller bundle)
 - **RainbowKit** — Wallet connection modal (MetaMask, Coinbase Wallet, WalletConnect)
 
 ### Data Fetching
