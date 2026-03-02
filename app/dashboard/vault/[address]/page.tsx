@@ -41,7 +41,7 @@ export default function VaultDetailPage({ params }: { params: { address: string 
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
           <div className="mb-2 flex items-center gap-2 text-xs text-muted">
-            <Link href="/app" className="hover:text-foreground">Dashboard</Link>
+            <Link href="/dashboard" className="hover:text-foreground">Dashboard</Link>
             <span>/</span>
             <span className="font-mono text-foreground">{address}</span>
           </div>

@@ -55,7 +55,7 @@ export default function DashboardPage() {
           <p className="mt-0.5 text-sm text-muted">Overview of all vaults and system health</p>
         </div>
         <Link
-          href="/app/vault/new"
+          href="/dashboard/vault/new"
           className="rounded-xl bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-90"
         >
           + Create Vault
@@ -144,7 +144,7 @@ export default function DashboardPage() {
 
               <div className="mt-3 flex gap-2">
                 <Link
-                  href={`/app/vault/${v.addr}`}
+                  href={`/dashboard/vault/${v.addr}`}
                   className="rounded-lg border border-border px-3 py-1.5 text-xs font-medium transition-colors hover:border-primary/50 hover:text-primary"
                 >
                   View
@@ -191,7 +191,7 @@ export default function DashboardPage() {
               </div>
             ))}
           </div>
-          <Link href="/app/notifications" className="mt-4 block text-center text-xs text-primary hover:underline">
+          <Link href="/dashboard/notifications" className="mt-4 block text-center text-xs text-primary hover:underline">
             View all events →
           </Link>
         </div>

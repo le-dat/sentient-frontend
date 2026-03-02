@@ -14,7 +14,7 @@ export default function CreateVaultPage() {
       {/* Header */}
       <div className="flex items-center gap-3">
         <Link
-          href="/app"
+          href="/dashboard"
           className="rounded-lg border border-border bg-card/60 px-3 py-1.5 text-xs text-muted transition-colors hover:text-foreground"
         >
           ← Back

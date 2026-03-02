@@ -4,10 +4,10 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const nav = [
-  { href: "/app", label: "Dashboard" },
-  { href: "/app/vault/new", label: "Create Vault" },
-  { href: "/app/monitor", label: "Monitor" },
-  { href: "/app/notifications", label: "Alerts" },
+  { href: "/dashboard", label: "Dashboard" },
+  { href: "/dashboard/vault/new", label: "Create Vault" },
+  { href: "/dashboard/monitor", label: "Monitor" },
+  { href: "/dashboard/notifications", label: "Alerts" },
 ];
 
 export function AppShell({ children }: { children: React.ReactNode }) {
