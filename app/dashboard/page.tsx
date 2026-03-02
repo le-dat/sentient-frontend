@@ -114,7 +114,7 @@ export default function DashboardPage() {
         </div>
         <Link
           href="/dashboard/vault/new"
-          className="rounded-xl bg-gradient-to-r from-primary to-primary/80 px-4 py-2 text-sm font-semibold text-white shadow-md shadow-primary/20 transition-all hover:shadow-primary/35 hover:opacity-95"
+          className="rounded-xl bg-gradient-to-r from-primary to-primary/80 px-4 py-2 text-sm font-semibold text-primary-foreground shadow-md shadow-primary/20 transition-all hover:shadow-primary/35 hover:opacity-95"
         >
           + Create Vault
         </Link>
@@ -233,7 +233,7 @@ export default function DashboardPage() {
                   <button className="rounded-lg border border-border px-3 py-1.5 text-xs font-medium transition-colors hover:border-warning/50 hover:text-warning">
                     {v.status === "active" ? "Pause" : "Unpause"}
                   </button>
-                  <button className="rounded-lg bg-primary/10 px-3 py-1.5 text-xs font-semibold text-primary transition-all hover:bg-primary hover:text-white">
+                  <button className="rounded-lg bg-primary/10 px-3 py-1.5 text-xs font-semibold text-primary transition-all hover:bg-primary hover:text-primary-foreground">
                     Execute
                   </button>
                 </div>
