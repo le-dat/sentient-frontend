@@ -15,8 +15,11 @@
   --primary: #4f8cff;
   --primary-foreground: #ffffff;
   --success: #34d399;
+  --success-foreground: #022c22;
   --warning: #f59e0b;
+  --warning-foreground: #451a03;
   --danger: #f87171;
+  --danger-foreground: #450a0a;
 
   --glow-1: #162851;
   --glow-2: #1c2f66;
@@ -37,8 +40,11 @@
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
   --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
   --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
   --color-danger: var(--danger);
+  --color-danger-foreground: var(--danger-foreground);
 
   --color-glow-1: var(--glow-1);
   --color-glow-2: var(--glow-2);
