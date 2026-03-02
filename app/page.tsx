@@ -12,7 +12,7 @@ export default function Home() {
             Built for fast team execution.
           </p>
           <div className="mt-5 flex gap-3">
-            <Link href="/app" className="rounded-lg bg-primary px-4 py-2 font-semibold text-white">
+            <Link href="/app" className="rounded-lg bg-primary px-4 py-2 font-semibold text-primary-foreground">
               Launch App
             </Link>
             <Link href="/app/notifications" className="rounded-lg border border-border px-4 py-2">

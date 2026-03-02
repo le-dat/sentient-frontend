@@ -8,7 +8,7 @@ export default function CreateVaultPage() {
           <input className="rounded-lg border border-border bg-card-2/70 px-3 py-2" placeholder="Executor address" />
           <input className="rounded-lg border border-border bg-card-2/70 px-3 py-2" placeholder="Max trade amount" />
           <input className="rounded-lg border border-border bg-card-2/70 px-3 py-2" placeholder="Cooldown seconds" />
-          <button className="rounded-lg bg-primary px-3 py-2 font-semibold text-white">Create Vault</button>
+          <button className="rounded-lg bg-primary px-3 py-2 font-semibold text-primary-foreground">Create Vault</button>
         </div>
       </SectionCard>
     </div>
