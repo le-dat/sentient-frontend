@@ -12,13 +12,13 @@ This repo now follows a separation pattern for dashboard implementation:
 - **Mock data layer**: `lib/mockdata/*`
 - **Types/contracts**: `lib/types/*`
 
-Pattern example:
-- `app/dashboard/page.tsx`
-- `lib/view-models/use-dashboard-view-model.ts`
-- `lib/mockdata/dashboard.ts`
-- `lib/types/dashboard.ts`
+Pattern examples:
+- `app/dashboard/page.tsx` + `lib/view-models/use-dashboard-view-model.ts`
+- `app/dashboard/monitor/page.tsx` + `lib/view-models/use-monitor-view-model.ts`
+- `app/dashboard/notifications/page.tsx` + `lib/view-models/use-notifications-view-model.ts`
+- data source in `lib/mockdata/*`, contracts in `lib/types/*`
 
-Use the same pattern for `monitor`, `notifications`, and `vault` pages to keep future API wiring clean.
+Use the same pattern for `vault` pages to keep future API wiring clean.
 
 - `/` Landing (workflow + visual direction)
 - `/app` Dashboard skeleton
