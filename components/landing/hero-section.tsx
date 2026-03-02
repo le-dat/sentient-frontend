@@ -14,9 +14,16 @@ const floatingTokens = [
   { symbol: "SOL", color: "#9945FF", delay: "0.2s", x: "22%", y: "38%" },
 ];
 
+const stats = [
+  { value: 128.4, decimals: 1, prefix: "$", suffix: "M", label: "Total Value Locked", badge: "+4.2%" },
+  { value: 9418, label: "Active Vaults", badge: "+12%" },
+  { value: 42310, label: "Executions (24h)", badge: "+8.7%" },
+  { value: 12, label: "Chains Supported", badge: null },
+];
+
 export function HeroSection() {
   return (
-    <section className="relative overflow-hidden px-6 pb-16 pt-20 text-center">
+    <section className="relative overflow-hidden px-6 pb-20 pt-24 text-center">
       {/* Aurora background blobs */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
         <div
@@ -35,18 +42,9 @@ export function HeroSection() {
 
       {/* Expanding ripple rings */}
       <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
-        <div
-          className="animate-ring h-[520px] w-[520px] rounded-full border border-primary/20"
-          style={{ animationDelay: "0s" }}
-        />
-        <div
-          className="animate-ring absolute h-[360px] w-[360px] rounded-full border border-primary/25"
-          style={{ animationDelay: "1.1s" }}
-        />
-        <div
-          className="animate-ring absolute h-[200px] w-[200px] rounded-full border border-primary/30"
-          style={{ animationDelay: "2.2s" }}
-        />
+        <div className="animate-ring h-[520px] w-[520px] rounded-full border border-primary/15" style={{ animationDelay: "0s" }} />
+        <div className="animate-ring absolute h-[360px] w-[360px] rounded-full border border-primary/20" style={{ animationDelay: "1.1s" }} />
+        <div className="animate-ring absolute h-[200px] w-[200px] rounded-full border border-primary/28" style={{ animationDelay: "2.2s" }} />
       </div>
 
       {/* Floating token badges */}
@@ -69,32 +67,41 @@ export function HeroSection() {
         </div>
       ))}
 
-      {/* Hero text */}
-      <p
-        className="animate-fadeUp relative text-xs font-semibold uppercase tracking-[0.25em] text-primary"
+      {/* Badge */}
+      <div
+        className="animate-fadeUp relative inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-4 py-1.5 text-xs font-semibold text-primary"
         style={{ animationDelay: "0.1s" }}
       >
-        Sentient Finance
-      </p>
+        <span className="relative flex h-1.5 w-1.5">
+          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-70" />
+          <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-primary" />
+        </span>
+        Sentient Finance · Powered by Chainlink
+      </div>
+
+      {/* Headline */}
       <h1
-        className="animate-fadeUp relative mx-auto mt-4 max-w-3xl text-5xl font-bold leading-[1.1] tracking-tight text-foreground md:text-6xl"
+        className="animate-fadeUp relative mx-auto mt-6 max-w-3xl text-5xl font-bold leading-[1.1] tracking-tight text-foreground md:text-6xl lg:text-7xl"
         style={{ animationDelay: "0.22s" }}
       >
         Automate your DeFi vaults
         <br />
-        <span className="text-primary">with on-chain intelligence</span>
+        <span className="bg-gradient-to-r from-primary via-primary to-primary/60 bg-clip-text text-transparent">
+          with on-chain intelligence
+        </span>
       </h1>
+
       <p
-        className="animate-fadeUp relative mx-auto mt-5 max-w-xl text-base text-muted"
+        className="animate-fadeUp relative mx-auto mt-6 max-w-xl text-base leading-relaxed text-muted"
         style={{ animationDelay: "0.38s" }}
       >
         Set price rules once. Let Sentient monitor conditions, execute swaps, and shield your
         capital—across every EVM chain.
       </p>
 
-      {/* Search / CTA */}
+      {/* CTA row */}
       <div
-        className="animate-fadeUp relative mx-auto mt-8 flex max-w-xl flex-col items-center gap-3 sm:flex-row"
+        className="animate-fadeUp relative mx-auto mt-10 flex max-w-xl flex-col items-center gap-3 sm:flex-row"
         style={{ animationDelay: "0.52s" }}
       >
         <input
@@ -103,44 +110,33 @@ export function HeroSection() {
         />
         <Link
           href="/dashboard"
-          className="w-full whitespace-nowrap rounded-xl bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-90 sm:w-auto"
+          className="w-full whitespace-nowrap rounded-xl bg-gradient-to-r from-primary to-primary/80 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-primary/20 transition-all hover:shadow-primary/35 hover:opacity-95 sm:w-auto"
         >
-          Launch App
+          Launch App →
         </Link>
       </div>
 
-      {/* Stats strip */}
+      {/* Stats strip — individual rounded cards */}
       <div
-        className="animate-fadeUp relative mx-auto mt-12 grid max-w-3xl grid-cols-2 gap-px rounded-2xl border border-border bg-border md:grid-cols-4"
+        className="animate-fadeUp relative mx-auto mt-14 grid max-w-3xl grid-cols-2 gap-3 md:grid-cols-4"
         style={{ animationDelay: "0.68s" }}
       >
-        <div className="flex flex-col items-center bg-card/90 px-4 py-5 first:rounded-l-2xl">
-          <p className="text-2xl font-bold text-foreground">
-            <CountUp to={128.4} decimals={1} prefix="$" suffix="M" />
-          </p>
-          <p className="mt-1 text-xs text-muted">Total Value Locked</p>
-          <span className="mt-1 text-xs font-medium text-success">+4.2%</span>
-        </div>
-        <div className="flex flex-col items-center bg-card/90 px-4 py-5">
-          <p className="text-2xl font-bold text-foreground">
-            <CountUp to={9418} />
-          </p>
-          <p className="mt-1 text-xs text-muted">Active Vaults</p>
-          <span className="mt-1 text-xs font-medium text-success">+12%</span>
-        </div>
-        <div className="flex flex-col items-center bg-card/90 px-4 py-5">
-          <p className="text-2xl font-bold text-foreground">
-            <CountUp to={42310} />
-          </p>
-          <p className="mt-1 text-xs text-muted">Executions (24h)</p>
-          <span className="mt-1 text-xs font-medium text-success">+8.7%</span>
-        </div>
-        <div className="flex flex-col items-center bg-card/90 px-4 py-5 last:rounded-r-2xl">
-          <p className="text-2xl font-bold text-foreground">
-            <CountUp to={12} />
-          </p>
-          <p className="mt-1 text-xs text-muted">Chains Supported</p>
-        </div>
+        {stats.map((s, i) => (
+          <div
+            key={i}
+            className="flex flex-col items-center rounded-2xl border border-border bg-card/80 px-4 py-5 backdrop-blur-sm transition-colors hover:border-primary/30 hover:bg-card"
+          >
+            <p className="text-2xl font-bold text-foreground">
+              <CountUp to={s.value} decimals={s.decimals ?? 0} prefix={s.prefix} suffix={s.suffix} />
+            </p>
+            <p className="mt-1 text-xs text-muted">{s.label}</p>
+            {s.badge && (
+              <span className="mt-1.5 rounded-full bg-success/10 px-2 py-0.5 text-[11px] font-semibold text-success">
+                {s.badge}
+              </span>
+            )}
+          </div>
+        ))}
       </div>
     </section>
   );
