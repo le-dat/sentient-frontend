@@ -55,3 +55,60 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* ── Keyframes ─────────────────────────────────────────────────────────────── */
+
+/* Slowly drifting aurora blob */
+@keyframes blob {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  25%       { transform: translate(40px, -30px) scale(1.06); }
+  50%       { transform: translate(-20px, 20px) scale(0.94); }
+  75%       { transform: translate(20px, 30px) scale(1.02); }
+}
+
+/* Gentle vertical float for token badges */
+@keyframes floatY {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-14px); }
+}
+
+/* Fade + slide up reveal */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Expanding ripple ring */
+@keyframes expandRing {
+  0%   { transform: scale(1);   opacity: 0.4; }
+  100% { transform: scale(1.75); opacity: 0; }
+}
+
+/* Coin bounce */
+@keyframes coinBounce {
+  0%, 100% { transform: translateY(0)    rotate(-2deg); }
+  45%       { transform: translateY(-22px) rotate(2deg); }
+  60%       { transform: translateY(-18px) rotate(1deg); }
+}
+
+/* ── Animation utility classes ─────────────────────────────────────────────── */
+
+.animate-blob {
+  animation: blob 14s ease-in-out infinite;
+}
+
+.animate-float {
+  animation: floatY 4s ease-in-out infinite;
+}
+
+.animate-fadeUp {
+  animation: fadeUp 0.65s ease-out both;
+}
+
+.animate-ring {
+  animation: expandRing 3.5s ease-out infinite;
+}
+
+.animate-coin-bounce {
+  animation: coinBounce 2.4s ease-in-out infinite;
+}
