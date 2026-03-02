@@ -3,7 +3,6 @@ export type AlertPreference = {
   label: string;
   desc: string;
   enabled: boolean;
-  iconColor: string;
   dot: string;
 };
 

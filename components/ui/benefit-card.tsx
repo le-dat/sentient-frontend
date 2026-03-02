@@ -6,7 +6,6 @@ interface BenefitCardProps {
   title: string;
   description: string;
   icon: ReactNode;
-  activeIcon?: ReactNode;
   className?: string;
 }
 
@@ -14,7 +13,6 @@ export function BenefitCard({
   title,
   description,
   icon,
-  activeIcon,
   className = "",
 }: BenefitCardProps) {
   return (
@@ -31,17 +29,9 @@ export function BenefitCard({
       </div>
 
       <div className="relative mt-8 h-32 w-full">
-        {/* The icon/illustration */}
         <div className="absolute bottom-0 left-0 transition-all duration-300 group-hover:scale-110">
           {icon}
         </div>
-
-        {/* Extra decorative elements that appear on hover */}
-        {activeIcon && (
-          <div className="absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-            {activeIcon}
-          </div>
-        )}
       </div>
     </div>
   );

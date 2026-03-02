@@ -1,7 +1,5 @@
 "use client";
 
-import React from "react";
-
 export const CoinStackIllustration = () => (
   <div className="relative h-32 w-48">
     {/* Sparkle (on hover maybe?) or always there with low opacity? */}
