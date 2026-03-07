@@ -12,7 +12,7 @@
   --border: #25375f;
   --border-subtle: #1a2b4d;
 
-  --primary: #4f8cff;
+  --primary: #60a5ff; /* Sáng hơn một chút so với #4f8cff để tăng tương phản */
   --primary-foreground: #ffffff;
   --success: #34d399;
   --success-foreground: #022c22;
@@ -51,6 +51,42 @@
 
   --font-sans: var(--font-plus-jakarta);
   --font-mono: var(--font-jetbrains-mono);
+
+  --animate-hs-up: hs-up 0.55s ease forwards;
+  --animate-hs-slide: hs-slide 0.65s ease forwards;
+  --animate-hs-blink: hs-blink 1s step-end infinite;
+
+  @keyframes hs-up {
+    from {
+      opacity: 0;
+      transform: translateY(18px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes hs-slide {
+    from {
+      opacity: 0;
+      transform: translateX(18px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes hs-blink {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0;
+    }
+  }
 }
 
 * {
@@ -62,8 +98,9 @@
 body {
   margin: 0;
   background:
-    radial-gradient(circle at 20% 10%, var(--glow-1) 0%, transparent 32%),
-    radial-gradient(circle at 80% 0%, var(--glow-2) 0%, transparent 35%), var(--background);
+    radial-gradient(circle at 10% 20%, rgba(22, 40, 81, 0.4) 0%, transparent 40%),
+    radial-gradient(circle at 90% 10%, rgba(28, 47, 102, 0.3) 0%, transparent 40%),
+    var(--background);
   color: var(--foreground);
   /* The font-family is also set via next/font className in layout.tsx */
 }
@@ -172,4 +209,23 @@ body {
     transparent 100%
   );
   background-size: 200% auto;
+}
+
+@media (max-width: 900px) {
+  .hs-main-grid {
+    grid-template-columns: 1fr;
+    padding: 0 20px;
+    gap: 36px;
+  }
+}
+
+.hs-stat-cell:nth-child(-n + 2) {
+  @media (max-width: 700px) {
+    border-bottom: 1px solid rgba(37, 55, 95, 0.55) !important;
+  }
+}
+.hs-stat-cell:nth-child(odd) {
+  @media (max-width: 700px) {
+    border-right: 1px solid rgba(37, 55, 95, 0.55) !important;
+  }
 }

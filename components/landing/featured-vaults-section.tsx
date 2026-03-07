@@ -48,7 +48,7 @@ const featuredVaults = [
 
 export function FeaturedVaultsSection() {
   return (
-    <section id="vaults" className="mx-auto max-w-6xl px-6 pb-24 pt-8">
+    <section id="vaults" className="mx-auto max-w-6xl px-6 py-32">
       <RevealSection className="mb-10 text-center">
         <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-primary">Whale Tracking</p>
         <h2 className="text-3xl font-bold">Top Performing Vaults</h2>
