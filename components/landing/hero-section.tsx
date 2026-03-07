@@ -1,7 +1,10 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { CountUp } from "@/components/ui/count-up";
+import { ROUTES } from "@/lib/constants/routes";
 
 const floatingTokens = [
   { symbol: "ETH", color: "#627EEA", delay: "0s", x: "7%", y: "20%" },
@@ -15,13 +18,29 @@ const floatingTokens = [
 ];
 
 const stats = [
-  { value: 128.4, decimals: 1, prefix: "$", suffix: "M", label: "Total Value Locked", badge: "+4.2%" },
+  {
+    value: 128.4,
+    decimals: 1,
+    prefix: "$",
+    suffix: "M",
+    label: "Total Value Locked",
+    badge: "+4.2%",
+  },
   { value: 9418, label: "Active Vaults", badge: "+12%" },
   { value: 42310, label: "Executions (24h)", badge: "+8.7%" },
-  { value: 12, label: "Chains Supported", badge: null },
+  { value: 4, label: "Chains Supported", badge: null },
 ];
 
 export function HeroSection() {
+  const router = useRouter();
+  const [address, setAddress] = useState("");
+
+  const handleSearch = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter" && address.trim()) {
+      router.push(ROUTES.SEARCH_VAULT(address.trim()));
+    }
+  };
+
   return (
     <section className="relative overflow-hidden px-6 pb-20 pt-24 text-center">
       {/* Aurora background blobs */}
@@ -42,9 +61,18 @@ export function HeroSection() {
 
       {/* Expanding ripple rings */}
       <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
-        <div className="animate-ring h-[520px] w-[520px] rounded-full border border-primary/15" style={{ animationDelay: "0s" }} />
-        <div className="animate-ring absolute h-[360px] w-[360px] rounded-full border border-primary/20" style={{ animationDelay: "1.1s" }} />
-        <div className="animate-ring absolute h-[200px] w-[200px] rounded-full border border-primary/28" style={{ animationDelay: "2.2s" }} />
+        <div
+          className="animate-ring h-[520px] w-[520px] rounded-full border border-primary/15"
+          style={{ animationDelay: "0s" }}
+        />
+        <div
+          className="animate-ring absolute h-[360px] w-[360px] rounded-full border border-primary/20"
+          style={{ animationDelay: "1.1s" }}
+        />
+        <div
+          className="animate-ring absolute h-[200px] w-[200px] rounded-full border border-primary/28"
+          style={{ animationDelay: "2.2s" }}
+        />
       </div>
 
       {/* Floating token badges */}
@@ -106,13 +134,16 @@ export function HeroSection() {
       >
         <input
           className="w-full rounded-xl border border-border bg-card/80 px-4 py-3 text-sm text-foreground placeholder:text-muted focus:outline-none focus:ring-1 focus:ring-primary"
-          placeholder="Search vault address or ENS…"
+          placeholder="0x... or ENS address"
+          value={address}
+          onChange={(e) => setAddress(e.target.value)}
+          onKeyDown={handleSearch}
         />
         <Link
-          href="/dashboard"
+          href={ROUTES.SEARCH_VAULT(address.trim())}
           className="w-full whitespace-nowrap rounded-xl bg-gradient-to-r from-primary to-primary/80 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-primary/20 transition-all hover:shadow-primary/35 hover:opacity-95 sm:w-auto"
         >
-          Launch App →
+          Query Vault →
         </Link>
       </div>
 
@@ -127,7 +158,12 @@ export function HeroSection() {
             className="flex flex-col items-center rounded-2xl border border-border bg-card/80 px-4 py-5 backdrop-blur-sm transition-colors hover:border-primary/30 hover:bg-card"
           >
             <p className="text-2xl font-bold text-foreground">
-              <CountUp to={s.value} decimals={s.decimals ?? 0} prefix={s.prefix} suffix={s.suffix} />
+              <CountUp
+                to={s.value}
+                decimals={s.decimals ?? 0}
+                prefix={s.prefix}
+                suffix={s.suffix}
+              />
             </p>
             <p className="mt-1 text-xs text-muted">{s.label}</p>
             {s.badge && (

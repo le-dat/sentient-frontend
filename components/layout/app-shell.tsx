@@ -1,49 +1,20 @@
 "use client";
 
+import { ROUTES } from "@/lib/constants/routes";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
+import { Bell, LayoutGrid, Search } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-function IconGrid() {
-  return (
-    <svg viewBox="0 0 16 16" fill="currentColor" className="h-3.5 w-3.5">
-      <rect x="1" y="1" width="6" height="6" rx="1.5" />
-      <rect x="9" y="1" width="6" height="6" rx="1.5" />
-      <rect x="1" y="9" width="6" height="6" rx="1.5" />
-      <rect x="9" y="9" width="6" height="6" rx="1.5" />
-    </svg>
-  );
-}
-
-function IconPlus() {
-  return (
-    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className="h-3.5 w-3.5">
-      <path d="M8 3v10M3 8h10" />
-    </svg>
-  );
-}
-
-function IconActivity() {
-  return (
-    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" className="h-3.5 w-3.5">
-      <path d="M1 9.5l2.5-4 2.5 3.5L9 3l3 8 1.5-2.5" />
-    </svg>
-  );
-}
-
-function IconBell() {
-  return (
-    <svg viewBox="0 0 16 16" fill="currentColor" className="h-3.5 w-3.5">
-      <path d="M8 1.5A4.5 4.5 0 003.5 6v2.5l-1 1.5h11l-1-1.5V6A4.5 4.5 0 008 1.5z" />
-      <path d="M6.5 13.5a1.5 1.5 0 003 0H6.5z" />
-    </svg>
-  );
-}
-
 const nav = [
-  { href: "/dashboard", label: "Dashboard", icon: <IconGrid />, exact: true },
-  { href: "/dashboard/vault/new", label: "New Vault", icon: <IconPlus /> },
-  { href: "/dashboard/monitor", label: "Monitor", icon: <IconActivity /> },
-  { href: "/dashboard/notifications", label: "Alerts", icon: <IconBell /> },
+  {
+    href: ROUTES.DASHBOARD,
+    label: "Dashboard",
+    icon: <LayoutGrid className="h-3.5 w-3.5" />,
+    exact: true,
+  },
+  { href: ROUTES.SEARCH, label: "Query Vault", icon: <Search className="h-3.5 w-3.5" /> },
+  { href: ROUTES.NOTIFICATIONS, label: "Alerts", icon: <Bell className="h-3.5 w-3.5" /> },
 ];
 
 export function AppShell({ children }: { children: React.ReactNode }) {
@@ -63,7 +34,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-3">
           {/* Logo + Nav */}
           <div className="flex items-center gap-8">
-            <Link href="/" className="text-lg font-bold tracking-tight text-foreground">
+            <Link href={ROUTES.HOME} className="text-lg font-bold tracking-tight text-foreground">
               <span className="text-primary">S</span>entient
             </Link>
 
@@ -90,21 +61,8 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             </nav>
           </div>
 
-          {/* Right side */}
           <div className="flex items-center gap-2.5">
-            {/* Network status - animated ping dot */}
-            <div className="hidden items-center gap-2 rounded-full border border-border/60 bg-card/50 px-3 py-1.5 text-xs text-muted md:flex">
-              <span className="relative flex h-1.5 w-1.5">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-success opacity-70" />
-                <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-success" />
-              </span>
-              Base Mainnet
-            </div>
-
-            {/* Wallet button with gradient */}
-            <button className="rounded-full bg-gradient-to-r from-primary to-primary/80 px-4 py-1.5 font-mono text-sm font-semibold text-white shadow-md shadow-primary/20 transition-all hover:shadow-primary/35 hover:opacity-95">
-              0x91f7…A4c2
-            </button>
+            <ConnectButton />
           </div>
         </div>
 
@@ -130,7 +88,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         </div>
       </header>
 
-      <main className="mx-auto max-w-6xl px-4 py-6 md:px-6">{children}</main>
+      <main className="mx-auto max-w-6xl px-4 py-6 pb-28 md:px-6">{children}</main>
     </div>
   );
 }

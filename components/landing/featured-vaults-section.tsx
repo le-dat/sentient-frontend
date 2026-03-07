@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { RevealSection } from "@/components/ui/reveal-section";
+import { ROUTES } from "@/lib/constants/routes";
 
 const featuredVaults = [
   {
@@ -13,7 +14,7 @@ const featuredVaults = [
     executions: "2,195",
     followers: "14.1K",
     status: "active" as const,
-    rule: "Buy < $1,900 • Sell > $2,350",
+    rule: "Buy < $1,900 · Sell > $2,350",
     pnl: "+$42,810",
     pnlUp: true,
   },
@@ -26,7 +27,7 @@ const featuredVaults = [
     executions: "4,812",
     followers: "22.7K",
     status: "active" as const,
-    rule: "Buy < $60K • Sell > $75K",
+    rule: "Buy < $60,000 · Sell > $75,000",
     pnl: "+$128,300",
     pnlUp: true,
   },
@@ -116,7 +117,7 @@ export function FeaturedVaultsSection() {
                 <div className="mt-4 flex items-center justify-between">
                   <span className="text-xs text-muted">{v.followers} followers</span>
                   <Link
-                    href="/dashboard"
+                    href={ROUTES.DASHBOARD}
                     className="flex items-center gap-1.5 rounded-lg border border-border px-3 py-1.5 text-xs font-medium transition-all hover:border-primary/50 hover:bg-primary/5 hover:text-primary"
                   >
                     Track Vault

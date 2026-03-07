@@ -1,3 +1,5 @@
+import { AlertCircle } from "lucide-react";
+
 type Variant = "default" | "loading" | "error" | "not-found";
 
 type PageStateProps = {
@@ -31,19 +33,7 @@ function ErrorIcon() {
     <div className="relative mx-auto flex h-20 w-20 items-center justify-center">
       <div className="absolute inset-0 rounded-full bg-primary/15 blur-xl" />
       <div className="relative flex h-20 w-20 items-center justify-center rounded-full border border-border bg-card/60">
-        <svg
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.75"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          className="h-9 w-9 text-muted"
-        >
-          <circle cx="12" cy="12" r="10" />
-          <line x1="12" y1="8" x2="12" y2="12" />
-          <line x1="12" y1="16" x2="12.01" y2="16" />
-        </svg>
+        <AlertCircle className="h-9 w-9 text-muted" strokeWidth={1.75} />
       </div>
     </div>
   );

@@ -9,14 +9,6 @@ export type MetricCard = {
   iconKey: "grid" | "coin" | "chart" | "bell";
 };
 
-export type HealthItem = {
-  label: string;
-  value: string;
-  color: string;
-  dot: string;
-  pulse: boolean;
-};
-
 export type VaultItem = {
   addr: string;
   chain: string;
@@ -28,10 +20,10 @@ export type VaultItem = {
   pnlUp: boolean;
 };
 
-export type ActivityItem = {
-  type: string;
-  vault: string;
-  time: string;
-  dotColor: string;
-  textColor: string;
+export type ChainInfo = {
+  id: number;
+  name: string;
+  symbol: string;
+  color: string;
+  vaultCount: number;
 };

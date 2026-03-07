@@ -1,10 +1,4 @@
-import {
-  dashboardActivities,
-  dashboardAlertReasons,
-  dashboardHealth,
-  dashboardMetrics,
-  dashboardVaults,
-} from "@/lib/mockdata/dashboard";
+import { dashboardChains, dashboardMetrics, dashboardVaults } from "@/lib/mockdata/dashboard";
 
 /**
  * Dashboard view-model.
@@ -13,9 +7,7 @@ import {
 export function useDashboardViewModel() {
   return {
     metrics: dashboardMetrics,
-    health: dashboardHealth,
+    chains: dashboardChains,
     vaults: dashboardVaults,
-    activities: dashboardActivities,
-    alertReasons: dashboardAlertReasons,
   };
 }

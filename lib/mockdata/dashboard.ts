@@ -1,4 +1,4 @@
-import type { ActivityItem, HealthItem, MetricCard, VaultItem } from "@/lib/types/dashboard";
+import type { ChainInfo, MetricCard, VaultItem } from "@/lib/types/dashboard";
 
 export const dashboardMetrics: MetricCard[] = [
   {
@@ -43,11 +43,11 @@ export const dashboardMetrics: MetricCard[] = [
   },
 ];
 
-export const dashboardHealth: HealthItem[] = [
-  { label: "Backend API", value: "Healthy", color: "text-success", dot: "bg-success", pulse: true },
-  { label: "GraphQL lag", value: "2 blocks", color: "text-warning", dot: "bg-warning", pulse: false },
-  { label: "RPC", value: "Up", color: "text-success", dot: "bg-success", pulse: true },
-  { label: "Queue backlog", value: "4 jobs", color: "text-muted", dot: "bg-muted", pulse: false },
+export const dashboardChains: ChainInfo[] = [
+  { id: 1,     name: "Ethereum", symbol: "ETH", color: "#627EEA", vaultCount: 1 },
+  { id: 8453,  name: "Base",     symbol: "ETH", color: "#0052FF", vaultCount: 1 },
+  { id: 42161, name: "Arbitrum", symbol: "ETH", color: "#12AAFF", vaultCount: 1 },
+  { id: 11155111, name: "Sepolia", symbol: "ETH", color: "#A855F7", vaultCount: 0 },
 ];
 
 export const dashboardVaults: VaultItem[] = [
@@ -62,22 +62,23 @@ export const dashboardVaults: VaultItem[] = [
     pnlUp: true,
   },
   {
+    addr: "0xA8d3...F3b7",
+    chain: "Ethereum",
+    status: "active",
+    balance: "5,100 USDC / 0.07 WBTC",
+    rule: "Buy < $60,000 · Sell > $75,000",
+    lastExecution: "18m ago",
+    pnl: "+$128,300",
+    pnlUp: true,
+  },
+  {
     addr: "0x52c4...19f1",
-    chain: "Base Sepolia",
+    chain: "Arbitrum",
     status: "paused",
-    balance: "500 USDC / 0.00 WETH",
-    rule: "Buy < $1,850 · Sell > $2,100",
+    balance: "1,850 USDC / 0.00 WETH",
+    rule: "Rebalance: USDC/DAI",
     lastExecution: "2h ago",
-    pnl: "-$120",
+    pnl: "-$1,240",
     pnlUp: false,
   },
 ];
-
-export const dashboardActivities: ActivityItem[] = [
-  { type: "SwapExecuted", vault: "0x91f7...A4c2", time: "2m ago", dotColor: "bg-success", textColor: "text-success" },
-  { type: "TokenRuleSet", vault: "0x52c4...19f1", time: "40m ago", dotColor: "bg-primary", textColor: "text-primary" },
-  { type: "ShieldTriggered", vault: "0x91f7...A4c2", time: "3h ago", dotColor: "bg-warning", textColor: "text-warning" },
-  { type: "ExecutionFailed", vault: "0xA8d3...F3b7", time: "5h ago", dotColor: "bg-danger", textColor: "text-danger" },
-];
-
-export const dashboardAlertReasons = ["SlippageTooHigh", "Stale oracle price", "Execution revert"];
