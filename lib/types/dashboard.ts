@@ -19,3 +19,11 @@ export type VaultItem = {
   pnl: string;
   pnlUp: boolean;
 };
+
+export type ChainInfo = {
+  id: number;
+  name: string;
+  symbol: string;
+  color: string;
+  vaultCount: number;
+};

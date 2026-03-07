@@ -1,9 +1,48 @@
 "use client";
 
-import { useState } from "react";
-import { X, Copy, Check, Power, Terminal, Clock, Settings2, Plus } from "lucide-react";
-import { StatusChip } from "@/components/ui/status-chip";
 import type { VaultItem } from "@/lib/types/dashboard";
+import { Check, Clock, Copy, Plus, Power, Settings2, Terminal, X } from "lucide-react";
+import { useState } from "react";
+import Image from "next/image";
+
+const TOKEN_DATA: Record<string, { name: string; icon: string }> = {
+  USDC: {
+    name: "USD Coin",
+    icon: "https://assets.trustwalletapp.com/blockchains/ethereum/assets/0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48/logo.png",
+  },
+  USDT: {
+    name: "Tether",
+    icon: "https://assets.trustwalletapp.com/blockchains/ethereum/assets/0xdAC17F958D2ee523a2206206994597C13D831ec7/logo.png",
+  },
+  DAI: {
+    name: "Dai",
+    icon: "https://assets.trustwalletapp.com/blockchains/ethereum/assets/0x6B175474E89094C44Da98b954EedeAC495271d0F/logo.png",
+  },
+  WETH: {
+    name: "Wrapped Ethereum",
+    icon: "https://assets.trustwalletapp.com/blockchains/ethereum/assets/0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2/logo.png",
+  },
+  ETH: {
+    name: "Ethereum",
+    icon: "https://assets.trustwalletapp.com/blockchains/ethereum/info/logo.png",
+  },
+  WBTC: {
+    name: "Wrapped Bitcoin",
+    icon: "https://assets.trustwalletapp.com/blockchains/ethereum/assets/0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2E597/logo.png",
+  },
+  BTC: {
+    name: "Bitcoin",
+    icon: "https://assets.trustwalletapp.com/blockchains/bitcoin/info/logo.png",
+  },
+  SOL: {
+    name: "Solana",
+    icon: "https://assets.trustwalletapp.com/blockchains/solana/info/logo.png",
+  },
+  BNB: { name: "BNB", icon: "https://assets.trustwalletapp.com/blockchains/binance/info/logo.png" },
+  XRP: { name: "XRP", icon: "https://assets.trustwalletapp.com/blockchains/ripple/info/logo.png" },
+};
+
+const STABLE_COINS = [{ symbol: "USDC" }, { symbol: "USDT" }, { symbol: "DAI" }];
 
 type Tab = "console" | "history" | "config";
 
@@ -34,6 +73,16 @@ export function VaultPanel({ vault, onClose }: { vault: VaultItem; onClose: () =
 
   const tokens = parseTokens(vault.balance);
 
+  // Merge vault tokens + stablecoins (dedup by symbol)
+  const vaultSymbols = new Set(tokens.map((t) => t.symbol));
+  const extraStables = STABLE_COINS.filter((s) => !vaultSymbols.has(s.symbol));
+  const allTokens = [...tokens.map((t) => t.symbol), ...extraStables.map((s) => s.symbol)];
+
+  const [defaultToken, setDefaultToken] = useState<string>(
+    tokens[0]?.symbol ?? STABLE_COINS[0].symbol,
+  );
+  const [defaultTokenSource, setDefaultTokenSource] = useState<"system" | "holdings">("system");
+
   function copyAddress() {
     navigator.clipboard.writeText(vault.addr);
     setCopied(true);
@@ -58,11 +107,7 @@ export function VaultPanel({ vault, onClose }: { vault: VaultItem; onClose: () =
                 title="Copy address"
                 className="flex h-6 w-6 items-center justify-center rounded-md text-muted transition-colors hover:text-foreground"
               >
-                {copied ? (
-                  <Check className="h-3 w-3 text-success" />
-                ) : (
-                  <Copy className="h-3 w-3" />
-                )}
+                {copied ? <Check className="h-3 w-3 text-success" /> : <Copy className="h-3 w-3" />}
               </button>
             </div>
             <div className="mt-1 flex items-center gap-2">
@@ -126,45 +171,117 @@ export function VaultPanel({ vault, onClose }: { vault: VaultItem; onClose: () =
         <div className="flex-1 overflow-y-auto p-5 space-y-4">
           {tab === "console" && (
             <>
-              {/* Vault Status */}
-              <div className="rounded-xl border border-border/60 bg-card-2/40 p-4">
-                <p className="mb-3 text-xs font-semibold text-foreground">Vault Status</p>
-                <div className="grid grid-cols-2 gap-x-4 gap-y-3 text-xs">
-                  <div>
-                    <p className="text-muted">PnL</p>
-                    <p
-                      className={`mt-0.5 font-bold ${vault.pnlUp ? "text-success" : "text-danger"}`}
-                    >
-                      {vault.pnlUp ? "▲" : "▼"} {vault.pnl}
-                    </p>
-                  </div>
-                  <div>
-                    <p className="text-muted">Last execution</p>
-                    <p className="mt-0.5 font-medium text-foreground">{vault.lastExecution}</p>
-                  </div>
-                  <div>
-                    <p className="text-muted">Status</p>
-                    <StatusChip status={active ? "active" : "paused"} />
-                  </div>
-                </div>
+              <div className="mb-3 flex items-center justify-between">
+                <p className="text-sm font-bold text-foreground">Select token swap default</p>
+                <button className="flex items-center gap-1.5 rounded-lg border border-primary/30 px-2.5 py-1 text-xs font-medium text-primary transition-colors hover:bg-primary/10">
+                  <Plus className="h-3 w-3" />
+                  Deposit
+                </button>
               </div>
 
-              {/* Token Holdings */}
-              <div className="rounded-xl border border-border/60 bg-card-2/40 p-4">
-                <div className="mb-3 flex items-center justify-between">
-                  <p className="text-xs font-semibold text-foreground">Token Holdings</p>
-                  <button className="flex items-center gap-1.5 rounded-lg border border-primary/30 px-2.5 py-1 text-xs font-medium text-primary transition-colors hover:bg-primary/10">
-                    <Plus className="h-3 w-3" />
-                    Deposit
-                  </button>
+              {/* Default Swap Token */}
+              <div className="overflow-hidden rounded-xl border border-border/60 bg-card-2/40">
+                <div className="border-b border-border/60 px-4 py-2">
+                  <p className="text-[10px] font-bold uppercase tracking-wider text-muted">
+                    System
+                  </p>
                 </div>
-                <div className="space-y-2">
-                  {tokens.map(({ amount, symbol }) => (
-                    <div key={symbol} className="flex items-center justify-between text-xs">
-                      <span className="font-medium text-foreground">{symbol}</span>
-                      <span className="text-muted">{amount}</span>
-                    </div>
-                  ))}
+                <div className="flex flex-col">
+                  {allTokens.map((symbol) => {
+                    const isVaultToken = vaultSymbols.has(symbol);
+                    const isSelected = defaultToken === symbol && defaultTokenSource === "system";
+                    const info = TOKEN_DATA[symbol] || { name: symbol, icon: "" };
+                    return (
+                      <button
+                        key={symbol}
+                        onClick={() => { setDefaultToken(symbol); setDefaultTokenSource("system"); }}
+                        className={`flex w-full items-center gap-3 border-b border-border/30 px-4 py-3 last:border-0 transition-all ${
+                          isSelected
+                            ? "border-l-2 border-l-primary bg-primary/10"
+                            : "opacity-40 hover:opacity-70 hover:bg-white/5"
+                        }`}
+                      >
+                        <div className={`relative flex h-9 w-9 shrink-0 items-center justify-center rounded-full p-1.5 overflow-hidden transition-colors ${isSelected ? "bg-primary/20 ring-1 ring-primary/40" : "bg-white/5"}`}>
+                          {info.icon ? (
+                            <Image
+                              src={info.icon}
+                              alt={symbol}
+                              width={36}
+                              height={36}
+                              className="h-full w-full object-contain"
+                            />
+                          ) : (
+                            <div className="h-5 w-5 rounded-full bg-primary/20" />
+                          )}
+                        </div>
+                        <div className="flex flex-1 flex-col items-start gap-0.5">
+                          <div className="flex items-center gap-2">
+                            <span className={`text-[14px] font-bold ${isSelected ? "text-foreground" : "text-foreground/80"}`}>
+                              {info.name}
+                            </span>
+                            <span className="text-xs font-medium text-muted">{symbol}</span>
+                            {isVaultToken && (
+                              <span className="rounded-[4px] bg-primary/10 px-1.5 py-0.5 text-[9px] font-black uppercase text-primary">
+                                vault
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                        {isSelected && <Check className="h-4 w-4 text-primary" />}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+              {/* Token Holdings */}
+              <div className="overflow-hidden rounded-xl border border-border/60 bg-card-2/40">
+                <div className="border-b border-border/60 px-4 py-2">
+                  <p className="text-[10px] font-bold uppercase tracking-wider text-muted">
+                    Token Holdings
+                  </p>
+                </div>
+                <div className="flex flex-col">
+                  {tokens.map(({ amount, symbol }) => {
+                    const info = TOKEN_DATA[symbol] || { name: symbol, icon: "" };
+                    const isSelected = defaultToken === symbol && defaultTokenSource === "holdings";
+                    return (
+                      <button
+                        key={symbol}
+                        onClick={() => { setDefaultToken(symbol); setDefaultTokenSource("holdings"); }}
+                        className={`flex w-full items-center gap-3 border-b border-border/30 px-4 py-3 last:border-0 transition-all ${
+                          isSelected
+                            ? "border-l-2 border-l-primary bg-primary/10"
+                            : "opacity-40 hover:opacity-70 hover:bg-white/5"
+                        }`}
+                      >
+                        <div className={`relative flex h-9 w-9 shrink-0 items-center justify-center rounded-full p-1.5 overflow-hidden transition-colors ${isSelected ? "bg-primary/20 ring-1 ring-primary/40" : "bg-white/5"}`}>
+                          {info.icon ? (
+                            <Image
+                              src={info.icon}
+                              alt={symbol}
+                              width={36}
+                              height={36}
+                              className="h-full w-full object-contain"
+                            />
+                          ) : (
+                            <div className="h-5 w-5 rounded-full bg-primary/20" />
+                          )}
+                        </div>
+                        <div className="flex flex-1 flex-col items-start gap-0.5">
+                          <div className="flex items-center gap-2">
+                            <span className={`text-[14px] font-bold ${isSelected ? "text-foreground" : "text-foreground/80"}`}>
+                              {info.name}
+                            </span>
+                            <span className="text-xs font-medium text-muted">{symbol}</span>
+                          </div>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <span className="text-xs font-bold text-foreground">{amount}</span>
+                          {isSelected && <Check className="h-4 w-4 text-primary" />}
+                        </div>
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
             </>

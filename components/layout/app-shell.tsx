@@ -88,57 +88,6 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       </header>
 
       <main className="mx-auto max-w-6xl px-4 py-6 pb-28 md:px-6">{children}</main>
-
-      {/* Floating Bottom Bar */}
-      <div className="fixed bottom-6 left-1/2 z-50 -translate-x-1/2">
-        <div className="flex items-center gap-1 rounded-2xl border border-border/60 bg-card/90 px-3 py-2 shadow-2xl backdrop-blur-xl">
-          {/* Home */}
-          <Link
-            href="/dashboard"
-            className={`flex h-10 w-10 items-center justify-center rounded-xl transition-colors ${
-              isActive("/dashboard", true) ? "text-primary" : "text-muted hover:text-foreground"
-            }`}
-          >
-            <Home className="h-5 w-5" />
-          </Link>
-
-          <div className="mx-1 h-6 w-px bg-border/50" />
-
-          {/* Create / Plus */}
-          <Link
-            href="/dashboard/search"
-            className="relative flex h-11 w-11 items-center justify-center rounded-xl bg-red-600 shadow-lg shadow-red-600/40 transition-all hover:bg-red-500 hover:shadow-red-500/50"
-          >
-            <Plus className="h-5 w-5 text-white" strokeWidth={2.5} />
-          </Link>
-
-          <div className="mx-1 h-6 w-px bg-border/50" />
-
-          {/* Search */}
-          <Link
-            href="/dashboard/search"
-            className={`flex h-10 w-10 items-center justify-center rounded-xl transition-colors ${
-              isActive("/dashboard/search") ? "text-primary" : "text-muted hover:text-foreground"
-            }`}
-          >
-            <Search className="h-5 w-5" />
-          </Link>
-
-          <div className="mx-1 h-6 w-px bg-border/50" />
-
-          {/* Notifications */}
-          <Link
-            href="/dashboard/notifications"
-            className={`flex h-10 w-10 items-center justify-center rounded-xl transition-colors ${
-              isActive("/dashboard/notifications")
-                ? "text-primary"
-                : "text-muted hover:text-foreground"
-            }`}
-          >
-            <Bell className="h-5 w-5" />
-          </Link>
-        </div>
-      </div>
     </div>
   );
 }

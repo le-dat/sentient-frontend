@@ -1,4 +1,4 @@
-import type { MetricCard, VaultItem } from "@/lib/types/dashboard";
+import type { ChainInfo, MetricCard, VaultItem } from "@/lib/types/dashboard";
 
 export const dashboardMetrics: MetricCard[] = [
   {
@@ -41,6 +41,13 @@ export const dashboardMetrics: MetricCard[] = [
     iconColor: "text-warning",
     iconKey: "bell",
   },
+];
+
+export const dashboardChains: ChainInfo[] = [
+  { id: 1,     name: "Ethereum", symbol: "ETH", color: "#627EEA", vaultCount: 1 },
+  { id: 8453,  name: "Base",     symbol: "ETH", color: "#0052FF", vaultCount: 1 },
+  { id: 42161, name: "Arbitrum", symbol: "ETH", color: "#12AAFF", vaultCount: 1 },
+  { id: 11155111, name: "Sepolia", symbol: "ETH", color: "#A855F7", vaultCount: 0 },
 ];
 
 export const dashboardVaults: VaultItem[] = [
