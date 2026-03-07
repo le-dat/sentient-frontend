@@ -31,7 +31,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         {/* Top accent gradient line */}
         <div className="h-px w-full bg-gradient-to-r from-transparent via-primary/50 to-transparent" />
 
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-3">
+        <div className="mx-auto flex max-w-6xl items-center justify-between px-3 py-3 md:px-6">
           {/* Logo + Nav */}
           <div className="flex items-center gap-8">
             <Link href={ROUTES.HOME} className="text-lg font-bold tracking-tight text-foreground">
@@ -88,7 +88,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         </div>
       </header>
 
-      <main className="mx-auto max-w-6xl px-4 py-6 pb-28 md:px-6">{children}</main>
+      <main className="mx-auto max-w-6xl px-3 py-5 pb-24 md:px-6 md:py-6 md:pb-28">{children}</main>
     </div>
   );
 }
