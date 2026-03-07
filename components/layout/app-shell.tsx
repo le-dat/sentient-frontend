@@ -1,10 +1,10 @@
 "use client";
 
+import { ROUTES } from "@/lib/constants/routes";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
+import { Bell, LayoutGrid, Search } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ConnectButton } from "@rainbow-me/rainbowkit";
-import { LayoutGrid, Bell, Home, Plus, Search } from "lucide-react";
-import { ROUTES } from "@/lib/constants/routes";
 
 const nav = [
   {
