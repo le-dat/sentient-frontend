@@ -16,7 +16,7 @@ export function LandingNav() {
   const { isConnected } = useAccount();
 
   return (
-    <nav className="sticky top-0 z-50 border-b border-border/60 bg-background/90 backdrop-blur-xl">
+    <nav className="sticky top-0 z-50 border-b border-border/60 bg-background/40 backdrop-blur-xl">
       {/* Top accent gradient line */}
       <div className="h-px w-full bg-gradient-to-r from-transparent via-primary/50 to-transparent" />
 

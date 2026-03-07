@@ -1,35 +1,72 @@
 "use client";
 
+import { CountUp } from "@/components/ui/count-up";
+import { ROUTES } from "@/lib/constants/routes";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { CountUp } from "@/components/ui/count-up";
-import { ROUTES } from "@/lib/constants/routes";
 
-const floatingTokens = [
-  { symbol: "ETH", color: "#627EEA", delay: "0s", x: "7%", y: "20%" },
-  { symbol: "BTC", color: "#F7931A", delay: "1.3s", x: "87%", y: "16%" },
-  { symbol: "LINK", color: "#2A5ADA", delay: "0.7s", x: "4%", y: "62%" },
-  { symbol: "AAVE", color: "#B6509E", delay: "2.0s", x: "91%", y: "50%" },
-  { symbol: "ARB", color: "#12AAFF", delay: "0.4s", x: "82%", y: "73%" },
-  { symbol: "OP", color: "#FF0420", delay: "1.7s", x: "76%", y: "33%" },
-  { symbol: "BASE", color: "#0052FF", delay: "1.0s", x: "16%", y: "79%" },
-  { symbol: "SOL", color: "#9945FF", delay: "0.2s", x: "22%", y: "38%" },
-];
-
-const stats = [
+const STATS = [
   {
     value: 128.4,
     decimals: 1,
     prefix: "$",
     suffix: "M",
-    label: "Total Value Locked",
+    label: "TOTAL VALUE LOCKED",
     badge: "+4.2%",
   },
-  { value: 9418, label: "Active Vaults", badge: "+12%" },
-  { value: 42310, label: "Executions (24h)", badge: "+8.7%" },
-  { value: 4, label: "Chains Supported", badge: null },
+  { value: 9418, label: "ACTIVE VAULTS", badge: "+12%" },
+  { value: 42310, label: "EXECUTIONS / 24H", badge: "+8.7%" },
+  { value: 4, label: "CHAINS SUPPORTED", badge: null },
 ];
+
+// Chain list with their colors — matches FeaturedVaults chain data
+const CHAINS = [
+  { name: "Ethereum", color: "#627EEA" },
+  { name: "Arbitrum", color: "#12AAFF" },
+  { name: "Optimism", color: "#FF0420" },
+  { name: "Base", color: "#0052FF" },
+];
+
+// Teases the 4 core features shown in FeaturesSection
+const FEATURE_TAGS = [
+  "Rule-Based Automation",
+  "Risk Shields",
+  "Cross-Chain Monitoring",
+  "TX History",
+];
+
+function StatsSection() {
+  return (
+    <div className="hs-in-6 mt-16 border-t border-border/50">
+      <div className="hs-stats-grid">
+        {STATS.map((s, i) => (
+          <div key={i} className="hs-stat-cell">
+            <div className="hs-stat-shimmer" />
+            {s.badge && (
+              <span className="absolute right-4 top-[18px] rounded-[4px] border border-primary/20 bg-primary/[0.08] px-[7px] py-[2px] font-mono text-[10px] font-bold tracking-[0.04em] text-primary">
+                {s.badge}
+              </span>
+            )}
+            <p className="mb-1.5 text-[clamp(26px,3vw,38px)] font-extrabold leading-none tracking-[-0.03em] text-[#e6eeff]">
+              <CountUp
+                to={s.value}
+                decimals={s.decimals ?? 0}
+                prefix={s.prefix}
+                suffix={s.suffix}
+              />
+            </p>
+            <p className="m-0 font-mono text-[10px] uppercase tracking-[0.12em] text-muted/35">
+              {s.label}
+            </p>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ── Main HeroSection ──────────────────────────────────────────────────────────
 
 export function HeroSection() {
   const router = useRouter();
@@ -42,138 +79,109 @@ export function HeroSection() {
   };
 
   return (
-    <section className="relative overflow-hidden px-4 pb-16 pt-16 text-center md:px-6 md:pb-20 md:pt-24">
-      {/* Aurora background blobs */}
-      <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div
-          className="animate-blob absolute -left-32 -top-32 h-[500px] w-[500px] rounded-full bg-primary/20 blur-[100px]"
-          style={{ animationDelay: "0s" }}
-        />
-        <div
-          className="animate-blob absolute -right-32 top-0 h-[400px] w-[400px] rounded-full blur-[100px]"
-          style={{ animationDelay: "-5s", backgroundColor: "rgba(147,51,234,0.12)" }}
-        />
-        <div
-          className="animate-blob absolute bottom-0 left-1/2 h-[350px] w-[350px] -translate-x-1/2 rounded-full blur-[100px]"
-          style={{ animationDelay: "-9s", backgroundColor: "rgba(20,184,166,0.08)" }}
-        />
-      </div>
-
-      {/* Expanding ripple rings */}
-      <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
-        <div
-          className="animate-ring h-[320px] w-[320px] rounded-full border border-primary/15 md:h-[520px] md:w-[520px]"
-          style={{ animationDelay: "0s" }}
-        />
-        <div
-          className="animate-ring absolute h-[220px] w-[220px] rounded-full border border-primary/20 md:h-[360px] md:w-[360px]"
-          style={{ animationDelay: "1.1s" }}
-        />
-        <div
-          className="animate-ring absolute h-[130px] w-[130px] rounded-full border border-primary/28 md:h-[200px] md:w-[200px]"
-          style={{ animationDelay: "2.2s" }}
-        />
-      </div>
-
-      {/* Floating token badges */}
-      {floatingTokens.map((t) => (
-        <div
-          key={t.symbol}
-          className="animate-float pointer-events-none absolute hidden items-center gap-1.5 rounded-full border px-2.5 py-1.5 text-xs font-bold backdrop-blur-sm md:flex"
-          style={{
-            left: t.x,
-            top: t.y,
-            animationDelay: t.delay,
-            borderColor: t.color + "40",
-            backgroundColor: t.color + "18",
-            color: t.color,
-            boxShadow: `0 0 16px ${t.color}25`,
-          }}
-        >
-          <span className="h-2 w-2 rounded-full" style={{ backgroundColor: t.color }} />
-          {t.symbol}
-        </div>
-      ))}
-
-      {/* Badge */}
+    <section className="relative overflow-hidden pt-20">
+      {/* Ambient glows */}
       <div
-        className="animate-fadeUp relative inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-4 py-1.5 text-xs font-semibold text-primary"
-        style={{ animationDelay: "0.1s" }}
-      >
-        <span className="relative flex h-1.5 w-1.5">
-          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-70" />
-          <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-primary" />
-        </span>
-        Sentient Finance · Powered by Chainlink
-      </div>
-
-      {/* Headline */}
-      <h1
-        className="animate-fadeUp relative mx-auto mt-6 max-w-3xl text-4xl font-bold leading-[1.1] tracking-tight text-foreground md:text-6xl"
-        style={{ animationDelay: "0.22s" }}
-      >
-        Automate your DeFi vaults
-        <br />
-        <span className="bg-gradient-to-r from-primary via-primary to-primary/60 bg-clip-text text-transparent">
-          with on-chain intelligence
-        </span>
-      </h1>
-
-      <p
-        className="animate-fadeUp relative mx-auto mt-6 max-w-xl text-base leading-relaxed text-muted"
-        style={{ animationDelay: "0.38s" }}
-      >
-        Set price rules once. Let Sentient monitor conditions, execute swaps, and shield your
-        capital—across every EVM chain.
-      </p>
-
-      {/* CTA row */}
+        className="pointer-events-none absolute h-[560px] w-[560px]"
+        style={{
+          top: "-150px",
+          left: "-100px",
+          background: "radial-gradient(circle, rgba(79,140,255,0.06) 0%, transparent 65%)",
+        }}
+      />
       <div
-        className="animate-fadeUp relative mx-auto mt-10 flex max-w-xl flex-col items-center gap-3 md:flex-row"
-        style={{ animationDelay: "0.52s" }}
-      >
-        <input
-          className="w-full rounded-xl border border-border bg-card/80 px-4 py-3 text-sm text-foreground placeholder:text-muted focus:outline-none focus:ring-1 focus:ring-primary"
-          placeholder="0x... or ENS address"
-          value={address}
-          onChange={(e) => setAddress(e.target.value)}
-          onKeyDown={handleSearch}
-        />
-        <Link
-          href={ROUTES.SEARCH_VAULT(address.trim())}
-          className="w-full whitespace-nowrap rounded-xl bg-gradient-to-r from-primary to-primary/80 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-primary/20 transition-all hover:shadow-primary/35 hover:opacity-95 md:w-auto"
-        >
-          Query Vault →
-        </Link>
-      </div>
+        className="pointer-events-none absolute h-[480px] w-[480px]"
+        style={{
+          top: "-60px",
+          right: "-80px",
+          background: "radial-gradient(circle, rgba(79,140,255,0.09) 0%, transparent 60%)",
+        }}
+      />
 
-      {/* Stats strip — individual rounded cards */}
-      <div
-        className="animate-fadeUp relative mx-auto mt-14 grid max-w-3xl grid-cols-2 gap-3 md:grid-cols-4"
-        style={{ animationDelay: "0.68s" }}
-      >
-        {stats.map((s, i) => (
-          <div
-            key={i}
-            className="flex flex-col items-center rounded-2xl border border-border bg-card/80 px-4 py-5 backdrop-blur-sm transition-colors hover:border-primary/30 hover:bg-card"
-          >
-            <p className="text-2xl font-bold text-foreground">
-              <CountUp
-                to={s.value}
-                decimals={s.decimals ?? 0}
-                prefix={s.prefix}
-                suffix={s.suffix}
-              />
-            </p>
-            <p className="mt-1 text-xs text-muted">{s.label}</p>
-            {s.badge && (
-              <span className="mt-1.5 rounded-full bg-success/10 px-2 py-0.5 text-[11px] font-semibold text-success">
-                {s.badge}
+      <div className="hs-main-grid">
+        {/* LEFT */}
+        <div className="flex flex-col pt-2">
+          {/* Headline */}
+          <h1 className="hs-in-2 mb-6 p-0 leading-[0.9]">
+            {(["AUTOMATE", "YOUR DeFi", "VAULTS"] as const).map((line, i) => (
+              <span
+                key={i}
+                className="block text-[clamp(50px,7vw,92px)] font-extrabold tracking-[-0.035em]"
+                style={{
+                  color: i === 2 ? "transparent" : "#e6eeff",
+                  ...(i === 2
+                    ? {
+                        WebkitTextStroke: "1.5px rgba(96, 165, 255, 0.8)",
+                        textShadow: "0 0 30px rgba(96, 165, 255, 0.25)",
+                      }
+                    : {}),
+                }}
+              >
+                {line}
+                {i === 2 && <span className="hs-cursor" />}
               </span>
-            )}
+            ))}
+          </h1>
+
+          {/* Feature capability tags — visually link to FeaturesSection below */}
+          <div className="hs-in-3 mb-6 flex flex-wrap gap-2">
+            {FEATURE_TAGS.map((label) => (
+              <span
+                key={label}
+                className="rounded-[4px] border border-border/60 bg-card/60 px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.08em] text-muted/55"
+              >
+                {label}
+              </span>
+            ))}
           </div>
-        ))}
+        </div>
+
+        <div>
+          {/* Subtext — names both user paths: deploy or inspect */}
+          <p className="hs-in-3 mb-10 max-w-[430px] font-mono text-[12.5px] leading-[1.85] text-muted/55">
+            {`// Price triggers, circuit breakers, cross-chain monitoring.`}
+            <br />
+            {`// Deploy a vault in minutes — or track any wallet on-chain.`}
+          </p>
+          {/* Two-path CTAs: primary = deploy, secondary = inspect by address */}
+          <div className="hs-in-4 max-w-[480px]">
+            {/* Secondary — wallet inspection → FeaturedVaults whale tracking */}
+            <div className="hs-input-wrap mb-2.5">
+              <span className="hs-prompt">▸</span>
+              <input
+                className="hs-input"
+                placeholder="inspect 0x... or ENS address"
+                value={address}
+                onChange={(e) => setAddress(e.target.value)}
+                onKeyDown={handleSearch}
+              />
+            </div>
+            <Link
+              href={ROUTES.SEARCH_VAULT(address.trim())}
+              className="hs-btn-secondary w-full justify-center"
+            >
+              Inspect Wallet →
+            </Link>
+          </div>
+
+          {/* Chain status list with brand colors */}
+          <div className="hs-in-5 mt-9 flex flex-wrap items-center gap-0 font-mono text-[10px] uppercase tracking-widest">
+            {CHAINS.map((c, i) => (
+              <span key={c.name} className="flex items-center">
+                <span
+                  className="mr-1.5 h-[5px] w-[5px] rounded-full"
+                  style={{ background: c.color, boxShadow: `0 0 5px ${c.color}80` }}
+                />
+                <span className="text-muted/35">{c.name}</span>
+                {i < CHAINS.length - 1 && <span className="mx-3 text-muted/20">·</span>}
+              </span>
+            ))}
+          </div>
+        </div>
       </div>
+
+      {/* Stats strip */}
+      <StatsSection />
     </section>
   );
 }
