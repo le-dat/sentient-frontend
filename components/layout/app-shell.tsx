@@ -3,10 +3,16 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
-import { LayoutGrid, Bell, Home, Plus } from "lucide-react";
+import { LayoutGrid, Bell, Home, Plus, Search } from "lucide-react";
 
 const nav = [
-  { href: "/dashboard", label: "Dashboard", icon: <LayoutGrid className="h-3.5 w-3.5" />, exact: true },
+  {
+    href: "/dashboard",
+    label: "Dashboard",
+    icon: <LayoutGrid className="h-3.5 w-3.5" />,
+    exact: true,
+  },
+  { href: "/dashboard/search", label: "Query Vault", icon: <Search className="h-3.5 w-3.5" /> },
   { href: "/dashboard/notifications", label: "Alerts", icon: <Bell className="h-3.5 w-3.5" /> },
 ];
 
@@ -99,9 +105,24 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           <div className="mx-1 h-6 w-px bg-border/50" />
 
           {/* Create / Plus */}
-          <button className="relative flex h-11 w-11 items-center justify-center rounded-xl bg-red-600 shadow-lg shadow-red-600/40 transition-all hover:bg-red-500 hover:shadow-red-500/50">
+          <Link
+            href="/dashboard/search"
+            className="relative flex h-11 w-11 items-center justify-center rounded-xl bg-red-600 shadow-lg shadow-red-600/40 transition-all hover:bg-red-500 hover:shadow-red-500/50"
+          >
             <Plus className="h-5 w-5 text-white" strokeWidth={2.5} />
-          </button>
+          </Link>
+
+          <div className="mx-1 h-6 w-px bg-border/50" />
+
+          {/* Search */}
+          <Link
+            href="/dashboard/search"
+            className={`flex h-10 w-10 items-center justify-center rounded-xl transition-colors ${
+              isActive("/dashboard/search") ? "text-primary" : "text-muted hover:text-foreground"
+            }`}
+          >
+            <Search className="h-5 w-5" />
+          </Link>
 
           <div className="mx-1 h-6 w-px bg-border/50" />
 
