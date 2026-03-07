@@ -12,7 +12,7 @@ export default function SearchLayout({ children }: { children: ReactNode }) {
   const address = isRootSearch ? "" : (pathname.split("/").pop() ?? "");
 
   return (
-    <div className="mx-auto space-y-8 px-3 py-4 transition-all duration-500 sm:px-6 md:space-y-12 md:py-6 lg:px-8">
+    <div className="mx-auto space-y-8 px-3 py-4 transition-all duration-500 md:px-8 md:space-y-12 md:py-6">
       {/* Header Section: Scalable header based on whether we are in "Splash" mode or "Results" mode */}
       <header
         className={`text-center transition-all duration-700 ease-in-out ${

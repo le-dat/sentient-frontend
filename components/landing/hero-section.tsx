@@ -42,7 +42,7 @@ export function HeroSection() {
   };
 
   return (
-    <section className="relative overflow-hidden px-4 pb-16 pt-16 text-center sm:px-6 sm:pb-20 sm:pt-24">
+    <section className="relative overflow-hidden px-4 pb-16 pt-16 text-center md:px-6 md:pb-20 md:pt-24">
       {/* Aurora background blobs */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
         <div
@@ -62,15 +62,15 @@ export function HeroSection() {
       {/* Expanding ripple rings */}
       <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
         <div
-          className="animate-ring h-[320px] w-[320px] rounded-full border border-primary/15 sm:h-[520px] sm:w-[520px]"
+          className="animate-ring h-[320px] w-[320px] rounded-full border border-primary/15 md:h-[520px] md:w-[520px]"
           style={{ animationDelay: "0s" }}
         />
         <div
-          className="animate-ring absolute h-[220px] w-[220px] rounded-full border border-primary/20 sm:h-[360px] sm:w-[360px]"
+          className="animate-ring absolute h-[220px] w-[220px] rounded-full border border-primary/20 md:h-[360px] md:w-[360px]"
           style={{ animationDelay: "1.1s" }}
         />
         <div
-          className="animate-ring absolute h-[130px] w-[130px] rounded-full border border-primary/28 sm:h-[200px] sm:w-[200px]"
+          className="animate-ring absolute h-[130px] w-[130px] rounded-full border border-primary/28 md:h-[200px] md:w-[200px]"
           style={{ animationDelay: "2.2s" }}
         />
       </div>
@@ -79,7 +79,7 @@ export function HeroSection() {
       {floatingTokens.map((t) => (
         <div
           key={t.symbol}
-          className="animate-float pointer-events-none absolute hidden items-center gap-1.5 rounded-full border px-2.5 py-1.5 text-xs font-bold backdrop-blur-sm lg:flex"
+          className="animate-float pointer-events-none absolute hidden items-center gap-1.5 rounded-full border px-2.5 py-1.5 text-xs font-bold backdrop-blur-sm md:flex"
           style={{
             left: t.x,
             top: t.y,
@@ -109,7 +109,7 @@ export function HeroSection() {
 
       {/* Headline */}
       <h1
-        className="animate-fadeUp relative mx-auto mt-6 max-w-3xl text-4xl font-bold leading-[1.1] tracking-tight text-foreground sm:text-5xl md:text-6xl lg:text-7xl"
+        className="animate-fadeUp relative mx-auto mt-6 max-w-3xl text-4xl font-bold leading-[1.1] tracking-tight text-foreground md:text-6xl"
         style={{ animationDelay: "0.22s" }}
       >
         Automate your DeFi vaults
@@ -129,7 +129,7 @@ export function HeroSection() {
 
       {/* CTA row */}
       <div
-        className="animate-fadeUp relative mx-auto mt-10 flex max-w-xl flex-col items-center gap-3 sm:flex-row"
+        className="animate-fadeUp relative mx-auto mt-10 flex max-w-xl flex-col items-center gap-3 md:flex-row"
         style={{ animationDelay: "0.52s" }}
       >
         <input
@@ -141,7 +141,7 @@ export function HeroSection() {
         />
         <Link
           href={ROUTES.SEARCH_VAULT(address.trim())}
-          className="w-full whitespace-nowrap rounded-xl bg-gradient-to-r from-primary to-primary/80 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-primary/20 transition-all hover:shadow-primary/35 hover:opacity-95 sm:w-auto"
+          className="w-full whitespace-nowrap rounded-xl bg-gradient-to-r from-primary to-primary/80 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-primary/20 transition-all hover:shadow-primary/35 hover:opacity-95 md:w-auto"
         >
           Query Vault →
         </Link>

@@ -20,7 +20,7 @@ export function LandingNav() {
       {/* Top accent gradient line */}
       <div className="h-px w-full bg-gradient-to-r from-transparent via-primary/50 to-transparent" />
 
-      <div className="mx-auto flex max-w-6xl items-center justify-between px-3 py-3.5 sm:px-6">
+      <div className="mx-auto flex max-w-6xl items-center justify-between px-3 py-3.5 md:px-6">
         <div className="flex items-center gap-8">
           <span className="text-lg font-bold tracking-tight text-foreground">
             <span className="text-primary">S</span>entient

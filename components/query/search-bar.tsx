@@ -49,7 +49,7 @@ export function SearchBar({ defaultValue = "" }: { defaultValue?: string }) {
             <Loader2 className="h-5 w-5 animate-spin" />
           ) : (
             <>
-              <span className="hidden sm:inline">Analyze</span>
+              <span className="hidden md:inline">Analyze</span>
               <ArrowRight className="h-4 w-4" />
             </>
           )}

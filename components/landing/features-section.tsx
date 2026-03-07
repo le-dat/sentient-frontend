@@ -43,7 +43,7 @@ export function FeaturesSection() {
         </p>
       </RevealSection>
 
-      <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-5 md:grid-cols-2">
         {features.map((f, i) => (
           <RevealSection key={f.title} delay={i * 100}>
             <BenefitCard
