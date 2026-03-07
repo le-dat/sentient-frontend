@@ -65,7 +65,7 @@ body {
     radial-gradient(circle at 20% 10%, var(--glow-1) 0%, transparent 32%),
     radial-gradient(circle at 80% 0%, var(--glow-2) 0%, transparent 35%), var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans), sans-serif;
 }
 
 /* ── Keyframes ─────────────────────────────────────────────────────────────── */
@@ -96,13 +96,6 @@ body {
   100% { transform: scale(1.75); opacity: 0; }
 }
 
-/* Coin bounce */
-@keyframes coinBounce {
-  0%, 100% { transform: translateY(0)    rotate(-2deg); }
-  45%       { transform: translateY(-22px) rotate(2deg); }
-  60%       { transform: translateY(-18px) rotate(1deg); }
-}
-
 /* Status dot ping */
 @keyframes ping {
   75%, 100% { transform: scale(2.2); opacity: 0; }
@@ -114,17 +107,6 @@ body {
   to   { background-position: 200% center; }
 }
 
-/* Slide in from right */
-@keyframes slideInRight {
-  from { opacity: 0; transform: translateX(12px); }
-  to   { opacity: 1; transform: translateX(0); }
-}
-
-/* Subtle scale-in */
-@keyframes scaleIn {
-  from { opacity: 0; transform: scale(0.95); }
-  to   { opacity: 1; transform: scale(1); }
-}
 
 /* ── Animation utility classes ─────────────────────────────────────────────── */
 
@@ -144,10 +126,6 @@ body {
   animation: expandRing 3.5s ease-out infinite;
 }
 
-.animate-coin-bounce {
-  animation: coinBounce 2.4s ease-in-out infinite;
-}
-
 .animate-ping {
   animation: ping 1.4s cubic-bezier(0, 0, 0.2, 1) infinite;
 }
@@ -158,10 +136,3 @@ body {
   background-size: 200% auto;
 }
 
-.animate-slide-in-right {
-  animation: slideInRight 0.35s ease-out both;
-}
-
-.animate-scale-in {
-  animation: scaleIn 0.3s ease-out both;
-}
