@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { CountUp } from "@/components/ui/count-up";
+import { ROUTES } from "@/lib/constants/routes";
 
 const floatingTokens = [
   { symbol: "ETH", color: "#627EEA", delay: "0s", x: "7%", y: "20%" },
@@ -36,7 +37,7 @@ export function HeroSection() {
 
   const handleSearch = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter" && address.trim()) {
-      router.push(`/dashboard/search/${encodeURIComponent(address.trim())}`);
+      router.push(ROUTES.SEARCH_VAULT(address.trim()));
     }
   };
 
@@ -139,14 +140,10 @@ export function HeroSection() {
           onKeyDown={handleSearch}
         />
         <Link
-          href={
-            address.trim()
-              ? `/dashboard/search/${encodeURIComponent(address.trim())}`
-              : "/dashboard"
-          }
+          href={ROUTES.SEARCH_VAULT(address.trim())}
           className="w-full whitespace-nowrap rounded-xl bg-gradient-to-r from-primary to-primary/80 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-primary/20 transition-all hover:shadow-primary/35 hover:opacity-95 sm:w-auto"
         >
-          {address.trim() ? "Query Vault" : "Launch App"} →
+          Query Vault →
         </Link>
       </div>
 

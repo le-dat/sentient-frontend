@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { TrendingUp, TrendingDown, Zap } from "lucide-react";
+import { ROUTES } from "@/lib/constants/routes";
 import { dashboardVaults } from "@/lib/mockdata/dashboard";
 import { StatusChip } from "@/components/ui/status-chip";
 import type { VaultItem } from "@/lib/types/dashboard";
@@ -11,7 +12,7 @@ function TopVaultRow({ vault }: { vault: VaultItem }) {
 
   return (
     <div
-      onClick={() => router.push(`/dashboard/search/${encodeURIComponent(vault.addr)}`)}
+      onClick={() => router.push(ROUTES.SEARCH_VAULT(vault.addr))}
       className="cursor-pointer flex items-center justify-between p-4 rounded-2xl border border-border/40 bg-card/40 hover:border-primary/40 hover:bg-card/70 transition-all group"
     >
       <div className="flex-1 min-w-0 space-y-1">

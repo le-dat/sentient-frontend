@@ -3,11 +3,12 @@
 import { ReactNode } from "react";
 import { usePathname } from "next/navigation";
 import { SearchBar } from "@/components/query/search-bar";
+import { ROUTES } from "@/lib/constants/routes";
 
 export default function SearchLayout({ children }: { children: ReactNode }) {
   const pathname = usePathname();
   // Check if we are at the base search page
-  const isRootSearch = pathname === "/dashboard/search";
+  const isRootSearch = pathname === ROUTES.SEARCH;
   const address = isRootSearch ? "" : (pathname.split("/").pop() ?? "");
 
   return (

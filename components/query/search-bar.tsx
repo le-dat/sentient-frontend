@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Search, ArrowRight, Loader2 } from "lucide-react";
+import { ROUTES } from "@/lib/constants/routes";
 
 export function SearchBar({ defaultValue = "" }: { defaultValue?: string }) {
   const router = useRouter();
@@ -15,7 +16,7 @@ export function SearchBar({ defaultValue = "" }: { defaultValue?: string }) {
     if (!trimmedQuery) return;
 
     setIsSearching(true);
-    router.push(`/dashboard/search/${trimmedQuery}`);
+    router.push(ROUTES.SEARCH_VAULT(trimmedQuery));
 
     // Smooth reset of loading state
     const timer = setTimeout(() => setIsSearching(false), 800);

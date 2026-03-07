@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { RevealSection } from "@/components/ui/reveal-section";
+import { ROUTES } from "@/lib/constants/routes";
 
 const featuredVaults = [
   {
@@ -116,7 +117,7 @@ export function FeaturedVaultsSection() {
                 <div className="mt-4 flex items-center justify-between">
                   <span className="text-xs text-muted">{v.followers} followers</span>
                   <Link
-                    href="/dashboard"
+                    href={ROUTES.DASHBOARD}
                     className="flex items-center gap-1.5 rounded-lg border border-border px-3 py-1.5 text-xs font-medium transition-all hover:border-primary/50 hover:bg-primary/5 hover:text-primary"
                   >
                     Track Vault

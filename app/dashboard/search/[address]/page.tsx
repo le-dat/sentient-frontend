@@ -3,6 +3,7 @@
 import { use, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { AlertCircle } from "lucide-react";
+import { ROUTES } from "@/lib/constants/routes";
 import { VaultDetail } from "@/components/query/vault-detail";
 import { dashboardVaults } from "@/lib/mockdata/dashboard";
 import type { VaultItem } from "@/lib/types/dashboard";
@@ -79,7 +80,7 @@ export default function SearchAddressPage({ params }: { params: Promise<{ addres
   return (
     <VaultDetail
       vault={vault}
-      onBack={() => router.push("/dashboard/search")}
+      onBack={() => router.push(ROUTES.SEARCH)}
     />
   );
 }

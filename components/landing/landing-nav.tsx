@@ -1,10 +1,11 @@
 import Link from "next/link";
 import { LayoutGrid, Search, Bell } from "lucide-react";
+import { ROUTES } from "@/lib/constants/routes";
 
 const nav = [
-  { href: "/dashboard", label: "Dashboard", icon: <LayoutGrid className="h-3.5 w-3.5" /> },
-  { href: "/dashboard/search", label: "Query Vault", icon: <Search className="h-3.5 w-3.5" /> },
-  { href: "/dashboard/notifications", label: "Alerts", icon: <Bell className="h-3.5 w-3.5" /> },
+  { href: ROUTES.DASHBOARD, label: "Dashboard", icon: <LayoutGrid className="h-3.5 w-3.5" /> },
+  { href: ROUTES.SEARCH, label: "Query Vault", icon: <Search className="h-3.5 w-3.5" /> },
+  { href: ROUTES.NOTIFICATIONS, label: "Alerts", icon: <Bell className="h-3.5 w-3.5" /> },
 ];
 
 export function LandingNav() {
@@ -33,7 +34,7 @@ export function LandingNav() {
         </div>
 
         <Link
-          href="/dashboard"
+          href={ROUTES.DASHBOARD}
           className="rounded-full bg-gradient-to-r from-primary to-primary/80 px-5 py-2 text-sm font-semibold text-white shadow-md shadow-primary/20 transition-all hover:shadow-primary/35 hover:opacity-95"
         >
           Connect Wallet
