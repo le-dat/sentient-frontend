@@ -6,18 +6,18 @@ import { RevealSection } from "@/components/ui/reveal-section";
 
 const activities = [
   { type: "SwapExecuted", vault: "0x91f7...A4c2", chain: "Base", time: "2m ago", color: "text-success", dot: "bg-success" },
-  { type: "RuleTriggered", vault: "0xA8d3...F3b7", chain: "Ethereum", time: "18m ago", color: "text-primary", dot: "bg-primary" },
-  { type: "ShieldActivated", vault: "0x91f7...A4c2", chain: "Base", time: "1h ago", color: "text-warning", dot: "bg-warning" },
-  { type: "ExecutionFailed", vault: "0x52c4...19f1", chain: "Arbitrum", time: "3h ago", color: "text-danger", dot: "bg-danger" },
+  { type: "RuleEvaluated", vault: "0xA8d3...F3b7", chain: "Ethereum", time: "18m ago", color: "text-primary", dot: "bg-primary" },
+  { type: "ShieldTriggered", vault: "0x91f7...A4c2", chain: "Base", time: "1h ago", color: "text-warning", dot: "bg-warning" },
+  { type: "SlippageTooHigh", vault: "0x52c4...19f1", chain: "Arbitrum", time: "3h ago", color: "text-danger", dot: "bg-danger" },
   { type: "VaultDeployed", vault: "0xB3e1...C8a9", chain: "Base", time: "5h ago", color: "text-success", dot: "bg-success" },
 ];
 
 const notifications = [
-  { title: "Rule Triggered", desc: "ETH/USDC — Buy < $1,900", time: "5m ago", color: "text-primary", dot: "bg-primary" },
-  { title: "Shield Activated", desc: "BTC Hedge — Circuit breaker", time: "22m ago", color: "text-warning", dot: "bg-warning" },
+  { title: "Rule Evaluated", desc: "ETH/USDC — Buy < $1,900", time: "5m ago", color: "text-primary", dot: "bg-primary" },
+  { title: "Shield Triggered", desc: "BTC Hedge — Circuit breaker", time: "22m ago", color: "text-warning", dot: "bg-warning" },
   { title: "Vault Deployed", desc: "Stable Rebalancer is live", time: "2h ago", color: "text-success", dot: "bg-success" },
-  { title: "Execution Failed", desc: "Arbitrum RPC timeout", time: "4h ago", color: "text-danger", dot: "bg-danger" },
-  { title: "New Follower", desc: "0xB3e1...C8a9 followed vault", time: "6h ago", color: "text-muted/70", dot: "bg-muted/30" },
+  { title: "Slippage Too High", desc: "Arbitrum RPC timeout", time: "4h ago", color: "text-danger", dot: "bg-danger" },
+  { title: "Vault Paused", desc: "0x52c4...19f1 auto-paused", time: "6h ago", color: "text-muted/70", dot: "bg-muted/30" },
 ];
 
 const deploySteps = [
@@ -147,7 +147,7 @@ export function LiveActivitySection() {
                 ))}
               </div>
               <Link
-                href="/dashboard/vault/new"
+                href="/dashboard"
                 className="mt-4 block rounded-xl bg-gradient-to-r from-primary to-primary/80 py-2.5 text-center text-xs font-semibold text-primary-foreground shadow-md shadow-primary/20 transition-opacity hover:opacity-90"
               >
                 Create Vault →

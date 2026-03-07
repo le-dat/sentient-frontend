@@ -18,7 +18,7 @@ const stats = [
   { value: 128.4, decimals: 1, prefix: "$", suffix: "M", label: "Total Value Locked", badge: "+4.2%" },
   { value: 9418, label: "Active Vaults", badge: "+12%" },
   { value: 42310, label: "Executions (24h)", badge: "+8.7%" },
-  { value: 12, label: "Chains Supported", badge: null },
+  { value: 4, label: "Chains Supported", badge: null },
 ];
 
 export function HeroSection() {

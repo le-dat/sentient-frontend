@@ -15,15 +15,12 @@ export function LandingNav() {
             <Link href="/dashboard" className="transition-colors hover:text-foreground">
               Dashboard
             </Link>
-            <Link href="/dashboard/monitor" className="transition-colors hover:text-foreground">
-              Monitor
-            </Link>
-            <Link href="/dashboard/notifications" className="transition-colors hover:text-foreground">
+            <Link
+              href="/dashboard/notifications"
+              className="transition-colors hover:text-foreground"
+            >
               Notifications
             </Link>
-            <a href="#vaults" className="transition-colors hover:text-foreground">
-              Vaults
-            </a>
           </div>
         </div>
 
