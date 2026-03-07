@@ -64,3 +64,9 @@ bun run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+## Responsive QA
+
+Before merge, run the manual checklist in:
+
+- `docs/responsive-test-checklist.md`

@@ -223,7 +223,7 @@ function HistoryCol() {
 // ─── Main VaultDetail ────────────────────────────────────────────────────────
 export function VaultDetail({ vault, onBack }: { vault: VaultItem; onBack: () => void }) {
   return (
-    <div className="mt-10 space-y-4 animate-in fade-in slide-in-from-bottom-4 duration-300">
+    <div className="mt-6 space-y-4 animate-in fade-in slide-in-from-bottom-4 duration-300 md:mt-10">
       {/* Back button */}
       <button
         onClick={onBack}
@@ -233,8 +233,8 @@ export function VaultDetail({ vault, onBack }: { vault: VaultItem; onBack: () =>
         Back to Top Vaults
       </button>
 
-      {/* 3-column grid */}
-      <div className="grid grid-cols-3 gap-4">
+      {/* Responsive grid */}
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
         <VaultInfoCol vault={vault} />
         <SettingsCol vault={vault} />
         <HistoryCol />

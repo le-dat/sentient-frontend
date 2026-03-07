@@ -95,12 +95,12 @@ export function VaultPanel({ vault, onClose }: { vault: VaultItem; onClose: () =
       <div className="flex-1 bg-black/40 backdrop-blur-sm" onClick={onClose} />
 
       {/* Panel */}
-      <div className="flex h-full w-full max-w-[460px] flex-col border-l border-border/60 bg-card/95 backdrop-blur-xl">
+      <div className="flex h-full w-full max-w-none flex-col bg-card/95 backdrop-blur-xl md:max-w-[460px] md:border-l md:border-border/60">
         {/* Header */}
         <div className="flex items-start justify-between px-5 pt-5 pb-4">
           <div>
             <div className="flex items-center gap-2">
-              <p className="text-base font-bold">{vault.addr}</p>
+              <p className="break-all text-sm font-bold md:text-base">{vault.addr}</p>
               {/* Copy address */}
               <button
                 onClick={copyAddress}

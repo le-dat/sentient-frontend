@@ -42,7 +42,7 @@ export function HeroSection() {
   };
 
   return (
-    <section className="relative overflow-hidden px-6 pb-20 pt-24 text-center">
+    <section className="relative overflow-hidden px-4 pb-16 pt-16 text-center sm:px-6 sm:pb-20 sm:pt-24">
       {/* Aurora background blobs */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
         <div
@@ -62,15 +62,15 @@ export function HeroSection() {
       {/* Expanding ripple rings */}
       <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
         <div
-          className="animate-ring h-[520px] w-[520px] rounded-full border border-primary/15"
+          className="animate-ring h-[320px] w-[320px] rounded-full border border-primary/15 sm:h-[520px] sm:w-[520px]"
           style={{ animationDelay: "0s" }}
         />
         <div
-          className="animate-ring absolute h-[360px] w-[360px] rounded-full border border-primary/20"
+          className="animate-ring absolute h-[220px] w-[220px] rounded-full border border-primary/20 sm:h-[360px] sm:w-[360px]"
           style={{ animationDelay: "1.1s" }}
         />
         <div
-          className="animate-ring absolute h-[200px] w-[200px] rounded-full border border-primary/28"
+          className="animate-ring absolute h-[130px] w-[130px] rounded-full border border-primary/28 sm:h-[200px] sm:w-[200px]"
           style={{ animationDelay: "2.2s" }}
         />
       </div>
@@ -109,7 +109,7 @@ export function HeroSection() {
 
       {/* Headline */}
       <h1
-        className="animate-fadeUp relative mx-auto mt-6 max-w-3xl text-5xl font-bold leading-[1.1] tracking-tight text-foreground md:text-6xl lg:text-7xl"
+        className="animate-fadeUp relative mx-auto mt-6 max-w-3xl text-4xl font-bold leading-[1.1] tracking-tight text-foreground sm:text-5xl md:text-6xl lg:text-7xl"
         style={{ animationDelay: "0.22s" }}
       >
         Automate your DeFi vaults
