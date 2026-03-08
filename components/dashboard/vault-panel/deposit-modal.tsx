@@ -1,8 +1,8 @@
 "use client";
 
 import { type DepositToken, useBaseTokenList } from "@/hooks/use-token-list";
+import { TokenIcon } from "@web3icons/react/dynamic";
 import { Search, X } from "lucide-react";
-import Image from "next/image";
 import { useMemo, useState } from "react";
 
 interface DepositModalProps {
@@ -114,21 +114,7 @@ export function DepositModal({ onClose, onConfirm }: DepositModalProps) {
                       isSelected ? "ring-1 ring-primary/50" : "bg-white/5"
                     }`}
                   >
-                    {token.logoURI ? (
-                      <Image
-                        src={token.logoURI}
-                        alt={token.symbol}
-                        width={28}
-                        height={28}
-                        className="rounded-full object-cover"
-                        onError={(e) => {
-                          (e.currentTarget as HTMLImageElement).style.display = "none";
-                        }}
-                        unoptimized
-                      />
-                    ) : (
-                      <div className="h-5 w-5 rounded-full bg-primary/20" />
-                    )}
+                    <TokenIcon symbol={token.symbol} size={28} variant="branded" />
                   </div>
 
                   <div className="flex flex-1 flex-col items-start">

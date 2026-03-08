@@ -56,15 +56,19 @@ export const ConsoleTab = ({
       </TokenGroup>
 
       <TokenGroup title="Token Holdings">
-        {vaultTokens.map((t) => (
-          <TokenRow
-            key={t.symbol}
-            symbol={t.symbol}
-            amount={t.amount}
-            isSelected={selection.symbol === t.symbol && selection.source === "holdings"}
-            onClick={() => setSelection({ symbol: t.symbol, source: "holdings" })}
-          />
-        ))}
+        {vaultTokens.length > 0 ? (
+          vaultTokens.map((t) => (
+            <TokenRow
+              key={t.symbol}
+              symbol={t.symbol}
+              amount={t.amount}
+              isSelected={selection.symbol === t.symbol && selection.source === "holdings"}
+              onClick={() => setSelection({ symbol: t.symbol, source: "holdings" })}
+            />
+          ))
+        ) : (
+          <div className="text-center text-md text-secondary py-3">Empty</div>
+        )}
       </TokenGroup>
     </div>
   );

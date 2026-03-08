@@ -1,19 +1,26 @@
 import { Terminal, Clock, Settings2 } from "lucide-react";
 
-export const TOKEN_DATA: Record<string, { name: string }> = {
-  USDC: { name: "USD Coin" },
-  USDT: { name: "Tether" },
-  DAI: { name: "Dai" },
-  WETH: { name: "Wrapped Ethereum" },
-  ETH: { name: "Ethereum" },
-  WBTC: { name: "Wrapped Bitcoin" },
-  BTC: { name: "Bitcoin" },
-  SOL: { name: "Solana" },
-  BNB: { name: "BNB" },
-  XRP: { name: "XRP" },
+// Base Sepolia chain id
+export const BASE_SEPOLIA_CHAIN_ID = 84532;
+
+export const TOKEN_DATA: Record<string, { name: string; symbol: string; address: string; decimals: number }> = {
+  USDC: { name: "USD Coin", symbol: "USDC", address: "0x036CbD53842c5426634e7929541eC2318f3dCF7e", decimals: 6 },
+  WETH: {
+    name: "Wrapped Ether",
+    symbol: "WETH",
+    address: "0x4200000000000000000000000000000000000006",
+    decimals: 18,
+  },
+  LINK: {
+    name: "ChainLink Token",
+    symbol: "LINK",
+    address: "0xE4aB69C077896252FAFBD49EFD26B5D171A32410",
+    decimals: 18,
+  },
+  CCIP: { name: "CCIP-BnM", symbol: "CCIP", address: "0x88A2d74F47a237a62e7A51cdDa67270CE381555e", decimals: 18 },
 };
 
-export const STABLE_COINS = ["USDC", "USDT", "DAI"];
+export const STABLE_COINS = ["USDC", "WETH", "LINK", "CCIP"];
 
 export const tabItems = [
   { id: "console", label: "Console", Icon: Terminal },
