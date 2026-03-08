@@ -14,13 +14,26 @@ export function VaultCard({
       className="cursor-pointer rounded-2xl border border-border bg-card/80 p-4 transition-all hover:border-primary/40 hover:bg-card"
     >
       <div className="mb-3 flex items-center justify-between">
-        <p className="font-mono text-sm font-semibold">{vault.addr}</p>
+        <p className="font-mono text-sm font-semibold truncate" title={vault.addr}>
+          {vault.addr.length > 14 ? `${vault.addr.slice(0, 6)}...${vault.addr.slice(-4)}` : vault.addr}
+        </p>
         <StatusChip status={vault.status} />
       </div>
       <div className="grid grid-cols-2 gap-2 text-xs">
         <div>
           <p className="text-muted">Chain</p>
           <p className="mt-0.5 font-medium">{vault.chain}</p>
+        </div>
+
+        <div>
+          <p className="text-muted">Owner</p>
+          <p className="mt-0.5 font-medium font-mono truncate" title={vault.owner ?? ""}>
+            {vault.owner
+              ? vault.owner.length > 14
+                ? `${vault.owner.slice(0, 6)}...${vault.owner.slice(-4)}`
+                : vault.owner
+              : "—"}
+          </p>
         </div>
 
         <div>

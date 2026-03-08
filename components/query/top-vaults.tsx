@@ -40,6 +40,9 @@ function TopVaultRow({ vault }: { vault: VaultListItem }) {
         </div>
         <p className="text-xs text-muted truncate">
           {chainName}
+          {vault.owner != null && (
+            <> · Owner {formatAddress(vault.owner)}</>
+          )}
           {vault.created_timestamp && (
             <> · Created {formatTimestamp(vault.created_timestamp)}</>
           )}

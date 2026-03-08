@@ -5,6 +5,7 @@
 export interface VaultListItem {
   chain_id: number;
   address: string;
+  owner: string | null;
   created_block_number: number | null;
   created_tx_hash: string | null;
   created_timestamp: string | null;
@@ -13,6 +14,7 @@ export interface VaultListItem {
 export interface VaultDetail {
   chain_id: number;
   address: string;
+  owner: string | null;
   created_block_number: number | null;
   created_tx_hash: string | null;
   created_timestamp: string | null;

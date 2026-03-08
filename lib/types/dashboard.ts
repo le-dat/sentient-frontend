@@ -11,6 +11,7 @@ export type MetricCard = {
 
 export type VaultItem = {
   addr: string;
+  owner?: string | null;
   chain: string;
   status: "active" | "paused";
   balance: string;

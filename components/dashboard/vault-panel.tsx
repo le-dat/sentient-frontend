@@ -126,6 +126,14 @@ export function VaultPanel({ vault, onClose }: { vault: VaultItem; onClose: () =
               </span>
               <span className="text-xs text-muted">·</span>
               <span className="text-xs text-muted">{vault.chain}</span>
+              {vault.owner && (
+                <>
+                  <span className="text-xs text-muted">·</span>
+                  <span className="text-xs text-muted font-mono" title={vault.owner}>
+                    Owner {vault.owner.length > 14 ? `${vault.owner.slice(0, 6)}...${vault.owner.slice(-4)}` : vault.owner}
+                  </span>
+                </>
+              )}
             </div>
           </div>
           <div className="flex items-center gap-1">

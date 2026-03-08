@@ -83,6 +83,13 @@ function VaultInfoCol({ vault }: { vault: ApiVaultDetail }) {
           </div>
         </div>
 
+        <div>
+          <p className="text-[10px] text-muted mb-1">Owner</p>
+          <p className="font-mono text-xs font-medium text-foreground break-all">
+            {vault.owner ?? "—"}
+          </p>
+        </div>
+
         <div className="grid grid-cols-2 gap-2">
           <div>
             <p className="text-[10px] text-muted mb-1">Chain</p>

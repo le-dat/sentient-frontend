@@ -29,6 +29,7 @@ async function handleResponse<T>(res: Response): Promise<T> {
 
 export interface ListVaultsParams {
   chain?: number;
+  owner?: string;
   limit?: number;
   offset?: number;
 }
@@ -38,6 +39,7 @@ export async function listVaults(
 ): Promise<PaginatedResponse<VaultListItem>> {
   const search = new URLSearchParams();
   if (params.chain != null) search.set("chain", String(params.chain));
+  if (params.owner) search.set("owner", params.owner);
   if (params.limit != null) search.set("limit", String(params.limit));
   if (params.offset != null) search.set("offset", String(params.offset));
   const qs = search.toString();

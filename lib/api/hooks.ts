@@ -20,10 +20,14 @@ export const vaultKeys = {
     [...vaultKeys.all, "history", address, params] as const,
 };
 
-export function useVaultsList(params: ListVaultsParams = {}) {
+export function useVaultsList(
+  params: ListVaultsParams = {},
+  options?: { enabled?: boolean },
+) {
   return useQuery({
     queryKey: vaultKeys.lists(params),
     queryFn: () => listVaults(params),
+    enabled: options?.enabled ?? true,
   });
 }
 
