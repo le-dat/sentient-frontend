@@ -5,48 +5,69 @@ import { ChainCard } from "@/components/dashboard/chain-card";
 import { ChainSelectModal } from "@/components/dashboard/chain-select-modal";
 import { VaultCard } from "@/components/dashboard/vault-card";
 import { VaultPanel } from "@/components/dashboard/vault-panel";
+import { useCreateVault } from "@/hooks/use-create-vault";
+import { SUPPORTED_CHAINS } from "@/lib/constants/chains";
 import type { ChainInfo, VaultItem } from "@/lib/types/dashboard";
 import { useDashboardViewModel } from "@/lib/view-models/use-dashboard-view-model";
 import { useRef, useState } from "react";
 
-function generateNewVault(chain: ChainInfo): VaultItem {
-  return {
-    addr: `0x${Math.random().toString(16).slice(2, 10)}...`,
-    chain: chain.name,
-    status: "active",
-    balance: "0 USDC",
-    rule: "Buy < $0 · Sell > $0",
-    lastExecution: "never",
-    pnl: "0%",
-    pnlUp: true,
-  };
-}
-
 export default function DashboardPage() {
-  const { chains, vaults } = useDashboardViewModel();
+  const [refreshKey, setRefreshKey] = useState(0);
+  const { chains: onChainChains, vaults: onChainVaults } = useDashboardViewModel(refreshKey);
+  const { createVault, isCreating, error: vaultError } = useCreateVault();
 
-  const [addedChains, setAddedChains] = useState<ChainInfo[]>(chains);
-  const [localVaults, setLocalVaults] = useState<VaultItem[]>(vaults);
+  // Locally added this session (before next on-chain refresh)
+  const [addedChains, setAddedChains] = useState<ChainInfo[]>([]);
+  const [addedVaults, setAddedVaults] = useState<VaultItem[]>([]);
+
   const [chainSelectOpen, setChainSelectOpen] = useState(false);
   const [selected, setSelected] = useState<VaultItem | null>(null);
 
   const chainRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
+  // Merge on-chain data with newly added (deduplicate by id / addr)
+  const allChains = [
+    ...onChainChains,
+    ...addedChains.filter((c) => !onChainChains.some((oc) => oc.id === c.id)),
+  ];
+  const allVaults = [
+    ...onChainVaults,
+    ...addedVaults.filter((v) => !onChainVaults.some((ov) => ov.addr === v.addr)),
+  ];
+
+  // Chains not yet on the dashboard
+  const availableChains = SUPPORTED_CHAINS.filter(
+    (c) => !allChains.some((a) => a.id === c.id),
+  );
+
   function scrollToChain(chainName: string) {
     chainRefs.current[chainName]?.scrollIntoView({ behavior: "smooth", block: "start" });
   }
 
-  function handleChainSelect(chain: ChainInfo) {
-    const newChain = { ...chain, vaultCount: 1 };
-    setAddedChains((prev) => [...prev, newChain]);
-    const newVault = generateNewVault(chain);
-    setLocalVaults((prev) => [...prev, newVault]);
+  async function handleChainSelect(chain: ChainInfo) {
+    const vaultAddr = await createVault();
     setChainSelectOpen(false);
+    if (!vaultAddr) return;
+
+    setAddedChains((prev) => [...prev, { ...chain, vaultCount: 1 }]);
+    setAddedVaults((prev) => [
+      ...prev,
+      {
+        addr: vaultAddr,
+        chain: chain.name,
+        status: "active",
+        balance: "—",
+        rule: "—",
+        lastExecution: "—",
+        pnl: "—",
+        pnlUp: true,
+      },
+    ]);
+    setRefreshKey((k) => k + 1);
     setTimeout(() => scrollToChain(chain.name), 100);
   }
 
-  // Group vaults by chain name
-  const vaultsByChain = localVaults.reduce<Record<string, VaultItem[]>>((acc, v) => {
+  const vaultsByChain = allVaults.reduce<Record<string, VaultItem[]>>((acc, v) => {
     if (!acc[v.chain]) acc[v.chain] = [];
     acc[v.chain].push(v);
     return acc;
@@ -58,7 +79,7 @@ export default function DashboardPage() {
         <section className="space-y-3">
           <h2 className="text-sm font-semibold uppercase tracking-widest text-muted">Chains</h2>
           <div className="flex flex-wrap gap-3">
-            {addedChains.map((c, i) => (
+            {allChains.map((c, i) => (
               <ChainCard key={`${c.id}-${i}`} chain={c} onClick={() => scrollToChain(c.name)} />
             ))}
             <AddChainCard onClick={() => setChainSelectOpen(true)} />
@@ -88,9 +109,11 @@ export default function DashboardPage() {
 
       {chainSelectOpen && (
         <ChainSelectModal
-          chains={chains}
+          chains={availableChains}
           onSelect={handleChainSelect}
           onClose={() => setChainSelectOpen(false)}
+          isCreating={isCreating}
+          error={vaultError}
         />
       )}
     </>
