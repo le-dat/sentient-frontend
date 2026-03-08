@@ -26,7 +26,7 @@ export function WalletGate({ children }: { children: React.ReactNode }) {
                 You need to connect a wallet to access this page.
               </p>
             </div>
-            <ConnectButton />
+            <ConnectButton showBalance={false} />
           </div>
         </div>
       )}

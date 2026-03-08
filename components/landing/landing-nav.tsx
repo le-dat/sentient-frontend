@@ -47,7 +47,7 @@ export function LandingNav() {
             Launch App
           </Link>
         ) : (
-          <ConnectButton />
+          <ConnectButton showBalance={false} />
         )}
       </div>
     </nav>

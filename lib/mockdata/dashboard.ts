@@ -53,7 +53,7 @@ export const dashboardChains: ChainInfo[] = [
 export const dashboardVaults: VaultItem[] = [
   {
     addr: "0x91f7...A4c2",
-    chain: "Base Mainnet",
+    chain: "Base",
     status: "active",
     balance: "3,200 USDC / 0.82 WETH",
     rule: "Buy < $1,900 · Sell > $2,350",
