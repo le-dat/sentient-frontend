@@ -1,4 +1,5 @@
 import { type DepositToken } from "@/hooks/use-token-list";
+import { useDeposit } from "@/hooks/use-deposit";
 import { Plus } from "lucide-react";
 import { useState } from "react";
 import { DepositModal } from "../deposit-modal";
@@ -7,6 +8,7 @@ import { TokenGroup } from "../token-group";
 import { TokenRow } from "../token-row";
 
 interface ConsoleTabProps {
+  vaultAddress: `0x${string}`;
   systemTokens: string[];
   vaultTokens: { amount: string; symbol: string }[];
   vaultSymbols: Set<string>;
@@ -15,6 +17,7 @@ interface ConsoleTabProps {
 }
 
 export const ConsoleTab = ({
+  vaultAddress,
   systemTokens,
   vaultTokens,
   vaultSymbols,
@@ -22,10 +25,10 @@ export const ConsoleTab = ({
   setSelection,
 }: ConsoleTabProps) => {
   const [showDeposit, setShowDeposit] = useState(false);
+  const { deposit, status, error } = useDeposit(vaultAddress);
 
   const handleDeposit = (token: DepositToken, amount: string) => {
-    console.log("Deposit:", token.symbol, token.address, amount);
-    // TODO: call contract deposit
+    deposit(token, amount);
   };
 
   return (
@@ -37,11 +40,25 @@ export const ConsoleTab = ({
       <SectionHeader title="Select token swap default">
         <button
           onClick={() => setShowDeposit(true)}
-          className="flex items-center gap-1.5 rounded-lg border border-primary/30 px-2.5 py-1 text-xs text-primary hover:bg-primary/10"
+          disabled={status === "approving" || status === "depositing"}
+          className="flex items-center gap-1.5 rounded-lg border border-primary/30 px-2.5 py-1 text-xs text-primary hover:bg-primary/10 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           <Plus className="h-3 w-3" /> Deposit
         </button>
       </SectionHeader>
+
+      {status === "approving" && (
+        <p className="text-xs text-muted">Approving token…</p>
+      )}
+      {status === "depositing" && (
+        <p className="text-xs text-muted">Depositing…</p>
+      )}
+      {status === "done" && (
+        <p className="text-xs text-success">Deposit confirmed.</p>
+      )}
+      {status === "error" && error && (
+        <p className="text-xs text-red-400">{error}</p>
+      )}
 
       <TokenGroup title="System">
         {systemTokens.map((sym) => (

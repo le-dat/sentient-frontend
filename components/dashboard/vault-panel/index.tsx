@@ -8,6 +8,7 @@ import { STABLE_COINS, tabItems } from "./constants";
 import { StatusBadge } from "./status-badge";
 import { ConfigTab } from "./tabs/config-tab";
 import { ConsoleTab } from "./tabs/console-tab";
+import { HistoryTab } from "./tabs/history-tab";
 import type { Tab } from "./types";
 import { parsePrices, parseTokens } from "./utils";
 
@@ -94,6 +95,7 @@ export function VaultPanel({ vault, onClose }: { vault: VaultItem; onClose: () =
         <main className="flex-1 overflow-y-auto p-5 space-y-6">
           {activeTab === "console" && (
             <ConsoleTab
+              vaultAddress={vault.addr as `0x${string}`}
               systemTokens={systemTokens}
               vaultTokens={vaultTokens}
               vaultSymbols={vaultSymbols}
@@ -105,9 +107,7 @@ export function VaultPanel({ vault, onClose }: { vault: VaultItem; onClose: () =
           {activeTab === "config" && <ConfigTab prices={prices} setPrices={setPrices} />}
 
           {activeTab === "history" && (
-            <div className="flex h-40 items-center justify-center rounded-xl border border-dashed border-border/60 text-xs text-muted">
-              No history available
-            </div>
+            <HistoryTab vaultAddress={vault.addr as `0x${string}`} />
           )}
         </main>
       </div>
