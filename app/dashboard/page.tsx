@@ -4,7 +4,7 @@ import { AddChainCard } from "@/components/dashboard/add-chain-card";
 import { ChainCard } from "@/components/dashboard/chain-card";
 import { ChainSelectModal } from "@/components/dashboard/chain-select-modal";
 import { VaultCard } from "@/components/dashboard/vault-card";
-import { VaultPanel } from "@/components/dashboard/vault-panel";
+import { VaultPanel } from "@/components/dashboard/vault-panel/index";
 import { useCreateVault } from "@/hooks/use-create-vault";
 import { SUPPORTED_CHAINS } from "@/lib/constants/chains";
 import type { ChainInfo, VaultItem } from "@/lib/types/dashboard";
@@ -36,9 +36,7 @@ export default function DashboardPage() {
   ];
 
   // Chains not yet on the dashboard
-  const availableChains = SUPPORTED_CHAINS.filter(
-    (c) => !allChains.some((a) => a.id === c.id),
-  );
+  const availableChains = SUPPORTED_CHAINS.filter((c) => !allChains.some((a) => a.id === c.id));
 
   function scrollToChain(chainName: string) {
     chainRefs.current[chainName]?.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -92,7 +90,9 @@ export default function DashboardPage() {
             {Object.entries(vaultsByChain).map(([chainName, chainVaults]) => (
               <div
                 key={chainName}
-                ref={(el) => { chainRefs.current[chainName] = el; }}
+                ref={(el) => {
+                  chainRefs.current[chainName] = el;
+                }}
                 className="flex flex-col gap-3"
               >
                 <p className="text-xs font-medium text-muted">{chainName}</p>
