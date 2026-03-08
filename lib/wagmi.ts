@@ -1,5 +1,5 @@
 import { getDefaultConfig } from "@rainbow-me/rainbowkit";
-import { mainnet, base, arbitrum, sepolia } from "wagmi/chains";
+import { baseSepolia } from "wagmi/chains";
 
 const walletConnectProjectId = process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID;
 
@@ -12,6 +12,6 @@ if (!walletConnectProjectId) {
 export const config = getDefaultConfig({
   appName: "Sentient Finance",
   projectId: walletConnectProjectId,
-  chains: [mainnet, base, arbitrum, sepolia],
+  chains: [baseSepolia],
   ssr: true,
 });
