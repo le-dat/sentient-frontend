@@ -10,6 +10,7 @@ import {
   ShieldAlert,
   ExternalLink,
 } from "lucide-react";
+import { CCIPPanel } from "./ccip-panel";
 import type { VaultDetail as ApiVaultDetail, HistoryItem } from "@/lib/api/types";
 import { getChainName } from "@/lib/api/constants";
 
@@ -269,6 +270,14 @@ export function VaultDetail({ vault, history, onBack }: VaultDetailProps) {
         <VaultInfoCol vault={vault} />
         <ContractInfoCol vault={vault} />
         <HistoryCol items={history} />
+      </div>
+
+      <div className="mt-6">
+        <CCIPPanel
+          vaultAddress={vault.address as `0x${string}`}
+          chainId={vault.chain_id}
+          vaultOwner={vault.owner}
+        />
       </div>
     </div>
   );

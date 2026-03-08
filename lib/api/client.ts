@@ -3,7 +3,15 @@
  * Base URL: NEXT_PUBLIC_API_URL (default: http://localhost:8000)
  */
 
-import type { PaginatedResponse, VaultDetail, VaultListItem, HistoryItem } from "./types";
+import type {
+  PaginatedResponse,
+  VaultDetail,
+  VaultListItem,
+  HistoryItem,
+  CCIPConfigResponse,
+  EstimateFeeRequest,
+  EstimateFeeResponse,
+} from "./types";
 
 const API_BASE = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
 
@@ -88,4 +96,27 @@ export async function getVaultHistory(
   const url = `${API_BASE}/api/v1/vaults/${encodeURIComponent(address)}/history${qs ? `?${qs}` : ""}`;
   const res = await fetch(url);
   return handleResponse<PaginatedResponse<HistoryItem>>(res);
+}
+
+export async function getCCIPConfig(): Promise<CCIPConfigResponse> {
+  const res = await fetch(`${API_BASE}/api/v1/vaults/ccip/config`);
+  return handleResponse<CCIPConfigResponse>(res);
+}
+
+export async function estimateCCIPFee(
+  body: EstimateFeeRequest,
+): Promise<EstimateFeeResponse> {
+  const res = await fetch(`${API_BASE}/api/v1/vaults/ccip/estimate-fee`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      vault_address: body.vault_address,
+      chain_id: body.chain_id ?? 84532,
+      destination_chain_selector: body.destination_chain_selector,
+      token_address: body.token_address,
+      amount: body.amount,
+      receiver: body.receiver,
+    }),
+  });
+  return handleResponse<EstimateFeeResponse>(res);
 }
