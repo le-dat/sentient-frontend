@@ -1,6 +1,7 @@
 "use client";
 
 import type { VaultItem } from "@/lib/types/dashboard";
+import { shortAddress } from "@/lib/utils";
 import { Check, Copy, Power, X } from "lucide-react";
 import { useMemo, useState } from "react";
 import { STABLE_COINS, tabItems } from "./constants";
@@ -9,7 +10,6 @@ import { ConfigTab } from "./tabs/config-tab";
 import { ConsoleTab } from "./tabs/console-tab";
 import type { Tab } from "./types";
 import { parsePrices, parseTokens } from "./utils";
-import { shortAddress } from "@/lib/utils";
 
 export function VaultPanel({ vault, onClose }: { vault: VaultItem; onClose: () => void }) {
   const [activeTab, setActiveTab] = useState<Tab>("console");

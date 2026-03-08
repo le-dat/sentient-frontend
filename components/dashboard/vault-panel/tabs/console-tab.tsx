@@ -31,10 +31,7 @@ export const ConsoleTab = ({
   return (
     <div className="space-y-4">
       {showDeposit && (
-        <DepositModal
-          onClose={() => setShowDeposit(false)}
-          onConfirm={handleDeposit}
-        />
+        <DepositModal onClose={() => setShowDeposit(false)} onConfirm={handleDeposit} />
       )}
 
       <SectionHeader title="Select token swap default">
