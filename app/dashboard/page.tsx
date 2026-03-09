@@ -17,6 +17,7 @@ export default function DashboardPage() {
     chainRefs,
     scrollToChain,
     handleChainSelect,
+    refreshVaults,
   } = useDashboardFlow();
 
   return (
@@ -30,7 +31,13 @@ export default function DashboardPage() {
         <VaultSection vaultsByChain={vaultsByChain} onSelect={setSelected} chainRefs={chainRefs} />
       </div>
 
-      {selected && <VaultPanel vault={selected} onClose={() => setSelected(null)} />}
+      {selected && (
+        <VaultPanel
+          vault={selected}
+          onClose={() => setSelected(null)}
+          onRefresh={refreshVaults}
+        />
+      )}
 
       {chainSelectOpen && (
         <ChainSelectModal

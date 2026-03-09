@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useDashboardViewModel } from "@/lib/view-models/use-dashboard-view-model";
 import { SUPPORTED_CHAINS } from "@/lib/constants/chains";
 import { zeroAddress } from "viem";
@@ -28,13 +28,14 @@ export function useDashboardState() {
 
   const availableChains = SUPPORTED_CHAINS.filter((c) => !allChains.some((a) => a.id === c.id));
 
-  function addChainAndVault(chain: ChainInfo, vaultAddr: string) {
+  function addChainAndVault(chain: ChainInfo, vaultAddr: string, owner?: string) {
     if (isZeroAddr(vaultAddr)) return;
     setAddedChains((prev) => [...prev, { ...chain, vaultCount: 1 }]);
     setAddedVaults((prev) => [
       ...prev,
       {
         addr: vaultAddr,
+        owner: owner ?? undefined,
         chain: chain.name,
         chainId: chain.id,
         status: "active",
@@ -48,5 +49,9 @@ export function useDashboardState() {
     setRefreshKey((k) => k + 1);
   }
 
-  return { allChains, allVaults, availableChains, addChainAndVault };
+  const refreshVaults = useCallback(() => {
+    setRefreshKey((k) => k + 1);
+  }, []);
+
+  return { allChains, allVaults, availableChains, addChainAndVault, refreshVaults };
 }

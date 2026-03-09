@@ -76,6 +76,8 @@ export function useDeposit(vaultAddress: `0x${string}`) {
       }
 
       setStatus("done");
+      // Reset to idle after brief delay so UI can show "Deposit confirmed"
+      setTimeout(() => setStatus("idle"), 1500);
     } catch (e) {
       setError(e instanceof Error ? e.message : "Deposit failed");
       setStatus("error");

@@ -12,7 +12,13 @@ import { HistoryTab } from "./tabs/history-tab";
 import type { Tab } from "./types";
 import { parseTokens } from "./utils";
 
-export function VaultPanel({ vault, onClose }: { vault: VaultItem; onClose: () => void }) {
+interface VaultPanelProps {
+  vault: VaultItem;
+  onClose: () => void;
+  onRefresh?: () => void;
+}
+
+export function VaultPanel({ vault, onClose, onRefresh }: VaultPanelProps) {
   const [activeTab, setActiveTab] = useState<Tab>("console");
   const [isActive, setIsActive] = useState(vault.status === "active");
   const [copied, setCopied] = useState(false);
@@ -38,7 +44,7 @@ export function VaultPanel({ vault, onClose }: { vault: VaultItem; onClose: () =
     <div className="fixed inset-0 z-50 flex">
       <div className="flex-1 bg-black/40 backdrop-blur-sm" onClick={onClose} />
 
-      <div className="flex h-full w-full max-w-none flex-col bg-card/95 backdrop-blur-xl md:max-w-[460px] md:border-l md:border-border/60">
+      <div className="flex h-full w-full max-w-none flex-col bg-card/95 backdrop-blur-xl md:max-w-[540px] md:border-l md:border-border/60">
         {/* Header Section */}
         <header className="flex items-start justify-between px-5 pt-5 pb-4">
           <div>
@@ -98,6 +104,7 @@ export function VaultPanel({ vault, onClose }: { vault: VaultItem; onClose: () =
               vaultSymbols={vaultSymbols}
               selection={selection}
               setSelection={setSelection}
+              onDepositSuccess={onRefresh}
             />
           )}
 

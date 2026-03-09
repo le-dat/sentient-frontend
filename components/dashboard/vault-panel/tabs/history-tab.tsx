@@ -1,10 +1,21 @@
 "use client";
 
+import { useState } from "react";
 import { useVaultHistory } from "@/lib/api/hooks";
 import type { HistoryItem } from "@/lib/api/types";
 import { formatUnits } from "viem";
 import { TOKEN_DATA } from "../constants";
 import { ArrowDownToLine, ArrowUpFromLine, ArrowLeftRight, ExternalLink, RefreshCw, ShieldAlert, Check, Zap } from "lucide-react";
+
+const EVENT_TYPE_FILTERS: { value: string; label: string }[] = [
+  { value: "", label: "All" },
+  { value: "TokenRuleSet", label: "Rule" },
+  { value: "TokenDeposited", label: "Deposit" },
+  { value: "TokenWithdrawn", label: "Withdraw" },
+  { value: "SwapExecuted", label: "Swap" },
+  { value: "CrossChainShieldTriggered", label: "Shield" },
+  { value: "VaultInitialized", label: "Init" },
+];
 
 function getExplorerBase(chainId: number): string {
   if (chainId === 84532) return "https://sepolia.basescan.org";
@@ -73,8 +84,16 @@ function formatDetail(e: HistoryItem): string {
     const dec = TOKEN_DATA[sym]?.decimals ?? 18;
     return `${fmtAmount(String(amt), dec)} ${sym}`;
   }
-  if (e.event_type === "TokenRuleSet" && (p.buyThreshold != null || p.sellThreshold != null)) {
-    return `Buy < $${p.buyThreshold ?? "—"} · Sell > $${p.sellThreshold ?? "—"}`;
+  if (e.event_type === "TokenRuleSet") {
+    const tokenSym = p.token != null ? tokenSymbol(String(p.token)) : "—";
+    const buyRaw = p.buyThreshold != null ? Number(p.buyThreshold) / 1e18 : null;
+    const sellRaw = p.sellThreshold != null ? Number(p.sellThreshold) / 1e18 : null;
+    const enabled = p.enabled != null ? (p.enabled ? "on" : "off") : null;
+    const parts: string[] = [tokenSym];
+    if (enabled) parts.push(enabled);
+    if (buyRaw != null && buyRaw > 0) parts.push(`Buy < $${buyRaw.toLocaleString(undefined, { maximumFractionDigits: 0 })}`);
+    if (sellRaw != null && sellRaw > 0) parts.push(`Sell > $${sellRaw.toLocaleString(undefined, { maximumFractionDigits: 0 })}`);
+    return parts.join(" · ");
   }
   if (e.event_type === "VaultInitialized") {
     return `Block #${e.block_number}`;
@@ -117,9 +136,18 @@ interface HistoryTabProps {
 }
 
 export function HistoryTab({ vaultAddress, chainId }: HistoryTabProps) {
-  const { data, isLoading, error } = useVaultHistory(vaultAddress, { chain: chainId, limit: 50 });
+  const [eventType, setEventType] = useState("");
+  const { data, isLoading, error } = useVaultHistory(vaultAddress, {
+    chain: chainId,
+    limit: 50,
+    type: eventType || undefined,
+  });
 
   const items = data?.items ?? [];
+  const emptyLabel =
+    eventType === "TokenRuleSet"
+      ? "No rule changes yet. Set token rules in Config tab."
+      : "No events yet";
 
   if (isLoading) {
     return (
@@ -144,19 +172,34 @@ export function HistoryTab({ vaultAddress, chainId }: HistoryTabProps) {
     );
   }
 
-  if (items.length === 0) {
-    return (
-      <div className="flex h-40 items-center justify-center rounded-xl border border-dashed border-border/60 text-xs text-muted">
-        No events yet
-      </div>
-    );
-  }
-
   return (
-    <div className="rounded-xl border border-border/60 bg-card-2/40 px-3 py-1">
-      {items.map((item, i) => (
-        <EventRow key={`${item.tx_hash}-${item.log_index}-${i}`} item={item} />
-      ))}
+    <div className="space-y-3">
+      <div className="flex items-center gap-2">
+        <label className="text-[10px] text-muted shrink-0">Filter:</label>
+        <select
+          value={eventType}
+          onChange={(e) => setEventType(e.target.value)}
+          className="rounded-lg border border-border/60 bg-card px-3 py-1.5 text-xs font-medium text-foreground outline-none focus:border-primary/50"
+        >
+          {EVENT_TYPE_FILTERS.map((f) => (
+            <option key={f.value || "all"} value={f.value}>
+              {f.label}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      {items.length === 0 ? (
+        <div className="flex h-32 items-center justify-center rounded-xl border border-dashed border-border/60 text-xs text-muted text-center px-4">
+          {emptyLabel}
+        </div>
+      ) : (
+        <div className="rounded-xl border border-border/60 bg-card-2/40 px-3 py-1">
+          {items.map((item, i) => (
+            <EventRow key={`${item.tx_hash}-${item.log_index}-${i}`} item={item} />
+          ))}
+        </div>
+      )}
     </div>
   );
 }

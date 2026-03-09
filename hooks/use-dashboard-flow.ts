@@ -1,16 +1,27 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useAccount } from "wagmi";
 import { useDashboardState } from "./use-dashboard-state";
 import { useCreateVault } from "./use-create-vault";
 import { groupByChain } from "@/lib/utils";
 import type { ChainInfo, VaultItem } from "@/lib/types/dashboard";
 
 export function useDashboardFlow() {
-  const { allChains, allVaults, availableChains, addChainAndVault } = useDashboardState();
+  const { address } = useAccount();
+  const { allChains, allVaults, availableChains, addChainAndVault, refreshVaults } = useDashboardState();
   const { createVault, isCreating, error: vaultError } = useCreateVault();
 
   const [chainSelectOpen, setChainSelectOpen] = useState(false);
   const [selected, setSelected] = useState<VaultItem | null>(null);
   const chainRefs = useRef<Record<string, HTMLDivElement | null>>({});
+
+  // Sync selected vault with latest data (e.g. after deposit/withdraw refresh)
+  useEffect(() => {
+    if (selected && allVaults.length > 0) {
+      const updated = allVaults.find((v) => v.addr === selected.addr);
+      if (updated) setSelected(updated);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- only sync when allVaults changes
+  }, [allVaults]);
 
   const vaultsByChain = groupByChain(allVaults);
 
@@ -22,7 +33,7 @@ export function useDashboardFlow() {
     const addr = await createVault();
     setChainSelectOpen(false);
     if (!addr) return;
-    addChainAndVault(chain, addr);
+    addChainAndVault(chain, addr, address ?? undefined);
     setTimeout(() => scrollToChain(chain.name), 100);
   }
 
@@ -43,5 +54,6 @@ export function useDashboardFlow() {
     chainRefs,
     scrollToChain,
     handleChainSelect,
+    refreshVaults,
   };
 }

@@ -1,11 +1,13 @@
 import { type DepositToken } from "@/hooks/use-token-list";
 import { useDeposit } from "@/hooks/use-deposit";
-import { Plus } from "lucide-react";
-import { useState } from "react";
+import { useWithdraw } from "@/hooks/use-withdraw";
+import { Minus, Plus } from "lucide-react";
+import { useEffect, useState } from "react";
 import { DepositModal } from "../deposit-modal";
 import { SectionHeader } from "../section-header";
 import { TokenGroup } from "../token-group";
 import { TokenRow } from "../token-row";
+import { WithdrawModal } from "../withdraw-modal";
 
 interface ConsoleTabProps {
   vaultAddress: `0x${string}`;
@@ -14,6 +16,7 @@ interface ConsoleTabProps {
   vaultSymbols: Set<string>;
   selection: { symbol: string; source: string };
   setSelection: (selection: { symbol: string; source: string }) => void;
+  onDepositSuccess?: () => void;
 }
 
 export const ConsoleTab = ({
@@ -23,28 +26,80 @@ export const ConsoleTab = ({
   vaultSymbols,
   selection,
   setSelection,
+  onDepositSuccess,
 }: ConsoleTabProps) => {
   const [showDeposit, setShowDeposit] = useState(false);
+  const [showWithdraw, setShowWithdraw] = useState(false);
   const { deposit, status, error } = useDeposit(vaultAddress);
+  const { withdraw, status: withdrawStatus, error: withdrawError } = useWithdraw(vaultAddress);
+
+  useEffect(() => {
+    if (status === "done") {
+      onDepositSuccess?.();
+      const t = setTimeout(() => setShowDeposit(false), 2000);
+      return () => clearTimeout(t);
+    }
+  }, [status, onDepositSuccess]);
+
+  useEffect(() => {
+    if (withdrawStatus === "done") {
+      onDepositSuccess?.();
+      // Delayed refresh for RPC propagation; close modal after 2s
+      const refreshT = setTimeout(() => onDepositSuccess?.(), 800);
+      const closeT = setTimeout(() => setShowWithdraw(false), 2000);
+      return () => {
+        clearTimeout(refreshT);
+        clearTimeout(closeT);
+      };
+    }
+  }, [withdrawStatus, onDepositSuccess]);
 
   const handleDeposit = (token: DepositToken, amount: string) => {
     deposit(token, amount);
   };
 
+  const handleWithdraw = (symbol: string, amount: string) => {
+    withdraw(symbol, amount);
+  };
+
   return (
     <div className="space-y-4">
       {showDeposit && (
-        <DepositModal onClose={() => setShowDeposit(false)} onConfirm={handleDeposit} />
+        <DepositModal
+          onClose={() => setShowDeposit(false)}
+          onConfirm={handleDeposit}
+          status={status}
+          error={error}
+        />
+      )}
+
+      {showWithdraw && (
+        <WithdrawModal
+          vaultTokens={vaultTokens}
+          onClose={() => setShowWithdraw(false)}
+          onConfirm={handleWithdraw}
+          status={withdrawStatus}
+          error={withdrawError}
+        />
       )}
 
       <SectionHeader title="Select token swap default">
-        <button
-          onClick={() => setShowDeposit(true)}
-          disabled={status === "approving" || status === "depositing"}
-          className="flex items-center gap-1.5 rounded-lg border border-primary/30 px-2.5 py-1 text-xs text-primary hover:bg-primary/10 disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          <Plus className="h-3 w-3" /> Deposit
-        </button>
+        <div className="flex items-center gap-1.5">
+          <button
+            onClick={() => setShowDeposit(true)}
+            disabled={status === "approving" || status === "depositing"}
+            className="flex items-center gap-1.5 rounded-lg border border-primary/30 px-2.5 py-1 text-xs text-primary hover:bg-primary/10 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            <Plus className="h-3 w-3" /> Deposit
+          </button>
+          <button
+            onClick={() => setShowWithdraw(true)}
+            disabled={vaultTokens.length === 0 || withdrawStatus === "withdrawing"}
+            className="flex items-center gap-1.5 rounded-lg border border-primary/30 px-2.5 py-1 text-xs text-primary hover:bg-primary/10 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            <Minus className="h-3 w-3" /> Withdraw
+          </button>
+        </div>
       </SectionHeader>
 
       {status === "approving" && (
@@ -53,11 +108,16 @@ export const ConsoleTab = ({
       {status === "depositing" && (
         <p className="text-xs text-muted">Depositing…</p>
       )}
-      {status === "done" && (
-        <p className="text-xs text-success">Deposit confirmed.</p>
+      {(status === "done" || withdrawStatus === "done") && (
+        <p className="text-xs text-success">
+          {status === "done" ? "Deposit" : "Withdraw"} confirmed.
+        </p>
       )}
       {status === "error" && error && (
         <p className="text-xs text-red-400">{error}</p>
+      )}
+      {withdrawStatus === "error" && withdrawError && (
+        <p className="text-xs text-red-400">{withdrawError}</p>
       )}
 
       <TokenGroup title="System">

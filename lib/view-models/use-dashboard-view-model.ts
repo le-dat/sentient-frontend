@@ -1,16 +1,27 @@
 import { useEffect, useState } from "react";
 import { useAccount, usePublicClient } from "wagmi";
 import { zeroAddress, formatUnits } from "viem";
-import { FACTORY_ADDRESS, FACTORY_ABI, ERC20_ABI, VAULT_TOKENS } from "@/lib/constants/contracts";
+import {
+  FACTORY_ADDRESS,
+  FACTORY_ABI,
+  ERC20_ABI,
+  VAULT_ABI,
+  VAULT_TOKENS,
+} from "@/lib/constants/contracts";
 import { FACTORY_CHAIN } from "@/lib/constants/chains";
 import type { ChainInfo, VaultItem } from "@/lib/types/dashboard";
 
-/**
- * Dashboard view-model.
- * Reads the connected wallet's vault from on-chain.
- * Uses explicit chainId to always query Base Sepolia (avoids wrong-chain reads).
- * Pass refreshKey to force a re-fetch (e.g. after vault creation).
- */
+const ERC20_VAULT_TOKENS = VAULT_TOKENS.filter(
+  (t) => t.address !== zeroAddress,
+);
+
+function formatBalance(amount: bigint, decimals: number): string {
+  const num = parseFloat(formatUnits(amount, decimals));
+  return num >= 1000
+    ? num.toLocaleString("en-US", { maximumFractionDigits: 2 })
+    : parseFloat(num.toPrecision(4)).toString();
+}
+
 export function useDashboardViewModel(refreshKey = 0) {
   const { address } = useAccount();
   const publicClient = usePublicClient({ chainId: FACTORY_CHAIN.id });
@@ -36,9 +47,9 @@ export function useDashboardViewModel(refreshKey = 0) {
         })) as `0x${string}`;
 
         if (vaultAddr !== zeroAddress) {
-          // Fetch balances for all known tokens via multicall
-          const results = await publicClient.multicall({
-            contracts: VAULT_TOKENS.map((token) => ({
+          // ERC20 balances via multicall
+          const erc20Results = await publicClient.multicall({
+            contracts: ERC20_VAULT_TOKENS.map((token) => ({
               address: token.address,
               abi: ERC20_ABI,
               functionName: "balanceOf" as const,
@@ -46,23 +57,36 @@ export function useDashboardViewModel(refreshKey = 0) {
             })),
           });
 
-          const balanceParts = VAULT_TOKENS.map((token, i) => {
-            const result = results[i];
-            if (result.status !== "success" || result.result === 0n) return null;
-            const num = parseFloat(formatUnits(result.result as bigint, token.decimals));
-            const display =
-              num >= 1000
-                ? num.toLocaleString("en-US", { maximumFractionDigits: 2 })
-                : parseFloat(num.toPrecision(4)).toString();
-            return `${display} ${token.symbol}`;
-          }).filter(Boolean);
+          // Native ETH via vault.getBalance(address(0))
+          const ethBalance = (await publicClient.readContract({
+            address: vaultAddr,
+            abi: VAULT_ABI,
+            functionName: "getBalance",
+            args: [zeroAddress],
+          })) as bigint;
 
-          const balance = balanceParts.length > 0 ? balanceParts.join(" / ") : "—";
+          const balanceParts: string[] = [];
+
+          ERC20_VAULT_TOKENS.forEach((token, i) => {
+            const result = erc20Results[i];
+            if (result.status !== "success" || result.result === 0n) return;
+            balanceParts.push(
+              `${formatBalance(result.result as bigint, token.decimals)} ${token.symbol}`,
+            );
+          });
+
+          if (ethBalance > 0n) {
+            balanceParts.push(`${formatBalance(ethBalance, 18)} ETH`);
+          }
+
+          const balance =
+            balanceParts.length > 0 ? balanceParts.join(" / ") : "—";
 
           setChains([{ ...FACTORY_CHAIN, vaultCount: 1 }]);
           setVaults([
             {
               addr: vaultAddr,
+              owner: address,
               chain: FACTORY_CHAIN.name,
               chainId: FACTORY_CHAIN.id,
               status: "active",
