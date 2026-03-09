@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { TrendingUp, TrendingDown, Zap } from "lucide-react";
 import { ROUTES } from "@/lib/constants/routes";
+import { shortAddress } from "@/lib/utils";
 import { dashboardVaults } from "@/lib/mockdata/dashboard";
 import { StatusChip } from "@/components/ui/status-chip";
 import type { VaultItem } from "@/lib/types/dashboard";
@@ -17,7 +18,7 @@ function TopVaultRow({ vault }: { vault: VaultItem }) {
     >
       <div className="flex-1 min-w-0 space-y-1">
         <div className="flex items-center gap-2">
-          <p className="font-mono text-sm font-semibold text-foreground">{vault.addr}</p>
+          <p className="font-mono text-sm font-semibold text-foreground">{shortAddress(vault.addr)}</p>
           <StatusChip status={vault.status} />
         </div>
         <p className="text-xs text-muted truncate">{vault.chain} · {vault.rule}</p>

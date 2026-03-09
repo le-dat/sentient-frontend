@@ -4,6 +4,7 @@ import { use, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { AlertCircle } from "lucide-react";
 import { ROUTES } from "@/lib/constants/routes";
+import { shortAddress } from "@/lib/utils";
 import { VaultDetail } from "@/components/query/vault-detail";
 import { dashboardVaults } from "@/lib/mockdata/dashboard";
 import type { VaultItem } from "@/lib/types/dashboard";
@@ -41,7 +42,7 @@ export default function SearchAddressPage({ params }: { params: Promise<{ addres
         setVault(found);
       } else {
         setVault({
-          addr: q.length > 12 ? `${q.slice(0, 6)}...${q.slice(-4)}` : q,
+          addr: q.length > 12 ? shortAddress(q) : q,
           chain: "Ethereum Mainnet",
           status: "active",
           balance: "1,200 USDC / 0.5 WETH",
