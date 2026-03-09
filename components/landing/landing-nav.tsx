@@ -1,10 +1,8 @@
 "use client";
 
-import Link from "next/link";
-import { LayoutGrid, Search, Bell, Shield } from "lucide-react";
 import { ROUTES } from "@/lib/constants/routes";
-import { useAccount } from "wagmi";
-import { ConnectButton } from "@rainbow-me/rainbowkit";
+import { Bell, LayoutGrid, Search, Shield } from "lucide-react";
+import Link from "next/link";
 
 const nav = [
   { href: ROUTES.DASHBOARD, label: "Dashboard", icon: <LayoutGrid className="h-3.5 w-3.5" /> },
@@ -14,11 +12,8 @@ const nav = [
 ];
 
 export function LandingNav() {
-  const { isConnected } = useAccount();
-
   return (
     <nav className="sticky top-0 z-50 border-b border-border/60 bg-background/40 backdrop-blur-xl">
-      {/* Top accent gradient line */}
       <div className="h-px w-full bg-gradient-to-r from-transparent via-primary/50 to-transparent" />
 
       <div className="mx-auto flex max-w-6xl items-center justify-between px-3 py-3.5 md:px-6">
@@ -40,16 +35,14 @@ export function LandingNav() {
           </div>
         </div>
 
-        {isConnected ? (
-          <Link
-            href={ROUTES.DASHBOARD}
-            className="rounded-full bg-gradient-to-r from-primary to-primary/80 px-5 py-2 text-sm font-semibold text-white shadow-md shadow-primary/20 transition-all hover:shadow-primary/35 hover:opacity-95"
-          >
-            Launch App
-          </Link>
-        ) : (
-          <ConnectButton showBalance={false} />
-        )}
+        <Link
+          href={ROUTES.DASHBOARD}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="rounded-full bg-gradient-to-r from-primary to-primary/80 px-5 py-2 text-sm font-semibold text-white shadow-md shadow-primary/20 transition-all hover:shadow-primary/35 hover:opacity-95"
+        >
+          Launch App
+        </Link>
       </div>
     </nav>
   );

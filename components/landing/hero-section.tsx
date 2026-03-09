@@ -2,8 +2,6 @@
 
 import { CountUp } from "@/components/ui/count-up";
 import { ROUTES } from "@/lib/constants/routes";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 const STATS = [
@@ -69,13 +67,16 @@ function StatsSection() {
 // ── Main HeroSection ──────────────────────────────────────────────────────────
 
 export function HeroSection() {
-  const router = useRouter();
   const [address, setAddress] = useState("");
 
-  const handleSearch = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter" && address.trim()) {
-      router.push(ROUTES.SEARCH_VAULT(address.trim()));
+  const handleSearch = () => {
+    if (address.trim()) {
+      window.open(ROUTES.SEARCH_VAULT(address.trim()), "_blank");
     }
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") handleSearch();
   };
 
   return (
@@ -153,15 +154,16 @@ export function HeroSection() {
                 placeholder="inspect 0x... or ENS address"
                 value={address}
                 onChange={(e) => setAddress(e.target.value)}
-                onKeyDown={handleSearch}
+                onKeyDown={handleKeyDown}
               />
             </div>
-            <Link
-              href={ROUTES.SEARCH_VAULT(address.trim())}
-              className="hs-btn-secondary w-full justify-center"
+            <button
+              onClick={handleSearch}
+              disabled={!address.trim()}
+              className="hs-btn-secondary w-full justify-center disabled:opacity-40 disabled:cursor-not-allowed"
             >
               Inspect Wallet →
-            </Link>
+            </button>
           </div>
 
           {/* Chain status list with brand colors */}
