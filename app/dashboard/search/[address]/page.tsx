@@ -4,6 +4,7 @@ import { use } from "react";
 import { useRouter } from "next/navigation";
 import { AlertCircle } from "lucide-react";
 import { ROUTES } from "@/lib/constants/routes";
+import { shortAddress } from "@/lib/utils";
 import { VaultDetail } from "@/components/query/vault-detail";
 import { useVaultDetail, useVaultHistory } from "@/lib/api/hooks";
 

@@ -1,61 +1,88 @@
-"use client";
-
-import { useMemo } from "react";
-import { useAccount } from "wagmi";
-import { useVaultsList } from "@/lib/api/hooks";
-import { getChainName } from "@/lib/api/constants";
-import type { ChainInfo, MetricCard, VaultItem } from "@/lib/types/dashboard";
+import { useEffect, useState } from "react";
+import { useAccount, usePublicClient } from "wagmi";
+import { zeroAddress, formatUnits } from "viem";
+import { FACTORY_ADDRESS, FACTORY_ABI, ERC20_ABI, VAULT_TOKENS } from "@/lib/constants/contracts";
+import { FACTORY_CHAIN } from "@/lib/constants/chains";
+import type { ChainInfo, VaultItem } from "@/lib/types/dashboard";
 
 /**
  * Dashboard view-model.
- * Uses API for vaults; filters by connected account (owner).
+ * Reads the connected wallet's vault from on-chain.
+ * Pass refreshKey to force a re-fetch (e.g. after vault creation).
  */
-export function useDashboardViewModel() {
+export function useDashboardViewModel(refreshKey = 0) {
   const { address } = useAccount();
-  const { data: vaultsData } = useVaultsList(
-    {
-      chain: 84532,
-      owner: address ?? undefined,
-      limit: 50,
-    },
-    { enabled: !!address },
-  );
+  const publicClient = usePublicClient();
 
-  const chains: ChainInfo[] = useMemo(() => {
-    const supported: ChainInfo[] = [
-      { id: 84532, name: "Base Sepolia", symbol: "ETH", color: "#0052FF", vaultCount: 0 },
-    ];
-    const items = vaultsData?.items ?? [];
-    const byChain = items.reduce<Record<number, number>>((acc, v) => {
-      acc[v.chain_id] = (acc[v.chain_id] ?? 0) + 1;
-      return acc;
-    }, {});
-    return supported.map((c) => ({
-      ...c,
-      vaultCount: byChain[c.id] ?? 0,
-    }));
-  }, [vaultsData]);
+  const [chains, setChains] = useState<ChainInfo[]>([]);
+  const [vaults, setVaults] = useState<VaultItem[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const vaults: VaultItem[] = useMemo(() => {
-    const items = vaultsData?.items ?? [];
-    return items.map((v) => ({
-      addr: v.address,
-      owner: v.owner ?? null,
-      chain: getChainName(v.chain_id),
-      status: "active" as const,
-      balance: "— USDC",
-      rule: "—",
-      lastExecution: "—",
-      pnl: "—",
-      pnlUp: true,
-    }));
-  }, [vaultsData]);
+  useEffect(() => {
+    if (!address || !publicClient) {
+      setIsLoading(false);
+      return;
+    }
 
-  const metrics: MetricCard[] = [];
+    (async () => {
+      setIsLoading(true);
+      try {
+        const vaultAddr = (await publicClient.readContract({
+          address: FACTORY_ADDRESS,
+          abi: FACTORY_ABI,
+          functionName: "getVault",
+          args: [address],
+        })) as `0x${string}`;
 
-  return {
-    metrics,
-    chains,
-    vaults,
-  };
+        if (vaultAddr !== zeroAddress) {
+          // Fetch balances for all known tokens via multicall
+          const results = await publicClient.multicall({
+            contracts: VAULT_TOKENS.map((token) => ({
+              address: token.address,
+              abi: ERC20_ABI,
+              functionName: "balanceOf" as const,
+              args: [vaultAddr] as [`0x${string}`],
+            })),
+          });
+
+          const balanceParts = VAULT_TOKENS.map((token, i) => {
+            const result = results[i];
+            if (result.status !== "success" || result.result === 0n) return null;
+            const num = parseFloat(formatUnits(result.result as bigint, token.decimals));
+            const display =
+              num >= 1000
+                ? num.toLocaleString("en-US", { maximumFractionDigits: 2 })
+                : parseFloat(num.toPrecision(4)).toString();
+            return `${display} ${token.symbol}`;
+          }).filter(Boolean);
+
+          const balance = balanceParts.length > 0 ? balanceParts.join(" / ") : "—";
+
+          setChains([{ ...FACTORY_CHAIN, vaultCount: 1 }]);
+          setVaults([
+            {
+              addr: vaultAddr,
+              chain: FACTORY_CHAIN.name,
+              status: "active",
+              balance,
+              rule: "—",
+              lastExecution: "—",
+              pnl: "—",
+              pnlUp: true,
+            },
+          ]);
+        } else {
+          setChains([]);
+          setVaults([]);
+        }
+      } catch {
+        setChains([]);
+        setVaults([]);
+      } finally {
+        setIsLoading(false);
+      }
+    })();
+  }, [address, publicClient, refreshKey]);
+
+  return { chains, vaults, isLoading };
 }

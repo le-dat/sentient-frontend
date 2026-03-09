@@ -1,5 +1,6 @@
 import { StatusChip } from "@/components/ui/status-chip";
 import type { VaultItem } from "@/lib/types/dashboard";
+import { shortAddress } from "@/lib/utils";
 
 export function VaultCard({
   vault,
@@ -14,9 +15,7 @@ export function VaultCard({
       className="cursor-pointer rounded-2xl border border-border bg-card/80 p-4 transition-all hover:border-primary/40 hover:bg-card"
     >
       <div className="mb-3 flex items-center justify-between">
-        <p className="font-mono text-sm font-semibold truncate" title={vault.addr}>
-          {vault.addr.length > 14 ? `${vault.addr.slice(0, 6)}...${vault.addr.slice(-4)}` : vault.addr}
-        </p>
+        <p className="font-mono text-sm font-semibold">{shortAddress(vault.addr)}</p>
         <StatusChip status={vault.status} />
       </div>
       <div className="grid grid-cols-2 gap-2 text-xs">

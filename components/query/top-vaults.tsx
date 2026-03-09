@@ -1,11 +1,11 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import { Zap } from "lucide-react";
-import { ROUTES } from "@/lib/constants/routes";
-import { useVaultsList } from "@/lib/api/hooks";
 import { getChainName } from "@/lib/api/constants";
+import { useVaultsList } from "@/lib/api/hooks";
 import type { VaultListItem } from "@/lib/api/types";
+import { ROUTES } from "@/lib/constants/routes";
+import { Zap } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 function formatAddress(addr: string) {
   if (addr.length <= 14) return addr;
@@ -78,7 +78,7 @@ export function TopVaults() {
   if (error) {
     const msg =
       typeof (error as { detail?: string })?.detail === "string"
-        ? (error as { detail: string }).detail
+        ? (error as unknown as { detail: string }).detail
         : "Failed to load vaults";
     return (
       <div className="space-y-4">

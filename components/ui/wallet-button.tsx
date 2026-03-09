@@ -3,10 +3,7 @@
 import { useState, useRef, useEffect } from 'react'
 import { useAccount, useConnect, useDisconnect } from 'wagmi'
 import { Wallet, ChevronDown, LogOut, Copy, Check } from 'lucide-react'
-
-function shortenAddress(address: string) {
-  return `${address.slice(0, 6)}…${address.slice(-4)}`
-}
+import { shortAddress } from '@/lib/utils'
 
 function ConnectorIcon({ name }: { name: string }) {
   const lower = name.toLowerCase()
@@ -57,7 +54,7 @@ export function WalletButton() {
           className="flex items-center gap-2 rounded-full border border-border/60 bg-card px-3.5 py-1.5 text-sm font-medium text-foreground transition-colors hover:bg-card/80"
         >
           <span className="h-2 w-2 rounded-full bg-green-400" />
-          {shortenAddress(address)}
+          {shortAddress(address)}
           <ChevronDown className="h-3.5 w-3.5 text-muted" />
         </button>
 
