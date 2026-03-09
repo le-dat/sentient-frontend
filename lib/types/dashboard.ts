@@ -13,6 +13,7 @@ export type VaultItem = {
   addr: string;
   owner?: string | null;
   chain: string;
+  chainId?: number;
   status: "active" | "paused";
   balance: string;
   rule: string;

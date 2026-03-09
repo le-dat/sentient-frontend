@@ -13,5 +13,5 @@ export const config = getDefaultConfig({
   appName: "Sentient Finance",
   projectId: walletConnectProjectId,
   chains: [baseSepolia],
-  ssr: true,
+  ssr: false, // avoid indexedDB during SSR (browser-only)
 });

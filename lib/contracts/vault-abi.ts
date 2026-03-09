@@ -46,6 +46,58 @@ export const VAULT_CCIP_ABI = [
     stateMutability: "payable",
     type: "function",
   },
+  {
+    inputs: [
+      { internalType: "address", name: "token", type: "address" },
+      { internalType: "bool", name: "enabled", type: "bool" },
+      { internalType: "uint256", name: "buyThreshold", type: "uint256" },
+      { internalType: "uint256", name: "sellThreshold", type: "uint256" },
+      { internalType: "uint256", name: "tradeAmount", type: "uint256" },
+      { internalType: "address", name: "baseToken", type: "address" },
+    ],
+    name: "setTokenRule",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "address", name: "token", type: "address" },
+      { internalType: "address", name: "priceFeed", type: "address" },
+    ],
+    name: "setPriceFeed",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "address", name: "token", type: "address" }],
+    name: "priceFeeds",
+    outputs: [{ internalType: "address", name: "", type: "address" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "address", name: "token", type: "address" }],
+    name: "getTokenRule",
+    outputs: [
+      {
+        internalType: "tuple",
+        name: "",
+        type: "tuple",
+        components: [
+          { internalType: "bool", name: "enabled", type: "bool" },
+          { internalType: "uint256", name: "buyThreshold", type: "uint256" },
+          { internalType: "uint256", name: "sellThreshold", type: "uint256" },
+          { internalType: "uint256", name: "lastExecuted", type: "uint256" },
+          { internalType: "uint256", name: "tradeAmount", type: "uint256" },
+          { internalType: "address", name: "baseToken", type: "address" },
+        ],
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
 ] as const;
 
 export const CCIP_BNM_ABI = [

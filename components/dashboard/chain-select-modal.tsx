@@ -1,5 +1,13 @@
 import type { ChainInfo } from "@/lib/types/dashboard";
 import { NetworkIcon } from "@web3icons/react/dynamic";
+import NetworkBaseSepolia from "@web3icons/react/icons/networks/NetworkBaseSepolia";
+import NetworkBase from "@web3icons/react/icons/networks/NetworkBase";
+
+function ChainLogo({ chainId, className }: { chainId: number; className?: string }) {
+  if (chainId === 84532) return <NetworkBaseSepolia className={className} />;
+  if (chainId === 8453) return <NetworkBase className={className} />;
+  return <NetworkIcon chainId={chainId} className={className} />;
+}
 
 export function ChainSelectModal({
   chains,
@@ -55,10 +63,7 @@ export function ChainSelectModal({
                   className="flex w-full items-center gap-3 rounded-xl border border-transparent px-3 py-2.5 text-left transition-colors hover:border-primary/30 hover:bg-primary/5 disabled:cursor-not-allowed disabled:opacity-40"
                 >
                   <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-muted/20 overflow-hidden">
-                    <NetworkIcon
-                      chainId={chain.id}
-                      className="h-7 w-7"
-                    />
+                    <ChainLogo chainId={chain.id} className="h-7 w-7" />
                   </div>
                   <div className="flex-1">
                     <p className="font-medium leading-tight">{chain.name}</p>
