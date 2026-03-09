@@ -2,7 +2,7 @@
 
 import { ROUTES } from "@/lib/constants/routes";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
-import { Bell, LayoutGrid, Search } from "lucide-react";
+import { Bell, LayoutGrid, Search, Shield } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -14,6 +14,7 @@ const nav = [
     exact: true,
   },
   { href: ROUTES.SEARCH, label: "Query Vault", icon: <Search className="h-3.5 w-3.5" /> },
+  { href: ROUTES.CCIP, label: "CCIP", icon: <Shield className="h-3.5 w-3.5" /> },
   { href: ROUTES.NOTIFICATIONS, label: "Alerts", icon: <Bell className="h-3.5 w-3.5" /> },
 ];
 

@@ -5,9 +5,12 @@ import {
   listVaults,
   getVault,
   getVaultHistory,
+  getCCIPConfig,
+  estimateCCIPFee,
   type ListVaultsParams,
   type GetVaultParams,
   type GetVaultHistoryParams,
+  type EstimateFeeRequest,
 } from "./client";
 
 export const vaultKeys = {
@@ -47,5 +50,39 @@ export function useVaultHistory(
     queryKey: vaultKeys.history(address, params),
     queryFn: () => getVaultHistory(address, params ?? {}),
     enabled: !!address && address.startsWith("0x") && address.length === 42,
+  });
+}
+
+export const ccipKeys = {
+  config: ["ccip", "config"] as const,
+  estimateFee: (params: EstimateFeeRequest) =>
+    ["ccip", "estimate-fee", params] as const,
+};
+
+export function useCCIPConfig(options?: { enabled?: boolean }) {
+  return useQuery({
+    queryKey: ccipKeys.config,
+    queryFn: getCCIPConfig,
+    enabled: options?.enabled ?? true,
+  });
+}
+
+export function useCCIPEstimateFee(
+  params: EstimateFeeRequest | null,
+  options?: { enabled?: boolean },
+) {
+  const hasValidParams =
+    !!params &&
+    !!params.vault_address &&
+    !!params.token_address &&
+    !!params.receiver &&
+    !!params.amount &&
+    params.destination_chain_selector > 0;
+  const enabled = Boolean((options?.enabled ?? true) && hasValidParams);
+
+  return useQuery({
+    queryKey: hasValidParams && params ? ccipKeys.estimateFee(params) : ["ccip", "estimate-fee", "disabled"],
+    queryFn: () => (params ? estimateCCIPFee(params) : Promise.reject(new Error("No params"))),
+    enabled,
   });
 }

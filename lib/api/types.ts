@@ -40,3 +40,35 @@ export interface PaginatedResponse<T> {
   offset: number;
   items: T[];
 }
+
+/** CCIP config from backend */
+export interface CCIPChainConfig {
+  chain_id: number;
+  chain_name: string;
+  ccip_router: string;
+}
+
+export interface CCIPDestinationConfig {
+  chain_id: number | null;
+  chain_name: string;
+  selector: number;
+}
+
+export interface CCIPConfigResponse {
+  chains: CCIPChainConfig[];
+  destinations: CCIPDestinationConfig[];
+}
+
+export interface EstimateFeeRequest {
+  vault_address: string;
+  chain_id?: number;
+  destination_chain_selector: number;
+  token_address: string;
+  amount: string;
+  receiver: string;
+}
+
+export interface EstimateFeeResponse {
+  fee_wei: string;
+  fee_eth: string;
+}
