@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { LayoutGrid, Search, Bell } from "lucide-react";
+import { LayoutGrid, Search, Bell, Shield } from "lucide-react";
 import { ROUTES } from "@/lib/constants/routes";
 import { useAccount } from "wagmi";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
@@ -9,6 +9,7 @@ import { ConnectButton } from "@rainbow-me/rainbowkit";
 const nav = [
   { href: ROUTES.DASHBOARD, label: "Dashboard", icon: <LayoutGrid className="h-3.5 w-3.5" /> },
   { href: ROUTES.SEARCH, label: "Query Vault", icon: <Search className="h-3.5 w-3.5" /> },
+  { href: ROUTES.CCIP, label: "CCIP", icon: <Shield className="h-3.5 w-3.5" /> },
   { href: ROUTES.NOTIFICATIONS, label: "Alerts", icon: <Bell className="h-3.5 w-3.5" /> },
 ];
 
