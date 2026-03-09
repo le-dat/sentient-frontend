@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 "use client";
 
 import { TokenIcon } from "@web3icons/react/dynamic";
@@ -63,23 +64,6 @@ export function WithdrawModal({
             <X className="h-3.5 w-3.5" />
           </button>
         </div>
-
-        {isPending && (
-          <div className="mx-5 mb-3 flex items-center gap-2 rounded-lg border border-primary/40 bg-primary/10 px-4 py-3">
-            <Loader2 className="h-4 w-4 shrink-0 animate-spin text-primary" />
-            <p className="text-sm font-medium text-primary">Withdrawing…</p>
-          </div>
-        )}
-        {status === "done" && (
-          <div className="mx-5 mb-3 flex items-center gap-2 rounded-lg border border-emerald-500/40 bg-emerald-500/10 px-4 py-3">
-            <p className="text-sm font-medium text-emerald-400">Withdraw confirmed!</p>
-          </div>
-        )}
-        {status === "error" && error && (
-          <div className="mx-5 mb-3 flex items-center gap-2 rounded-lg border border-red-500/40 bg-red-500/10 px-4 py-3">
-            <p className="text-sm font-medium text-red-400">{error}</p>
-          </div>
-        )}
 
         <div className="flex-1 overflow-y-auto border-y border-border/40">
           {vaultTokens.length === 0 ? (

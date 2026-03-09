@@ -10,6 +10,29 @@ import { TokenGroup } from "../token-group";
 import { TokenRow } from "../token-row";
 import { WithdrawModal } from "../withdraw-modal";
 
+const TEXT_LIMIT = 50;
+
+const ErrorDescription = ({ message }: { message: string }) => {
+  const words = message.split(" ");
+  const isLong = words.length > TEXT_LIMIT;
+  const [expanded, setExpanded] = useState(false);
+  const text = isLong && !expanded ? words.slice(0, TEXT_LIMIT).join(" ") + "…" : message;
+
+  return (
+    <span className="block text-xs max-h-24 overflow-y-auto overflow-wrap-normal">
+      {text}
+      {isLong && (
+        <button
+          onClick={() => setExpanded((v) => !v)}
+          className="ml-1 underline opacity-70 hover:opacity-100"
+        >
+          {expanded ? "Show less" : "Show more"}
+        </button>
+      )}
+    </span>
+  );
+};
+
 interface ConsoleTabProps {
   vaultAddress: `0x${string}`;
   systemTokens: string[];
@@ -74,10 +97,29 @@ export const ConsoleTab = ({
     if (status === "error" && error)
       toast.error("Deposit failed", {
         id: "deposit",
-        description: error,
+        description: <ErrorDescription message={error} />,
         duration: Infinity,
       });
   }, [status, error]);
+
+  useEffect(() => {
+    if (withdrawStatus === "withdrawing")
+      toast.loading("Withdrawing…", {
+        id: "withdraw",
+        description: "Waiting for withdraw transaction.",
+      });
+    if (withdrawStatus === "done")
+      toast.success("Withdraw confirmed", {
+        id: "withdraw",
+        description: "Your withdrawal was successful.",
+      });
+    if (withdrawStatus === "error" && withdrawError)
+      toast.error("Withdraw failed", {
+        id: "withdraw",
+        description: <ErrorDescription message={withdrawError} />,
+        duration: Infinity,
+      });
+  }, [withdrawStatus, withdrawError]);
 
   const handleDeposit = (token: DepositToken, amount: string) => {
     deposit(token, amount);
