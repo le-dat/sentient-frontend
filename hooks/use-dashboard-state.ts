@@ -1,7 +1,12 @@
 import { useState } from "react";
 import { useDashboardViewModel } from "@/lib/view-models/use-dashboard-view-model";
 import { SUPPORTED_CHAINS } from "@/lib/constants/chains";
+import { zeroAddress } from "viem";
 import type { ChainInfo, VaultItem } from "@/lib/types/dashboard";
+
+function isZeroAddr(addr: string): boolean {
+  return !addr || addr.toLowerCase() === zeroAddress.toLowerCase();
+}
 
 export function useDashboardState() {
   const [refreshKey, setRefreshKey] = useState(0);
@@ -15,14 +20,16 @@ export function useDashboardState() {
     ...addedChains.filter((c) => !onChainChains.some((oc) => oc.id === c.id)),
   ];
 
-  const allVaults = [
+  const mergedVaults = [
     ...onChainVaults,
     ...addedVaults.filter((v) => !onChainVaults.some((ov) => ov.addr === v.addr)),
   ];
+  const allVaults = mergedVaults.filter((v) => !isZeroAddr(v.addr));
 
   const availableChains = SUPPORTED_CHAINS.filter((c) => !allChains.some((a) => a.id === c.id));
 
   function addChainAndVault(chain: ChainInfo, vaultAddr: string) {
+    if (isZeroAddr(vaultAddr)) return;
     setAddedChains((prev) => [...prev, { ...chain, vaultCount: 1 }]);
     setAddedVaults((prev) => [
       ...prev,

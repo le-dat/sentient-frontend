@@ -1,13 +1,16 @@
 "use client";
 
 import { useState } from "react";
-import { useAccount, usePublicClient, useWalletClient } from "wagmi";
+import { useAccount, useChainId, usePublicClient, useSwitchChain, useWalletClient } from "wagmi";
 import { zeroAddress } from "viem";
 import { FACTORY_ADDRESS, FACTORY_ABI } from "@/lib/constants/contracts";
+import { FACTORY_CHAIN } from "@/lib/constants/chains";
 
 export function useCreateVault() {
   const { address } = useAccount();
-  const publicClient = usePublicClient();
+  const chainId = useChainId();
+  const publicClient = usePublicClient({ chainId: FACTORY_CHAIN.id });
+  const { switchChainAsync } = useSwitchChain();
   const { data: walletClient } = useWalletClient();
 
   const [isCreating, setIsCreating] = useState(false);
@@ -23,6 +26,11 @@ export function useCreateVault() {
     setError(null);
 
     try {
+      // Ensure wallet is on Base Sepolia before create/read
+      if (chainId !== FACTORY_CHAIN.id && switchChainAsync) {
+        await switchChainAsync({ chainId: FACTORY_CHAIN.id });
+      }
+
       // Step 1: Check if vault already exists
       let vaultAddr = (await publicClient.readContract({
         address: FACTORY_ADDRESS,

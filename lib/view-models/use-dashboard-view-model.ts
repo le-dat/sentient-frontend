@@ -8,11 +8,12 @@ import type { ChainInfo, VaultItem } from "@/lib/types/dashboard";
 /**
  * Dashboard view-model.
  * Reads the connected wallet's vault from on-chain.
+ * Uses explicit chainId to always query Base Sepolia (avoids wrong-chain reads).
  * Pass refreshKey to force a re-fetch (e.g. after vault creation).
  */
 export function useDashboardViewModel(refreshKey = 0) {
   const { address } = useAccount();
-  const publicClient = usePublicClient();
+  const publicClient = usePublicClient({ chainId: FACTORY_CHAIN.id });
 
   const [chains, setChains] = useState<ChainInfo[]>([]);
   const [vaults, setVaults] = useState<VaultItem[]>([]);
