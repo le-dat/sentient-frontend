@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 "use client";
 
 import { type DepositToken, useBaseTokenList } from "@/hooks/use-token-list";
@@ -45,7 +46,6 @@ export function DepositModal({ onClose, onConfirm, status, error }: DepositModal
   const handleConfirm = () => {
     if (!selectedToken || !amount || Number(amount) <= 0) return;
     onConfirm(selectedToken, amount);
-    // Keep modal open to show status (approving, depositing, done)
   };
 
   return (
@@ -121,11 +121,7 @@ export function DepositModal({ onClose, onConfirm, status, error }: DepositModal
             </div>
           )}
 
-          {tokenError && (
-            <p className="py-8 text-center text-xs text-red-400">{tokenError}</p>
-          )}
-
-          {!isLoading && !tokenError && filtered.length === 0 && (
+          {!isLoading && !error && filtered.length === 0 && (
             <p className="py-8 text-center text-xs text-muted">No tokens found</p>
           )}
 

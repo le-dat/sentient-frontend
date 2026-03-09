@@ -1,5 +1,11 @@
 @import "tailwindcss";
 
+/* Sonner: move close button to top-right */
+[data-sonner-toast] [data-close-button] {
+  left: auto !important;
+  right: -12px !important;
+}
+
 :root {
   --background: #060b17;
   --foreground: #e6eeff;

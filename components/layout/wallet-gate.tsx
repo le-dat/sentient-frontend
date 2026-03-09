@@ -11,11 +11,17 @@ export function WalletGate({ children }: { children: React.ReactNode }) {
   const currentRoute = usePathname();
   const isPublicSearchRoute = currentRoute.startsWith(ROUTES.SEARCH);
 
+  const isAllowed = isConnected || isPublicSearchRoute;
+
   return (
     <>
-      {children}
-      {!isConnected && !isPublicSearchRoute && (
-        <div className="fixed inset-0 z-40 flex items-center justify-center bg-background/75 backdrop-blur-md">
+      <div
+        className={!isAllowed ? "pointer-events-none select-none blur-sm brightness-50" : undefined}
+      >
+        {children}
+      </div>
+      {!isAllowed && (
+        <div className="fixed inset-0 z-40 flex items-center justify-center">
           <div className="mx-4 flex w-full max-w-sm flex-col items-center gap-5 rounded-2xl border border-border/60 bg-card p-8 text-center shadow-2xl">
             <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-border bg-card-2">
               <Wallet className="h-6 w-6 text-muted" />

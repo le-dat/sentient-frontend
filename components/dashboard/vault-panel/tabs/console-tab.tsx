@@ -1,8 +1,9 @@
-import { type DepositToken } from "@/hooks/use-token-list";
 import { useDeposit } from "@/hooks/use-deposit";
+import { type DepositToken } from "@/hooks/use-token-list";
 import { useWithdraw } from "@/hooks/use-withdraw";
 import { Minus, Plus } from "lucide-react";
 import { useEffect, useState } from "react";
+import { toast } from "sonner";
 import { DepositModal } from "../deposit-modal";
 import { SectionHeader } from "../section-header";
 import { TokenGroup } from "../token-group";
@@ -54,6 +55,30 @@ export const ConsoleTab = ({
     }
   }, [withdrawStatus, onDepositSuccess]);
 
+  useEffect(() => {
+    if (status === "approving")
+      toast.loading("Approving token…", {
+        id: "deposit",
+        description: "Waiting for approval transaction.",
+      });
+    if (status === "depositing")
+      toast.loading("Depositing…", {
+        id: "deposit",
+        description: "Waiting for deposit transaction.",
+      });
+    if (status === "done")
+      toast.success("Deposit confirmed", {
+        id: "deposit",
+        description: "Your deposit was successful.",
+      });
+    if (status === "error" && error)
+      toast.error("Deposit failed", {
+        id: "deposit",
+        description: error,
+        duration: Infinity,
+      });
+  }, [status, error]);
+
   const handleDeposit = (token: DepositToken, amount: string) => {
     deposit(token, amount);
   };
@@ -101,24 +126,6 @@ export const ConsoleTab = ({
           </button>
         </div>
       </SectionHeader>
-
-      {status === "approving" && (
-        <p className="text-xs text-muted">Approving token…</p>
-      )}
-      {status === "depositing" && (
-        <p className="text-xs text-muted">Depositing…</p>
-      )}
-      {(status === "done" || withdrawStatus === "done") && (
-        <p className="text-xs text-success">
-          {status === "done" ? "Deposit" : "Withdraw"} confirmed.
-        </p>
-      )}
-      {status === "error" && error && (
-        <p className="text-xs text-red-400">{error}</p>
-      )}
-      {withdrawStatus === "error" && withdrawError && (
-        <p className="text-xs text-red-400">{withdrawError}</p>
-      )}
 
       <TokenGroup title="System">
         {systemTokens.map((sym) => (

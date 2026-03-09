@@ -1,16 +1,16 @@
 "use client";
 
-import { useState, useEffect, useRef, useMemo } from "react";
+import { getPriceFeedForToken } from "@/lib/constants/chainlink-feeds";
+import { VAULT_CCIP_ABI } from "@/lib/contracts/vault-abi";
+import { Ban, Check, ChevronDown, ChevronRight, Loader2 } from "lucide-react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { parseUnits, zeroAddress } from "viem";
 import {
-  useWriteContract,
   useReadContracts,
   useWaitForTransactionReceipt,
+  useWriteContract,
 } from "wagmi";
-import { parseUnits, zeroAddress } from "viem";
-import { Loader2, Check, Ban, ChevronDown, ChevronRight } from "lucide-react";
-import { VAULT_CCIP_ABI } from "@/lib/contracts/vault-abi";
 import { TOKEN_DATA } from "../constants";
-import { getPriceFeedForToken } from "@/lib/constants/chainlink-feeds";
 
 const TRADE_TOKENS = ["WETH", "LINK", "CCIP"];
 const BASE_TOKENS = ["USDC"];

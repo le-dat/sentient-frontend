@@ -28,11 +28,10 @@ export function VaultPanel({ vault, onClose, onRefresh }: VaultPanelProps) {
   // Data Derivation
   const vaultTokens = useMemo(() => parseTokens(vault.balance), [vault.balance]);
   const vaultSymbols = useMemo(() => new Set(vaultTokens.map((t) => t.symbol)), [vaultTokens]);
-  const systemTokens = useMemo(() => {
-    const tokensInVault = vaultTokens.map((t) => t.symbol);
-    const extras = STABLE_COINS.filter((s) => !vaultSymbols.has(s));
-    return [...tokensInVault, ...extras];
-  }, [vaultTokens, vaultSymbols]);
+  const systemTokens = useMemo(
+    () => STABLE_COINS.filter((s) => !vaultSymbols.has(s)),
+    [vaultSymbols],
+  );
 
   const handleCopy = () => {
     navigator.clipboard.writeText(vault.addr);
