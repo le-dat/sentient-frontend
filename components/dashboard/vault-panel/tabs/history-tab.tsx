@@ -131,7 +131,12 @@ export function HistoryTab({ vaultAddress, chainId }: HistoryTabProps) {
   }
 
   if (error) {
-    const msg = error instanceof Error ? error.message : typeof error === "object" && error && "detail" in error ? String((error as { detail: unknown }).detail) : "Failed to load history";
+    const msg =
+      error instanceof Error
+        ? error.message
+        : typeof error === "object" && "detail" in error
+          ? String((error as { detail: unknown }).detail)
+          : "Failed to load history";
     return (
       <div className="rounded-xl border border-red-500/20 bg-red-500/5 px-4 py-3 text-xs text-red-400">
         {msg}
