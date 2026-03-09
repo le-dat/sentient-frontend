@@ -25,6 +25,17 @@ export function VaultCard({
         </div>
 
         <div>
+          <p className="text-muted">Owner</p>
+          <p className="mt-0.5 font-medium font-mono truncate" title={vault.owner ?? ""}>
+            {vault.owner
+              ? vault.owner.length > 14
+                ? `${vault.owner.slice(0, 6)}...${vault.owner.slice(-4)}`
+                : vault.owner
+              : "—"}
+          </p>
+        </div>
+
+        <div>
           <p className="text-muted">Balance</p>
           <p className="mt-0.5 font-medium">{vault.balance}</p>
         </div>

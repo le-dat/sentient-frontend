@@ -63,6 +63,7 @@ export function useDashboardViewModel(refreshKey = 0) {
             {
               addr: vaultAddr,
               chain: FACTORY_CHAIN.name,
+              chainId: FACTORY_CHAIN.id,
               status: "active",
               balance,
               rule: "—",

@@ -1,61 +1,101 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import { TrendingUp, TrendingDown, Zap } from "lucide-react";
+import { getChainName } from "@/lib/api/constants";
+import { useVaultsList } from "@/lib/api/hooks";
+import type { VaultListItem } from "@/lib/api/types";
 import { ROUTES } from "@/lib/constants/routes";
-import { shortAddress } from "@/lib/utils";
-import { dashboardVaults } from "@/lib/mockdata/dashboard";
-import { StatusChip } from "@/components/ui/status-chip";
-import type { VaultItem } from "@/lib/types/dashboard";
+import { Zap } from "lucide-react";
+import { useRouter } from "next/navigation";
 
-function TopVaultRow({ vault }: { vault: VaultItem }) {
+function formatAddress(addr: string) {
+  if (addr.length <= 14) return addr;
+  return `${addr.slice(0, 6)}...${addr.slice(-4)}`;
+}
+
+function formatTimestamp(ts: string | null) {
+  if (!ts) return "—";
+  const d = new Date(ts);
+  const now = new Date();
+  const diff = now.getTime() - d.getTime();
+  if (diff < 60_000) return "just now";
+  if (diff < 3600_000) return `${Math.floor(diff / 60_000)}m ago`;
+  if (diff < 86400_000) return `${Math.floor(diff / 3600_000)}h ago`;
+  return d.toLocaleDateString();
+}
+
+function TopVaultRow({ vault }: { vault: VaultListItem }) {
   const router = useRouter();
+  const chainName = getChainName(vault.chain_id);
 
   return (
     <div
-      onClick={() => router.push(ROUTES.SEARCH_VAULT(vault.addr))}
+      onClick={() => router.push(ROUTES.SEARCH_VAULT(vault.address))}
       className="cursor-pointer flex items-center justify-between p-4 rounded-2xl border border-border/40 bg-card/40 hover:border-primary/40 hover:bg-card/70 transition-all group"
     >
       <div className="flex-1 min-w-0 space-y-1">
         <div className="flex items-center gap-2">
-          <p className="font-mono text-sm font-semibold text-foreground">{shortAddress(vault.addr)}</p>
-          <StatusChip status={vault.status} />
+          <p className="font-mono text-sm font-semibold text-foreground">
+            {formatAddress(vault.address)}
+          </p>
         </div>
-        <p className="text-xs text-muted truncate">{vault.chain} · {vault.rule}</p>
-        <p className="text-xs text-muted">{vault.balance}</p>
+        <p className="text-xs text-muted truncate">
+          {chainName}
+          {vault.owner != null && (
+            <> · Owner {formatAddress(vault.owner)}</>
+          )}
+          {vault.created_timestamp && (
+            <> · Created {formatTimestamp(vault.created_timestamp)}</>
+          )}
+        </p>
+        <p className="text-xs text-muted font-mono">{vault.address}</p>
       </div>
-
-      <div className="flex items-center gap-3 ml-4 shrink-0">
-        <div className="text-right">
-          <p className="text-xs text-muted mb-0.5">PnL</p>
-          <span
-            className={`flex items-center gap-1 text-sm font-bold ${
-              vault.pnlUp ? "text-success" : "text-destructive"
-            }`}
-          >
-            {vault.pnlUp ? (
-              <TrendingUp className="h-3.5 w-3.5" />
-            ) : (
-              <TrendingDown className="h-3.5 w-3.5" />
-            )}
-            {vault.pnl}
-          </span>
-        </div>
-        <div className="text-xs text-muted opacity-0 group-hover:opacity-100 transition-opacity">
-          →
-        </div>
+      <div className="text-xs text-muted opacity-0 group-hover:opacity-100 transition-opacity ml-4">
+        →
       </div>
     </div>
   );
 }
 
 export function TopVaults() {
-  const sorted = [...dashboardVaults].sort((a, b) => {
-    if (a.pnlUp !== b.pnlUp) return a.pnlUp ? -1 : 1;
-    const aVal = parseFloat(a.pnl.replace(/[^0-9.-]/g, ""));
-    const bVal = parseFloat(b.pnl.replace(/[^0-9.-]/g, ""));
-    return bVal - aVal;
-  });
+  const { data, isLoading, error } = useVaultsList({ chain: 84532, limit: 20 });
+
+  if (isLoading) {
+    return (
+      <div className="space-y-4">
+        <div className="flex items-center gap-2">
+          <Zap className="h-4 w-4 text-primary" />
+          <h2 className="text-sm font-semibold text-foreground uppercase tracking-wider">
+            Top Vaults
+          </h2>
+        </div>
+        <div className="flex justify-center py-12">
+          <div className="h-6 w-6 animate-spin rounded-full border-2 border-primary border-t-transparent" />
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    const msg =
+      typeof (error as { detail?: string })?.detail === "string"
+        ? (error as unknown as { detail: string }).detail
+        : "Failed to load vaults";
+    return (
+      <div className="space-y-4">
+        <div className="flex items-center gap-2">
+          <Zap className="h-4 w-4 text-primary" />
+          <h2 className="text-sm font-semibold text-foreground uppercase tracking-wider">
+            Top Vaults
+          </h2>
+        </div>
+        <div className="rounded-xl border border-destructive/30 bg-destructive/5 p-4 text-sm text-destructive">
+          {msg}
+        </div>
+      </div>
+    );
+  }
+
+  const items = data?.items ?? [];
 
   return (
     <div className="space-y-4">
@@ -64,11 +104,20 @@ export function TopVaults() {
         <h2 className="text-sm font-semibold text-foreground uppercase tracking-wider">
           Top Vaults
         </h2>
+        {data && (
+          <span className="text-xs text-muted">({data.total} total)</span>
+        )}
       </div>
       <div className="space-y-3">
-        {sorted.map((vault) => (
-          <TopVaultRow key={vault.addr} vault={vault} />
-        ))}
+        {items.length === 0 ? (
+          <p className="text-sm text-muted py-6 text-center">
+            No vaults found. Run the indexer to sync from subgraph.
+          </p>
+        ) : (
+          items.map((vault) => (
+            <TopVaultRow key={`${vault.chain_id}-${vault.address}`} vault={vault} />
+          ))
+        )}
       </div>
     </div>
   );

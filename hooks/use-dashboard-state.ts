@@ -29,6 +29,7 @@ export function useDashboardState() {
       {
         addr: vaultAddr,
         chain: chain.name,
+        chainId: chain.id,
         status: "active",
         balance: "—",
         rule: "—",

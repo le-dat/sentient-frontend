@@ -10,16 +10,13 @@ import { ConfigTab } from "./tabs/config-tab";
 import { ConsoleTab } from "./tabs/console-tab";
 import { HistoryTab } from "./tabs/history-tab";
 import type { Tab } from "./types";
-import { parsePrices, parseTokens } from "./utils";
+import { parseTokens } from "./utils";
 
 export function VaultPanel({ vault, onClose }: { vault: VaultItem; onClose: () => void }) {
   const [activeTab, setActiveTab] = useState<Tab>("console");
   const [isActive, setIsActive] = useState(vault.status === "active");
   const [copied, setCopied] = useState(false);
 
-  // Form State
-  const initialPrices = useMemo(() => parsePrices(vault.rule), [vault.rule]);
-  const [prices, setPrices] = useState(initialPrices);
   const [selection, setSelection] = useState({ symbol: "", source: "system" });
 
   // Data Derivation
@@ -104,10 +101,19 @@ export function VaultPanel({ vault, onClose }: { vault: VaultItem; onClose: () =
             />
           )}
 
-          {activeTab === "config" && <ConfigTab prices={prices} setPrices={setPrices} />}
+          {activeTab === "config" && (
+            <ConfigTab
+              vaultAddress={vault.addr as `0x${string}`}
+              chainId={vault.chainId ?? 84532}
+              preselectedToken={selection.symbol || undefined}
+            />
+          )}
 
           {activeTab === "history" && (
-            <HistoryTab vaultAddress={vault.addr as `0x${string}`} />
+            <HistoryTab
+              vaultAddress={vault.addr as `0x${string}`}
+              chainId={vault.chainId ?? 84532}
+            />
           )}
         </main>
       </div>

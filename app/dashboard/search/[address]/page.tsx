@@ -1,77 +1,81 @@
 "use client";
 
-import { use, useEffect, useState } from "react";
+import { use } from "react";
 import { useRouter } from "next/navigation";
 import { AlertCircle } from "lucide-react";
 import { ROUTES } from "@/lib/constants/routes";
 import { shortAddress } from "@/lib/utils";
 import { VaultDetail } from "@/components/query/vault-detail";
-import { dashboardVaults } from "@/lib/mockdata/dashboard";
-import type { VaultItem } from "@/lib/types/dashboard";
+import { useVaultDetail, useVaultHistory } from "@/lib/api/hooks";
 
-export default function SearchAddressPage({ params }: { params: Promise<{ address: string }> }) {
+function isValidAddress(addr: string): boolean {
+  return /^0x[a-fA-F0-9]{40}$/.test(addr);
+}
+
+export default function SearchAddressPage({
+  params,
+}: {
+  params: Promise<{ address: string }>;
+}) {
   const { address } = use(params);
   const router = useRouter();
-  const [vault, setVault] = useState<VaultItem | null>(null);
-  const [error, setError] = useState<string | null>(null);
-  const [isSearching, setIsSearching] = useState(false);
+  const decoded = decodeURIComponent(address ?? "");
 
-  useEffect(() => {
-    if (!address) return;
+  const {
+    data: vault,
+    isLoading: vaultLoading,
+    error: vaultError,
+  } = useVaultDetail(decoded);
 
-    const q = decodeURIComponent(address);
-    let isMounted = true;
+  const { data: historyData } = useVaultHistory(decoded, {
+    limit: 50,
+    chain: vault?.chain_id,
+  });
 
-    setIsSearching(true);
-    setError(null);
+  const history = historyData?.items ?? [];
 
-    setTimeout(() => {
-      if (!isMounted) return;
-
-      if (!q.startsWith("0x") || q.length < 6) {
-        setError("Please enter a valid vault address (starting with 0x)");
-        setIsSearching(false);
-        return;
-      }
-
-      const found = dashboardVaults.find((v) =>
-        v.addr.toLowerCase().includes(q.toLowerCase()),
-      );
-
-      if (found) {
-        setVault(found);
-      } else {
-        setVault({
-          addr: q.length > 12 ? shortAddress(q) : q,
-          chain: "Ethereum Mainnet",
-          status: "active",
-          balance: "1,200 USDC / 0.5 WETH",
-          rule: "Monitoring Active · Default Protection",
-          lastExecution: "Never",
-          pnl: "$0.00",
-          pnlUp: true,
-        });
-      }
-
-      setIsSearching(false);
-    }, 800);
-
-    return () => { isMounted = false; };
-  }, [address]);
-
-  if (isSearching) {
+  if (!decoded || decoded.length < 6) {
     return (
-      <div className="flex items-center justify-center p-8">
+      <div className="flex items-center gap-3 p-4 rounded-xl border border-danger/20 bg-danger/5 text-danger animate-in fade-in slide-in-from-top-2">
+        <AlertCircle className="h-5 w-5 shrink-0" />
+        <p className="text-sm font-medium">Please enter a valid vault address.</p>
+      </div>
+    );
+  }
+
+  if (!isValidAddress(decoded)) {
+    return (
+      <div className="flex items-center gap-3 p-4 rounded-xl border border-danger/20 bg-danger/5 text-danger animate-in fade-in slide-in-from-top-2">
+        <AlertCircle className="h-5 w-5 shrink-0" />
+        <p className="text-sm font-medium">
+          Invalid address format. Use full 0x + 40 hex characters.
+        </p>
+      </div>
+    );
+  }
+
+  if (vaultLoading) {
+    return (
+      <div className="flex justify-center p-8">
         <div className="h-6 w-6 animate-spin rounded-full border-2 border-primary border-t-transparent" />
       </div>
     );
   }
 
-  if (error) {
+  if (vaultError) {
+    const err = vaultError as { detail?: string; status?: number };
+    const msg =
+      typeof err.detail === "string"
+        ? err.detail
+        : err.status === 404
+          ? "Vault not found"
+          : err.status === 409
+            ? "Address exists on multiple chains. Add ?chain=<chainId> to the URL."
+            : "Failed to load vault";
     return (
       <div className="flex items-center gap-3 p-4 rounded-xl border border-danger/20 bg-danger/5 text-danger animate-in fade-in slide-in-from-top-2">
-        <AlertCircle className="h-5 w-5" />
-        <p className="text-sm font-medium">{error}</p>
+        <AlertCircle className="h-5 w-5 shrink-0" />
+        <p className="text-sm font-medium">{msg}</p>
       </div>
     );
   }
@@ -81,6 +85,7 @@ export default function SearchAddressPage({ params }: { params: Promise<{ addres
   return (
     <VaultDetail
       vault={vault}
+      history={history}
       onBack={() => router.push(ROUTES.SEARCH)}
     />
   );
