@@ -26,4 +26,5 @@ export type ChainInfo = {
   symbol: string;
   color: string;
   vaultCount: number;
+  enabled: boolean;
 };
