@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useAccount, useReadContract, useWriteContract } from "wagmi";
 import { parseUnits, parseEther, formatUnits, zeroAddress } from "viem";
-import { ShieldAlert, Settings2, Loader2, Check, AlertCircle, Droplets } from "lucide-react";
+import { ShieldAlert, Settings2, Loader2, Check, AlertCircle, Droplets, ExternalLink } from "lucide-react";
 import { VAULT_CCIP_ABI, CCIP_BNM_ABI } from "@/lib/contracts/vault-abi";
 import { CCIP_ROUTERS, CCIP_CHAIN_SELECTORS, CCIP_BNM_BASE_SEPOLIA } from "@/lib/api/constants";
 import { useCCIPEstimateFee } from "@/lib/api/hooks";
@@ -434,6 +434,26 @@ export function CCIPPanel({ vaultAddress, chainId, vaultOwner }: CCIPPanelProps)
               className="text-xs font-medium hover:underline"
             >
               Tx: {writeHash.slice(0, 10)}...{writeHash.slice(-8)}
+            </a>
+          </div>
+        )}
+
+        {!ccipNotSet && (
+          <div className="rounded-lg border border-border/50 bg-card/50 p-3 space-y-2 mt-2">
+            <p className="text-[10px] font-semibold uppercase tracking-wider text-muted">
+              CCIP History
+            </p>
+            <p className="text-[11px] text-muted">
+              View cross-chain transaction history for this vault on Chainlink Explorer.
+            </p>
+            <a
+              href={`https://ccip.chain.link/address/${vaultAddress}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-center gap-2 w-full rounded-lg border border-primary/40 bg-primary/10 py-2 px-3 text-xs font-semibold text-primary hover:bg-primary/20 transition-colors"
+            >
+              <ExternalLink className="h-3.5 w-3.5" />
+              Open CCIP Explorer
             </a>
           </div>
         )}
