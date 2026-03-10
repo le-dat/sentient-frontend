@@ -1,16 +1,12 @@
 "use client";
 
-import { use } from "react";
-import { useRouter } from "next/navigation";
-import { AlertCircle } from "lucide-react";
-import { ROUTES } from "@/lib/constants/routes";
-import { shortAddress } from "@/lib/utils";
-import { VaultDetail } from "@/components/query/vault-detail";
+import { VaultDetail } from "@/features/search";
 import { useVaultDetail, useVaultHistory } from "@/lib/api/hooks";
-
-function isValidAddress(addr: string): boolean {
-  return /^0x[a-fA-F0-9]{40}$/.test(addr);
-}
+import { ROUTES } from "@/lib/constants/routes";
+import { isValidAddress } from "@/lib/utils";
+import { AlertCircle } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { use } from "react";
 
 export default function SearchAddressPage({
   params,

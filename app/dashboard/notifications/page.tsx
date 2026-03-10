@@ -2,10 +2,10 @@
 
 import { Mail } from "lucide-react";
 import { TelegramIcon } from "@/components/ui/icons";
-import { useNotificationsViewModel } from "@/lib/view-models/use-notifications-view-model";
+import { useNotifications } from "@/features/notifications";
 
 export default function NotificationsPage() {
-  const { alertPrefs, recentNotifications } = useNotificationsViewModel();
+  const { alertPrefs, recentNotifications } = useNotifications();
   return (
     <div className="space-y-5">
       {/* Two-column layout */}
