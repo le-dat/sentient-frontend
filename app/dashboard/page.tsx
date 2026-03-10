@@ -1,7 +1,8 @@
 "use client";
 
-import { ChainSection, VaultSection, ChainSelectModal, VaultPanel } from "@/components/dashboard";
-import { useDashboardFlow } from "@/hooks/use-dashboard-flow";
+import { ChainSection, ChainSelectModal } from "@/features/dashboard";
+import { VaultSection, VaultPanel } from "@/features/vault";
+import { useDashboardFlow } from "@/features/dashboard";
 
 export default function DashboardPage() {
   const {

@@ -1,6 +1,6 @@
 "use client";
 
-import { TopVaults } from "../../../components/query/top-vaults";
+import { TopVaults } from "@/features/search";
 
 export default function SearchPage() {
   return (

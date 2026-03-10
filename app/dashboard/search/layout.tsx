@@ -2,18 +2,16 @@
 
 import { ReactNode } from "react";
 import { usePathname } from "next/navigation";
-import { SearchBar } from "@/components/query/search-bar";
+import { SearchBar } from "@/features/search";
 import { ROUTES } from "@/lib/constants/routes";
 
 export default function SearchLayout({ children }: { children: ReactNode }) {
   const pathname = usePathname();
-  // Check if we are at the base search page
   const isRootSearch = pathname === ROUTES.SEARCH;
   const address = isRootSearch ? "" : (pathname.split("/").pop() ?? "");
 
   return (
     <div className="mx-auto space-y-8 px-3 py-4 transition-all duration-500 md:px-8 md:space-y-12 md:py-6">
-      {/* Header Section: Scalable header based on whether we are in "Splash" mode or "Results" mode */}
       <header
         className={`text-center transition-all duration-700 ease-in-out ${
           isRootSearch

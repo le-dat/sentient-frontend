@@ -1,4 +1,4 @@
-import type { ChainInfo } from "@/lib/types/dashboard";
+import type { ChainInfo } from "@/features/dashboard/types";
 
 /** Static list of EVM chains supported in the UI. */
 export const SUPPORTED_CHAINS: ChainInfo[] = [
@@ -10,3 +10,9 @@ export const SUPPORTED_CHAINS: ChainInfo[] = [
 
 /** Chain where the vault factory is deployed. */
 export const FACTORY_CHAIN = SUPPORTED_CHAINS[0]; // Base Sepolia
+
+/** Named chain IDs — single source of truth for all numeric chain ID references. */
+export const BASE_CHAIN_ID      = SUPPORTED_CHAINS[1].id; // 8453
+export const ETH_CHAIN_ID       = SUPPORTED_CHAINS[2].id; // 1
+export const ARBITRUM_CHAIN_ID  = SUPPORTED_CHAINS[3].id; // 42161
+export const ETH_SEPOLIA_CHAIN_ID = 11155111;              // Ethereum Sepolia (CCIP destination)

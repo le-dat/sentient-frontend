@@ -3,7 +3,7 @@
 import { Suspense } from "react";
 import { useAccount } from "wagmi";
 import { AlertCircle, Shield } from "lucide-react";
-import { CCIPPanel } from "@/components/query/ccip-panel";
+import { CCIPPanel } from "@/features/ccip";
 import { useVaultsList } from "@/lib/api/hooks";
 
 function CCIPPageContent() {

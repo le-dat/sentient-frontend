@@ -1,8 +1,3 @@
-/**
- * API client for sentient-backend.
- * Base URL: NEXT_PUBLIC_API_URL (default: http://localhost:8000)
- */
-
 import type {
   PaginatedResponse,
   VaultDetail,
@@ -12,10 +7,11 @@ import type {
   EstimateFeeRequest,
   EstimateFeeResponse,
 } from "./types";
+import { FACTORY_CHAIN } from "@/lib/constants/chains";
 
 export type { EstimateFeeRequest } from "./types";
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
+const API_BASE = "/api/proxy";
 
 export interface ApiError {
   detail: string | Record<string, unknown>;
@@ -37,6 +33,15 @@ async function handleResponse<T>(res: Response): Promise<T> {
   return JSON.parse(text) as T;
 }
 
+function buildUrl(path: string, params: Record<string, string | number | undefined>): string {
+  const search = new URLSearchParams();
+  for (const [k, v] of Object.entries(params)) {
+    if (v != null) search.set(k, String(v));
+  }
+  const qs = search.toString();
+  return `${API_BASE}${path}${qs ? `?${qs}` : ""}`;
+}
+
 export interface ListVaultsParams {
   chain?: number;
   owner?: string;
@@ -47,13 +52,12 @@ export interface ListVaultsParams {
 export async function listVaults(
   params: ListVaultsParams = {},
 ): Promise<PaginatedResponse<VaultListItem>> {
-  const search = new URLSearchParams();
-  if (params.chain != null) search.set("chain", String(params.chain));
-  if (params.owner) search.set("owner", params.owner);
-  if (params.limit != null) search.set("limit", String(params.limit));
-  if (params.offset != null) search.set("offset", String(params.offset));
-  const qs = search.toString();
-  const url = `${API_BASE}/api/v1/vaults${qs ? `?${qs}` : ""}`;
+  const url = buildUrl("/api/v1/vaults", {
+    chain: params.chain,
+    owner: params.owner,
+    limit: params.limit,
+    offset: params.offset,
+  });
   const res = await fetch(url);
   return handleResponse<PaginatedResponse<VaultListItem>>(res);
 }
@@ -62,14 +66,10 @@ export interface GetVaultParams {
   chain?: number;
 }
 
-export async function getVault(
-  address: string,
-  params: GetVaultParams = {},
-): Promise<VaultDetail> {
-  const search = new URLSearchParams();
-  if (params.chain != null) search.set("chain", String(params.chain));
-  const qs = search.toString();
-  const url = `${API_BASE}/api/v1/vaults/${encodeURIComponent(address)}${qs ? `?${qs}` : ""}`;
+export async function getVault(address: string, params: GetVaultParams = {}): Promise<VaultDetail> {
+  const url = buildUrl(`/api/v1/vaults/${encodeURIComponent(address)}`, {
+    chain: params.chain,
+  });
   const res = await fetch(url);
   return handleResponse<VaultDetail>(res);
 }
@@ -87,15 +87,14 @@ export async function getVaultHistory(
   address: string,
   params: GetVaultHistoryParams = {},
 ): Promise<PaginatedResponse<HistoryItem>> {
-  const search = new URLSearchParams();
-  if (params.chain != null) search.set("chain", String(params.chain));
-  if (params.type) search.set("type", params.type);
-  if (params.from) search.set("from", params.from);
-  if (params.to) search.set("to", params.to);
-  if (params.limit != null) search.set("limit", String(params.limit));
-  if (params.offset != null) search.set("offset", String(params.offset));
-  const qs = search.toString();
-  const url = `${API_BASE}/api/v1/vaults/${encodeURIComponent(address)}/history${qs ? `?${qs}` : ""}`;
+  const url = buildUrl(`/api/v1/vaults/${encodeURIComponent(address)}/history`, {
+    chain: params.chain,
+    type: params.type,
+    from: params.from,
+    to: params.to,
+    limit: params.limit,
+    offset: params.offset,
+  });
   const res = await fetch(url);
   return handleResponse<PaginatedResponse<HistoryItem>>(res);
 }
@@ -105,15 +104,13 @@ export async function getCCIPConfig(): Promise<CCIPConfigResponse> {
   return handleResponse<CCIPConfigResponse>(res);
 }
 
-export async function estimateCCIPFee(
-  body: EstimateFeeRequest,
-): Promise<EstimateFeeResponse> {
+export async function estimateCCIPFee(body: EstimateFeeRequest): Promise<EstimateFeeResponse> {
   const res = await fetch(`${API_BASE}/api/v1/vaults/ccip/estimate-fee`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       vault_address: body.vault_address,
-      chain_id: body.chain_id ?? 84532,
+      chain_id: body.chain_id ?? FACTORY_CHAIN.id,
       destination_chain_selector: body.destination_chain_selector,
       token_address: body.token_address,
       amount: body.amount,
