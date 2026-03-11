@@ -4,6 +4,7 @@ export type AlertPreference = {
   desc: string;
   enabled: boolean;
   dot: string;
+  onToggle?: (enabled: boolean) => void;
 };
 
 export type RecentNotification = {
