@@ -1,3 +1,4 @@
+'use client'
 import { useCallback, useState } from "react";
 import { useDashboardOnChain } from "./use-dashboard-on-chain";
 import { SUPPORTED_CHAINS } from "@/lib/constants/chains";

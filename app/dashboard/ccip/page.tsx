@@ -5,6 +5,7 @@ import { useAccount } from "wagmi";
 import { AlertCircle, Shield } from "lucide-react";
 import { CCIPPanel } from "@/features/ccip";
 import { useVaultsList } from "@/lib/api/hooks";
+import { CCIPPageSkeleton } from "@/features/ccip/components/ccip-page-skeleton";
 
 function CCIPPageContent() {
   const { address: userAddress, isConnected } = useAccount();
@@ -36,22 +37,7 @@ function CCIPPageContent() {
   }
 
   if (isLoading) {
-    return (
-      <div className="space-y-6">
-        <div>
-          <h1 className="flex items-center gap-2 text-xl font-bold text-foreground">
-            <Shield className="h-5 w-5 text-primary" />
-            CCIP Cross-Chain
-          </h1>
-          <p className="mt-1 text-sm text-muted">
-            Configure CCIP router and execute Emergency Shield on your vault.
-          </p>
-        </div>
-        <div className="flex justify-center p-8">
-          <div className="h-6 w-6 animate-spin rounded-full border-2 border-primary border-t-transparent" />
-        </div>
-      </div>
-    );
+    return <CCIPPageSkeleton />;
   }
 
   if (!vault) {
@@ -109,13 +95,7 @@ function CCIPPageContent() {
 
 export default function CCIPPage() {
   return (
-    <Suspense
-      fallback={
-        <div className="flex justify-center p-8">
-          <div className="h-6 w-6 animate-spin rounded-full border-2 border-primary border-t-transparent" />
-        </div>
-      }
-    >
+    <Suspense fallback={<CCIPPageSkeleton />}>
       <CCIPPageContent />
     </Suspense>
   );

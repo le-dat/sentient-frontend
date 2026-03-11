@@ -1,11 +1,5 @@
-import { PageState } from "@/components/ui/page-state";
+import { DashboardSkeleton } from "@/features/dashboard";
 
 export default function DashboardLoading() {
-  return (
-    <PageState
-      variant="loading"
-      title="Loading dashboard"
-      description="Fetching vaults, activity and health status..."
-    />
-  );
+  return <DashboardSkeleton />;
 }
