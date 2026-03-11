@@ -27,7 +27,12 @@ export function useNotifications() {
 
   function togglePref(key: string) {
     setAlertPrefs((prev) =>
-      prev.map((p) => (p.key === key ? { ...p, enabled: !p.enabled } : p)),
+      prev.map((p) => {
+        if (p.key !== key) return p;
+        const next = { ...p, enabled: !p.enabled };
+        next.onToggle?.(next.enabled);
+        return next;
+      }),
     );
   }
 
