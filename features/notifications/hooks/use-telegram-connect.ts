@@ -3,29 +3,20 @@
 import { useState, useEffect, useCallback } from "react";
 import { useAccount } from "wagmi";
 import { toast } from "sonner";
+import { appendToHistory } from "../lib/notification-history";
 
 const STORAGE_KEY = "telegram_chat_id";
-const BOT_USERNAME = "SentientAlertBot";
-
-export type TelegramTab = "manual" | "qr";
 
 export function useTelegramConnect() {
   const { address } = useAccount();
 
-  // Connection state — hydrated from localStorage on mount
   const [chatId, setChatId] = useState<string | null>(null);
   const [hydrated, setHydrated] = useState(false);
-
-  // Modal state
   const [modalOpen, setModalOpen] = useState(false);
-  const [activeTab, setActiveTab] = useState<TelegramTab>("manual");
-
-  // Input field (shared between Manual and QR tabs)
   const [inputValue, setInputValue] = useState("");
   const [isSaving, setIsSaving] = useState(false);
   const [isTesting, setIsTesting] = useState(false);
 
-  // Hydrate from localStorage exactly once on mount
   useEffect(() => {
     const stored = localStorage.getItem(STORAGE_KEY);
     setChatId(stored);
@@ -34,15 +25,9 @@ export function useTelegramConnect() {
 
   const isConnected = hydrated && chatId !== null;
 
-  // Masked display: "123456789" → "12345****"
   const maskedChatId = chatId
     ? `${chatId.slice(0, 5)}${"*".repeat(Math.max(0, chatId.length - 5))}`
     : null;
-
-  // QR URL — encodes the wallet address as the /start payload
-  const qrUrl = address
-    ? `https://t.me/${BOT_USERNAME}?start=${address}`
-    : `https://t.me/${BOT_USERNAME}`;
 
   function openModal() {
     setInputValue("");
@@ -101,6 +86,7 @@ export function useTelegramConnect() {
         toast.error((data as { error?: string })?.error ?? "Failed to send test message.");
       } else {
         toast.success("Test message sent to Telegram.");
+        appendToHistory({ type: "TestAlert", vault: "—", chain: "—", dot: "bg-primary", textColor: "text-primary" });
       }
     } catch {
       toast.error("Network error. Could not reach Telegram.");
@@ -112,15 +98,11 @@ export function useTelegramConnect() {
   return {
     isConnected,
     hydrated,
-    chatId,
     maskedChatId,
     address,
-    qrUrl,
     modalOpen,
     openModal,
     closeModal,
-    activeTab,
-    setActiveTab,
     inputValue,
     setInputValue,
     handleSave,
