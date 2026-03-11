@@ -1,3 +1,4 @@
+'use client'
 import { useEffect, useRef, useState } from "react";
 import { useAccount } from "wagmi";
 import { useDashboardState } from "./use-dashboard-state";

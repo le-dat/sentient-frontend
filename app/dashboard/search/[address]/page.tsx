@@ -1,6 +1,7 @@
 "use client";
 
 import { VaultDetail } from "@/features/search";
+import { SearchDetailSkeleton } from "@/features/search/components/search-detail-skeleton";
 import { useVaultDetail, useVaultHistory } from "@/lib/api/hooks";
 import { ROUTES } from "@/lib/constants/routes";
 import { isValidAddress } from "@/lib/utils";
@@ -51,11 +52,7 @@ export default function SearchAddressPage({
   }
 
   if (vaultLoading) {
-    return (
-      <div className="flex justify-center p-8">
-        <div className="h-6 w-6 animate-spin rounded-full border-2 border-primary border-t-transparent" />
-      </div>
-    );
+    return <SearchDetailSkeleton />;
   }
 
   if (vaultError) {

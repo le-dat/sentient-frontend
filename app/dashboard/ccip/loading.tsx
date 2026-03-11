@@ -1,11 +1,5 @@
-import { PageState } from "@/components/ui/page-state";
+import { CCIPPageSkeleton } from "@/features/ccip/components/ccip-page-skeleton";
 
-export default function NotificationsLoading() {
-  return (
-    <PageState
-      variant="loading"
-      title="Loading ccip"
-      description="Fetching ccip..."  
-    />
-  );
+export default function CCIPLoading() {
+  return <CCIPPageSkeleton />;
 }

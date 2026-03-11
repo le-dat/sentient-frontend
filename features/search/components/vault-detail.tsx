@@ -1,19 +1,10 @@
 "use client";
 
-import { useState } from "react";
-import {
-  ArrowLeft,
-  Check,
-  Copy,
-  Clock,
-  Zap,
-  ShieldAlert,
-  ExternalLink,
-} from "lucide-react";
-import { CCIPPanel } from "@/features/ccip/components/ccip-panel";
-import type { VaultDetail as ApiVaultDetail, HistoryItem } from "@/lib/api/types";
 import { getChainName } from "@/lib/api/constants";
+import type { VaultDetail as ApiVaultDetail, HistoryItem } from "@/lib/api/types";
 import { formatTimestamp, getExplorerBase } from "@/lib/utils";
+import { ArrowLeft, Check, Clock, Copy, ExternalLink, ShieldAlert, Zap } from "lucide-react";
+import { useState } from "react";
 
 function formatEventDetail(e: HistoryItem): string {
   if (e.event_type === "TokenRuleSet" && e.payload_json) {
@@ -50,9 +41,7 @@ function VaultInfoCol({ vault }: { vault: ApiVaultDetail }) {
 
   return (
     <div className="space-y-3">
-      <p className="text-[10px] font-bold uppercase tracking-wider text-muted mb-3">
-        Vault Info
-      </p>
+      <p className="text-[10px] font-bold uppercase tracking-wider text-muted mb-3">Vault Info</p>
 
       <div className="rounded-xl border border-border/50 bg-card-2/40 p-3 space-y-3">
         <div>
@@ -65,11 +54,7 @@ function VaultInfoCol({ vault }: { vault: ApiVaultDetail }) {
               onClick={copyAddress}
               className="text-muted hover:text-foreground transition-colors shrink-0"
             >
-              {copied ? (
-                <Check className="h-3 w-3 text-success" />
-              ) : (
-                <Copy className="h-3 w-3" />
-              )}
+              {copied ? <Check className="h-3 w-3 text-success" /> : <Copy className="h-3 w-3" />}
             </button>
           </div>
         </div>
@@ -114,9 +99,7 @@ function VaultInfoCol({ vault }: { vault: ApiVaultDetail }) {
             <p className="text-[10px] text-muted mb-1">Last Event</p>
             <p className="text-xs font-medium text-foreground">
               {formatTimestamp(vault.latest_event_timestamp)}
-              {vault.latest_event_block != null && (
-                <> · Block #{vault.latest_event_block}</>
-              )}
+              {vault.latest_event_block != null && <> · Block #{vault.latest_event_block}</>}
             </p>
           </div>
         )}
@@ -132,14 +115,11 @@ function ContractInfoCol({ vault }: { vault: ApiVaultDetail }) {
 
   return (
     <div className="space-y-3">
-      <p className="text-[10px] font-bold uppercase tracking-wider text-muted mb-3">
-        Contract
-      </p>
+      <p className="text-[10px] font-bold uppercase tracking-wider text-muted mb-3">Contract</p>
 
       <div className="rounded-xl border border-border/50 bg-card-2/40 p-3 space-y-3">
         <p className="text-xs text-muted">
-          Vault metadata is indexed from the subgraph. Rules and balance are
-          configured on-chain.
+          Vault metadata is indexed from the subgraph. Rules and balance are configured on-chain.
         </p>
         <a
           href={`${explorerBase}/address/${vault.address}`}
@@ -149,7 +129,9 @@ function ContractInfoCol({ vault }: { vault: ApiVaultDetail }) {
         >
           View on Explorer <ExternalLink className="h-3 w-3" />
         </a>
-        <p className="text-[10px] text-muted">{chainName} · Chain ID {vault.chain_id}</p>
+        <p className="text-[10px] text-muted">
+          {chainName} · Chain ID {vault.chain_id}
+        </p>
       </div>
     </div>
   );
@@ -182,9 +164,7 @@ function HistoryCol({ items }: { items: HistoryItem[] }) {
 
       <div className="rounded-xl border border-border/50 bg-card-2/40 overflow-hidden">
         {items.length === 0 ? (
-          <div className="px-3 py-6 text-center text-xs text-muted">
-            No events yet
-          </div>
+          <div className="px-3 py-6 text-center text-xs text-muted">No events yet</div>
         ) : (
           items.map((e, i) => (
             <div
@@ -199,11 +179,7 @@ function HistoryCol({ items }: { items: HistoryItem[] }) {
                 {icons[e.event_type] ?? <Clock className="h-3 w-3" />}
               </div>
               <div className="flex-1 min-w-0">
-                <p
-                  className={`text-xs font-semibold ${
-                    eventColors[e.event_type] ?? "text-muted"
-                  }`}
-                >
+                <p className={`text-xs font-semibold ${eventColors[e.event_type] ?? "text-muted"}`}>
                   {e.event_type}
                 </p>
                 <p className="text-[10px] text-muted leading-relaxed mt-0.5">
@@ -251,14 +227,6 @@ export function VaultDetail({ vault, history, onBack }: VaultDetailProps) {
         <VaultInfoCol vault={vault} />
         <ContractInfoCol vault={vault} />
         <HistoryCol items={history} />
-      </div>
-
-      <div className="mt-6">
-        <CCIPPanel
-          vaultAddress={vault.address as `0x${string}`}
-          chainId={vault.chain_id}
-          vaultOwner={vault.owner}
-        />
       </div>
     </div>
   );
