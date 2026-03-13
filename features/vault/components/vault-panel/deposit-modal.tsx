@@ -54,7 +54,7 @@ export function DepositModal({ onClose, onConfirm, status, error }: DepositModal
       onClick={canClose ? onClose : undefined}
     >
       <div
-        className="relative flex w-[360px] flex-col rounded-2xl border border-border bg-card shadow-xl"
+        className="relative flex w-[calc(100vw-2rem)] flex-col rounded-2xl border border-border bg-card shadow-xl md:w-[360px]"
         style={{ maxHeight: "80vh" }}
         onClick={(e) => e.stopPropagation()}
       >

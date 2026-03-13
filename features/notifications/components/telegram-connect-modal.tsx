@@ -24,15 +24,15 @@ export function TelegramConnectModal({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-end justify-center bg-black/60 backdrop-blur-sm sm:items-center"
+      className="fixed inset-0 z-50 flex items-end justify-center bg-black/60 backdrop-blur-sm md:items-center"
       onClick={onClose}
     >
       <div
-        className="w-full max-w-sm rounded-t-3xl border border-border/60 bg-card pb-8 pt-6 shadow-2xl sm:rounded-2xl sm:pb-6"
+        className="w-full max-w-sm rounded-t-3xl border border-border/60 bg-card pb-8 pt-6 shadow-2xl md:rounded-2xl md:pb-6"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Drag handle (mobile) */}
-        <div className="mx-auto mb-5 h-1 w-10 rounded-full bg-border sm:hidden" />
+        <div className="mx-auto mb-5 h-1 w-10 rounded-full bg-border md:hidden" />
 
         {/* Header */}
         <div className="mb-1 flex items-center justify-between px-6">

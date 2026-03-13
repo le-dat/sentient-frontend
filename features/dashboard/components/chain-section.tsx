@@ -12,7 +12,7 @@ export function ChainSection({ chains, onAddChain, onChainClick }: ChainSectionP
   return (
     <section className="space-y-3">
       <h2 className="text-sm font-semibold uppercase tracking-widest text-muted">Chains</h2>
-      <div className="flex flex-wrap gap-3">
+      <div className="grid grid-cols-2 gap-3 md:flex md:flex-wrap md:gap-3">
         {chains.map((c, i) => (
           <ChainCard key={`${c.id}-${i}`} chain={c} onClick={() => onChainClick(c.name)} />
         ))}

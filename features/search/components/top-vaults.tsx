@@ -34,7 +34,7 @@ function TopVaultRow({ vault }: { vault: VaultListItem }) {
             <> · Created {formatTimestamp(vault.created_timestamp)}</>
           )}
         </p>
-        <p className="text-xs text-muted font-mono">{vault.address}</p>
+        <p className="text-xs text-muted font-mono truncate">{vault.address}</p>
       </div>
       <div className="text-xs text-muted opacity-0 group-hover:opacity-100 transition-opacity ml-4">
         →
@@ -63,7 +63,7 @@ export function TopVaults() {
             >
               <div className="flex-1 min-w-0 space-y-2">
                 <Skeleton className="h-4 w-28 rounded" />
-                <Skeleton className="h-3 w-56 rounded" />
+                <Skeleton className="h-3 w-full rounded" />
                 <Skeleton className="h-3 w-full rounded" />
               </div>
             </div>
