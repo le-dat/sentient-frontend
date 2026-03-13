@@ -2,7 +2,7 @@ import { Mail } from "lucide-react";
 
 export function EmailConnectionCard() {
   return (
-    <div className="min-w-[220px] flex-shrink-0 overflow-hidden rounded-2xl border border-border/50 bg-card/50 opacity-55">
+    <div className="min-w-[220px] shrink-0 overflow-hidden rounded-2xl border border-border/50 bg-card/50 opacity-55">
       <div className="h-0.5 w-full bg-linear-to-r from-muted/30 to-transparent" />
       <div className="p-4">
         <div className="flex items-center justify-between gap-3">

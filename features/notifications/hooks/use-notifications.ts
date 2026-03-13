@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { notificationAlertPrefs } from "../fixtures";
 import type { RecentNotification } from "../types";
-import { getHistory, timeAgo } from "../lib/notification-history";
+import { getHistory, timeAgo, NOTIFICATION_ADDED_EVENT } from "../lib/notification-history";
 
 function toRecentNotifications(
   history: ReturnType<typeof getHistory>,
@@ -21,8 +21,8 @@ export function useNotifications() {
     function onAdded() {
       setRecentNotifications(toRecentNotifications(getHistory()));
     }
-    window.addEventListener("notification-added", onAdded);
-    return () => window.removeEventListener("notification-added", onAdded);
+    window.addEventListener(NOTIFICATION_ADDED_EVENT, onAdded);
+    return () => window.removeEventListener(NOTIFICATION_ADDED_EVENT, onAdded);
   }, []);
 
   function togglePref(key: string) {

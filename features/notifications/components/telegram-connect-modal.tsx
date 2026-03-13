@@ -1,6 +1,7 @@
 "use client";
 
 import { TelegramIcon } from "@/components/ui/icons";
+import { TELEGRAM_BOT_URL, TELEGRAM_BOT_USERNAME } from "@/lib/constants";
 
 interface TelegramConnectModalProps {
   modalOpen: boolean;
@@ -51,13 +52,13 @@ export function TelegramConnectModal({
               Step 1 — Open the bot
             </p>
             <a
-              href="https://t.me/SentientAlertBot"
+              href={TELEGRAM_BOT_URL}
               target="_blank"
               rel="noopener noreferrer"
               className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#2AABEE] py-2.5 text-sm font-semibold text-white shadow-md shadow-[#2AABEE]/20 transition-all hover:opacity-90"
             >
               <TelegramIcon className="h-4 w-4" />
-              @SentientAlertBot
+              @{TELEGRAM_BOT_USERNAME}
             </a>
           </div>
 

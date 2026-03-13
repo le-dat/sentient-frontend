@@ -1,6 +1,8 @@
 const HISTORY_KEY = "notification_history";
 const MAX_ITEMS = 50;
 
+export const NOTIFICATION_ADDED_EVENT = "notification-added";
+
 export type StoredNotification = {
   type: string;
   vault: string;
@@ -23,7 +25,7 @@ export function appendToHistory(entry: Omit<StoredNotification, "sentAt">): void
   const history = getHistory();
   const next = [{ ...entry, sentAt: new Date().toISOString() }, ...history].slice(0, MAX_ITEMS);
   localStorage.setItem(HISTORY_KEY, JSON.stringify(next));
-  window.dispatchEvent(new CustomEvent("notification-added"));
+  window.dispatchEvent(new CustomEvent(NOTIFICATION_ADDED_EVENT));
 }
 
 export function timeAgo(isoString: string): string {

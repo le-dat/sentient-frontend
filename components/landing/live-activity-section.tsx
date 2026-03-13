@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { PhoneFrame } from "@/components/ui/phone-frame";
 import { RevealSection } from "@/components/ui/reveal-section";
+import { ROUTES } from "@/lib/constants";
 
 const activities = [
   { type: "SwapExecuted", vault: "0x91f7...A4c2", chain: "Base", time: "2m ago", color: "text-success", dot: "bg-success" },
@@ -69,7 +70,7 @@ export function LiveActivitySection() {
                 ))}
               </div>
               <Link
-                href="/dashboard/notifications"
+                href={ROUTES.NOTIFICATIONS}
                 className="mt-4 block text-center text-xs text-primary transition-opacity hover:opacity-80"
               >
                 View all events →
@@ -101,7 +102,7 @@ export function LiveActivitySection() {
                 ))}
               </div>
               <Link
-                href="/dashboard/notifications"
+                href={ROUTES.NOTIFICATIONS}
                 className="mt-4 block text-center text-xs text-primary transition-opacity hover:opacity-80"
               >
                 View all notifications →
@@ -147,7 +148,7 @@ export function LiveActivitySection() {
                 ))}
               </div>
               <Link
-                href="/dashboard"
+                href={ROUTES.DASHBOARD}
                 className="mt-4 block rounded-xl bg-gradient-to-r from-primary to-primary/80 py-2.5 text-center text-xs font-semibold text-primary-foreground shadow-md shadow-primary/20 transition-opacity hover:opacity-90"
               >
                 Create Vault →
