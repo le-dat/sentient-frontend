@@ -16,17 +16,15 @@ const jetBrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_APP_URL ?? "https://sentient-fe.vercel.app"
+  ),
   title: {
     default: "Sentient Finance — DeFi Vault Automation",
     template: "%s | Sentient Finance",
   },
   description:
     "Automate your DeFi vaults with on-chain intelligence. Set price rules, execute swaps, and shield capital across every EVM chain.",
-  icons: {
-    icon: "/logo.png",
-    shortcut: "/logo.png",
-    apple: "/logo.png",
-  },
   openGraph: {
     title: "Sentient Finance — DeFi Vault Automation",
     description:
