@@ -66,7 +66,7 @@ export function Navbar({ right, showActiveState = false, className }: NavbarProp
             href={ROUTES.HOME}
             className="flex items-center gap-1 text-lg font-bold tracking-tight text-foreground"
           >
-            <Image src="/logo.png" alt="Sentient" width={36} height={36} className="size-[24px] md:size-[36px]" />
+            <Image src="/logo.png" alt="Sentient" width={36} height={36} className="size-[24px] md:size-[32px]" />
             entient
           </Link>
 
@@ -79,9 +79,9 @@ export function Navbar({ right, showActiveState = false, className }: NavbarProp
                 <Link
                   key={item.href}
                   href={item.href}
-                  className={`flex items-center gap-2 rounded-lg px-3 py-1.5 text-sm transition-all duration-150 ${
+                  className={`flex items-center gap-2 rounded-lg px-3 py-1.5 text-sm font-medium transition-all duration-150 ${
                     active
-                      ? "bg-primary/10 font-semibold text-primary"
+                      ? "bg-primary/10 text-primary"
                       : "text-muted hover:bg-card/80 hover:text-foreground"
                   }`}
                 >
@@ -105,9 +105,9 @@ export function Navbar({ right, showActiveState = false, className }: NavbarProp
             <Link
               key={item.href}
               href={item.href}
-              className={`flex items-center gap-1.5 whitespace-nowrap rounded-lg px-3 py-1.5 text-xs transition-colors ${
+              className={`flex items-center gap-1.5 whitespace-nowrap rounded-lg px-3 py-1.5 text-xs font-medium transition-colors ${
                 active
-                  ? "bg-primary/10 font-semibold text-primary"
+                  ? "bg-primary/10 text-primary"
                   : "text-muted hover:bg-card hover:text-foreground"
               }`}
             >

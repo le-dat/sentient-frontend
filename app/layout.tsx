@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     title: "Sentient Finance — DeFi Vault Automation",
     description:
       "Automate your DeFi vaults with on-chain intelligence. Set price rules, execute swaps, and shield capital across every EVM chain.",
-    images: [{ url: "/logo.png" }],
+    images: [{ url: "/logo.png", width: 512, height: 512, alt: "Sentient Finance" }],
   },
   twitter: {
     card: "summary",
