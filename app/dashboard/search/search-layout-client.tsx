@@ -11,7 +11,7 @@ export function SearchLayoutClient({ children }: { children: ReactNode }) {
   const address = isRootSearch ? "" : (pathname.split("/").pop() ?? "");
 
   return (
-    <div className="mx-auto space-y-8 px-3 py-4 transition-all duration-500 md:px-8 md:space-y-12 md:py-6">
+    <div className="mx-auto space-y-8 py-4 transition-all duration-500 md:px-8 md:space-y-12 md:py-6">
       <header
         className={`text-center transition-all duration-700 ease-in-out ${
           isRootSearch
@@ -31,7 +31,7 @@ export function SearchLayoutClient({ children }: { children: ReactNode }) {
         </h1>
 
         {isRootSearch && (
-          <p className="text-muted text-lg max-w-2xl mx-auto animate-fadeUp delay-100">
+          <p className="hidden md:block text-muted text-lg max-w-2xl mx-auto animate-fadeUp delay-100">
             Enter a smart vault address to analyze its status, rules, and current performance
             metrics across the decentralized network.
           </p>

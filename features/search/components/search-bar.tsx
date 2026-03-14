@@ -36,14 +36,14 @@ export function SearchBar({ defaultValue = "" }: { defaultValue?: string }) {
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search vault address (0x...) or domain"
-            className="w-full bg-transparent border-none outline-none text-foreground py-3 text-lg placeholder:text-muted/30"
+            placeholder="Search address or domain"
+            className="w-full bg-transparent border-none outline-none text-foreground py-2 md:py-3 text-base md:text-lg placeholder:text-muted/30"
           />
         </div>
         <button
           type="submit"
           disabled={isSearching || !query.trim()}
-          className="bg-primary hover:bg-primary/90 text-primary-foreground h-12 px-6 rounded-xl font-medium transition-all flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-primary/10 cursor-pointer active:scale-95"
+          className="bg-primary hover:bg-primary/90 text-primary-foreground h-10 md:h-12 px-4 md:px-6 rounded-xl font-medium transition-all flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-primary/10 cursor-pointer active:scale-95"
         >
           {isSearching ? (
             <Loader2 className="h-5 w-5 animate-spin" />
