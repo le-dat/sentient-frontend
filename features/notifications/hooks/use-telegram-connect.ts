@@ -39,6 +39,20 @@ export function useTelegramConnect() {
     setInputValue("");
   }
 
+  async function sendTelegramMessage(id: string, message: string): Promise<boolean> {
+    const res = await fetch("/api/telegram/notify", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ chatId: id, message }),
+    });
+    if (!res.ok) {
+      const data = await res.json().catch(() => ({}));
+      toast.error((data as { error?: string })?.error ?? "Failed to send Telegram message.");
+      return false;
+    }
+    return true;
+  }
+
   async function handleSave() {
     const trimmed = inputValue.trim();
     if (!trimmed) {
@@ -51,10 +65,17 @@ export function useTelegramConnect() {
     }
     setIsSaving(true);
     try {
+      const ok = await sendTelegramMessage(
+        trimmed,
+        "✅ Connected! Sentient Finance alerts are now active for this account.",
+      );
+      if (!ok) return;
       localStorage.setItem(STORAGE_KEY, trimmed);
       setChatId(trimmed);
       toast.success("Telegram connected successfully.");
       closeModal();
+    } catch {
+      toast.error("Network error. Could not verify Telegram ID.");
     } finally {
       setIsSaving(false);
     }
@@ -73,18 +94,11 @@ export function useTelegramConnect() {
     }
     setIsTesting(true);
     try {
-      const res = await fetch("/api/telegram/notify", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          chatId,
-          message: "✅ Test notification from Sentient Finance. Your alerts are working.",
-        }),
-      });
-      if (!res.ok) {
-        const data = await res.json().catch(() => ({}));
-        toast.error((data as { error?: string })?.error ?? "Failed to send test message.");
-      } else {
+      const ok = await sendTelegramMessage(
+        chatId,
+        "✅ Test notification from Sentient Finance. Your alerts are working.",
+      );
+      if (ok) {
         toast.success("Test message sent to Telegram.");
         appendToHistory({ type: "TestAlert", vault: "—", chain: "—", dot: "bg-primary", textColor: "text-primary" });
       }

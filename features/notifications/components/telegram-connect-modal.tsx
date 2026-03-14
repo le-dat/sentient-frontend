@@ -1,6 +1,7 @@
 "use client";
 
 import { TelegramIcon } from "@/components/ui/icons";
+import { TELEGRAM_BOT_URL, TELEGRAM_BOT_USERNAME } from "@/lib/constants";
 
 interface TelegramConnectModalProps {
   modalOpen: boolean;
@@ -23,15 +24,15 @@ export function TelegramConnectModal({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-end justify-center bg-black/60 backdrop-blur-sm sm:items-center"
+      className="fixed inset-0 z-50 flex items-end justify-center bg-black/60 backdrop-blur-sm md:items-center"
       onClick={onClose}
     >
       <div
-        className="w-full max-w-sm rounded-t-3xl border border-border/60 bg-card pb-8 pt-6 shadow-2xl sm:rounded-2xl sm:pb-6"
+        className="w-full max-w-sm rounded-t-3xl border border-border/60 bg-card pb-8 pt-6 shadow-2xl md:rounded-2xl md:pb-6"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Drag handle (mobile) */}
-        <div className="mx-auto mb-5 h-1 w-10 rounded-full bg-border sm:hidden" />
+        <div className="mx-auto mb-5 h-1 w-10 rounded-full bg-border md:hidden" />
 
         {/* Header */}
         <div className="mb-1 flex items-center justify-between px-6">
@@ -51,13 +52,13 @@ export function TelegramConnectModal({
               Step 1 — Open the bot
             </p>
             <a
-              href="https://t.me/SentientAlertBot"
+              href={TELEGRAM_BOT_URL}
               target="_blank"
               rel="noopener noreferrer"
               className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#2AABEE] py-2.5 text-sm font-semibold text-white shadow-md shadow-[#2AABEE]/20 transition-all hover:opacity-90"
             >
               <TelegramIcon className="h-4 w-4" />
-              @SentientAlertBot
+              @{TELEGRAM_BOT_USERNAME}
             </a>
           </div>
 

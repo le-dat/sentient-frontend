@@ -23,3 +23,7 @@ export const CCIP_EXPLORER_BASE = "https://ccip.chain.link";
 
 /** Minimum ETH deposit to vault for CCIP fee when fee estimate is unavailable. */
 export const CCIP_MIN_ETH_FALLBACK = "0.003";
+
+/** Telegram bot used for notification alerts. */
+export const TELEGRAM_BOT_USERNAME = "SentientAlertBot";
+export const TELEGRAM_BOT_URL = `https://t.me/${TELEGRAM_BOT_USERNAME}`;

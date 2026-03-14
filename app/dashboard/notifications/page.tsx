@@ -37,9 +37,13 @@ export default function NotificationsPage() {
         onTest={handleTest}
       />
 
-      <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
-        <RecentNotifications notifications={recentNotifications} />
-        <AlertPreferences prefs={alertPrefs} onToggle={togglePref} />
+      <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
+        <div className="order-first md:order-last">
+          <AlertPreferences prefs={alertPrefs} onToggle={togglePref} />
+        </div>
+        <div className="order-last md:order-first">
+          <RecentNotifications notifications={recentNotifications} />
+        </div>
       </div>
 
       <TelegramConnectModal

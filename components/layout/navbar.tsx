@@ -2,6 +2,7 @@
 
 import { ROUTES } from "@/lib/constants/routes";
 import { Bell, LayoutGrid, Search, Shield } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
@@ -41,7 +42,7 @@ interface NavbarProps {
   right?: React.ReactNode;
   showActiveState?: boolean;
   className?: string;
-} 
+}
 
 export function Navbar({ right, showActiveState = false, className }: NavbarProps) {
   const pathname = usePathname();
@@ -63,9 +64,10 @@ export function Navbar({ right, showActiveState = false, className }: NavbarProp
         <div className="flex items-center gap-8">
           <Link
             href={ROUTES.HOME}
-            className="text-lg font-bold tracking-tight text-foreground"
+            className="flex items-center gap-1 text-lg font-bold tracking-tight text-foreground"
           >
-            <span className="text-primary">S</span>entient
+            <Image src="/logo.png" alt="Sentient" width={36} height={36} className="size-[24px] md:size-[36px]" />
+            entient
           </Link>
 
           <div className="hidden h-4 w-px bg-border/60 md:block" />

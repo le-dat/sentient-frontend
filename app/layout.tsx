@@ -16,9 +16,27 @@ const jetBrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Sentient Finance — DeFi Vault Automation",
+  title: {
+    default: "Sentient Finance — DeFi Vault Automation",
+    template: "%s | Sentient Finance",
+  },
   description:
     "Automate your DeFi vaults with on-chain intelligence. Set price rules, execute swaps, and shield capital across every EVM chain.",
+  icons: {
+    icon: "/logo.png",
+    shortcut: "/logo.png",
+    apple: "/logo.png",
+  },
+  openGraph: {
+    title: "Sentient Finance — DeFi Vault Automation",
+    description:
+      "Automate your DeFi vaults with on-chain intelligence. Set price rules, execute swaps, and shield capital across every EVM chain.",
+    images: [{ url: "/logo.png" }],
+  },
+  twitter: {
+    card: "summary",
+    images: ["/logo.png"],
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

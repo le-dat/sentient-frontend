@@ -22,7 +22,7 @@ export function TelegramConnectionCard({
   onTest,
 }: TelegramConnectionCardProps) {
   return (
-    <div className="min-w-[280px] flex-shrink-0 overflow-hidden rounded-2xl border border-border bg-card/80">
+    <div className="min-w-[280px] shrink-0 overflow-hidden rounded-2xl border border-border bg-card/80">
       <div className="h-0.5 w-full bg-linear-to-r from-[#2AABEE]/60 via-[#2AABEE]/30 to-transparent" />
       <div className="p-4">
         <div className="flex items-center justify-between gap-3">
