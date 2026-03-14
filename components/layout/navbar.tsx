@@ -42,7 +42,7 @@ interface NavbarProps {
   right?: React.ReactNode;
   showActiveState?: boolean;
   className?: string;
-} 
+}
 
 export function Navbar({ right, showActiveState = false, className }: NavbarProps) {
   const pathname = usePathname();
@@ -64,10 +64,10 @@ export function Navbar({ right, showActiveState = false, className }: NavbarProp
         <div className="flex items-center gap-8">
           <Link
             href={ROUTES.HOME}
-            className="flex items-center gap-2 text-lg font-bold tracking-tight text-foreground"
+            className="flex items-center gap-1 text-lg font-bold tracking-tight text-foreground"
           >
-            <Image src="/logo.png" alt="Sentient" width={24} height={24} />
-            <span className="text-primary">S</span>entient
+            <Image src="/logo.png" alt="Sentient" width={36} height={36} className="size-[24px] md:size-[36px]" />
+            entient
           </Link>
 
           <div className="hidden h-4 w-px bg-border/60 md:block" />
