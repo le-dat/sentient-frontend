@@ -66,7 +66,13 @@ export function Navbar({ right, showActiveState = false, className }: NavbarProp
             href={ROUTES.HOME}
             className="flex items-center gap-1 text-lg font-bold tracking-tight text-foreground"
           >
-            <Image src="/logo.png" alt="Sentient" width={36} height={36} className="size-[24px] md:size-[32px]" />
+            <Image
+              src="/logo.png"
+              alt="Sentient"
+              width={36}
+              height={36}
+              className="size-[24px] md:size-[32px]"
+            />
             entient
           </Link>
 

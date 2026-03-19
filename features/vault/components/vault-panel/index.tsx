@@ -12,6 +12,7 @@ import { ConsoleTab } from "./tabs/console-tab";
 import { HistoryTab } from "./tabs/history-tab";
 import type { Tab } from "./types";
 import { parseTokens } from "./utils";
+import { DeactivateConfirmModal } from "./deactivate-confirm-modal";
 
 interface VaultPanelProps {
   vault: VaultItem;
@@ -22,6 +23,7 @@ interface VaultPanelProps {
 export function VaultPanel({ vault, onClose, onRefresh }: VaultPanelProps) {
   const [activeTab, setActiveTab] = useState<Tab>("console");
   const [isActive, setIsActive] = useState(vault.status === "active");
+  const [showConfirmOff, setShowConfirmOff] = useState(false);
   const [copied, setCopied] = useState(false);
 
   const [selection, setSelection] = useState({ symbol: "", source: "system" });
@@ -62,8 +64,18 @@ export function VaultPanel({ vault, onClose, onRefresh }: VaultPanelProps) {
           </div>
           <div className="flex gap-1">
             <button
-              onClick={() => setIsActive(!isActive)}
-              className={`h-8 w-8 flex items-center justify-center rounded-lg border transition-colors ${isActive ? "border-success/40 text-success bg-success/5" : "border-border/60 text-muted"}`}
+              onClick={() => {
+                if (isActive) {
+                  setShowConfirmOff(true);
+                } else {
+                  setIsActive(true);
+                }
+              }}
+              className={`h-8 w-8 flex items-center justify-center rounded-lg border transition-all ${
+                isActive
+                  ? "border-success/60 text-success bg-success/15 shadow-[0_0_10px_rgba(52,211,153,0.25)] ring-1 ring-success/20"
+                  : "border-border/60 text-muted hover:text-foreground hover:border-border"
+              }`}
             >
               <Power className="h-3.5 w-3.5" />
             </button>
@@ -124,6 +136,16 @@ export function VaultPanel({ vault, onClose, onRefresh }: VaultPanelProps) {
           )}
         </main>
       </div>
+
+      {showConfirmOff && (
+        <DeactivateConfirmModal
+          onCancel={() => setShowConfirmOff(false)}
+          onConfirm={() => {
+            setIsActive(false);
+            setShowConfirmOff(false);
+          }}
+        />
+      )}
     </div>
   );
 }
