@@ -69,27 +69,26 @@ export function TokenRuleItem({
     tradeVal > 0;
 
   return (
-    <div className="rounded-lg border border-border/50 bg-card/50 overflow-hidden">
-      {/* ── Header / toggle ───────────────────────────────────────────────── */}
+    <div className="border-border/50 bg-card/50 overflow-hidden rounded-lg border">
       <button
         type="button"
         onClick={onToggle}
-        className="flex w-full items-center gap-2 px-3 py-2.5 text-left hover:bg-muted/30 transition-colors"
+        className="hover:bg-muted/30 flex w-full items-center gap-2 px-3 py-2.5 text-left transition-colors"
       >
         <ChevronDown
-          className={`h-4 w-4 shrink-0 text-muted transition-transform ${isOpen ? "" : "-rotate-90"}`}
+          className={`text-muted h-4 w-4 shrink-0 transition-transform ${isOpen ? "" : "-rotate-90"}`}
         />
         <span className="text-sm font-semibold">{sym}</span>
         {onChainEnabled && onChainRule?.buyThreshold && onChainRule?.sellThreshold ? (
-          <span className="ml-auto text-[10px] text-muted truncate max-w-[160px]">
+          <span className="text-muted ml-auto max-w-[160px] truncate text-[10px]">
             Buy &lt; ${onChainRule.buyThreshold} · Sell &gt; ${onChainRule.sellThreshold}
           </span>
         ) : (
           <span
             className={`ml-auto shrink-0 rounded-full px-2.5 py-0.5 text-xs font-medium ${
               onChainEnabled
-                ? "bg-success/20 text-success border border-success/30"
-                : "bg-muted/50 text-muted-foreground border border-border/40"
+                ? "bg-success/20 text-success border-success/30 border"
+                : "bg-muted/50 text-muted-foreground border-border/40 border"
             }`}
           >
             {onChainEnabled ? "Active" : "Inactive"}
@@ -99,25 +98,24 @@ export function TokenRuleItem({
 
       {/* ── Expanded form ─────────────────────────────────────────────────── */}
       {isOpen && (
-        <div className="border-t border-border/50 px-3 py-3 space-y-5">
-          {/* Enable toggle + status badge + Turn Off — single grouped row */}
+        <div className="border-border/50 space-y-5 border-t px-3 py-3">
           <div className="flex items-center gap-3">
-            <label className="flex items-center gap-2 cursor-pointer select-none">
+            <label className="flex cursor-pointer items-center gap-2 select-none">
               <div className="relative shrink-0">
                 <input
                   type="checkbox"
-                  className="sr-only peer"
+                  className="peer sr-only"
                   checked={enabled}
                   onChange={(e) => {
-                    if (!e.target.checked && enabled) {
+                    if (!e.target.checked && enabled && onChainEnabled) {
                       setShowDisableConfirm(true);
                     } else {
                       onUpdate(sym, { enabled: e.target.checked });
                     }
                   }}
                 />
-                <div className="w-10 h-6 bg-card-2 border border-border/60 rounded-full peer peer-checked:bg-primary/30 peer-checked:border-primary/60 transition-all" />
-                <div className="absolute top-1 left-1 w-4 h-4 bg-muted rounded-full transition-all peer-checked:translate-x-4 peer-checked:bg-primary" />
+                <div className="bg-card-2 border-border/60 peer peer-checked:bg-primary/30 peer-checked:border-primary/60 h-6 w-10 rounded-full border transition-all" />
+                <div className="bg-muted peer-checked:bg-primary absolute top-1 left-1 h-4 w-4 rounded-full transition-all peer-checked:translate-x-4" />
               </div>
               <span className="text-sm font-medium">Automate trading</span>
             </label>
@@ -128,22 +126,20 @@ export function TokenRuleItem({
             <>
               {/* Buy threshold */}
               <div className="flex items-center gap-2">
-                <label className="text-xs font-medium shrink-0">
-                  Buy when price drops below $
-                </label>
+                <label className="shrink-0 text-xs font-medium">Buy when price drops below $</label>
                 <input
                   type="text"
                   value={form?.buyThreshold ?? ""}
                   onChange={(e) => onUpdate(sym, { buyThreshold: e.target.value })}
                   placeholder={livePrice ?? "0.00"}
-                  className="w-24 rounded-lg border border-border/60 bg-card px-2 py-1.5 text-xs font-medium text-foreground outline-none focus:border-primary/50 placeholder:text-muted"
+                  className="border-border/60 bg-card text-foreground focus:border-primary/50 placeholder:text-muted w-24 rounded-lg border px-2 py-1.5 text-xs font-medium outline-none"
                 />
               </div>
 
               {/* Sell threshold */}
               <div>
                 <div className="flex items-center gap-2">
-                  <label className="text-xs font-medium shrink-0">
+                  <label className="shrink-0 text-xs font-medium">
                     Sell when price rises above $
                   </label>
                   <input
@@ -151,11 +147,11 @@ export function TokenRuleItem({
                     value={form?.sellThreshold ?? ""}
                     onChange={(e) => onUpdate(sym, { sellThreshold: e.target.value })}
                     placeholder={livePrice ?? "0.00"}
-                    className="w-24 rounded-lg border border-border/60 bg-card px-2 py-1.5 text-xs font-medium text-foreground outline-none focus:border-primary/50 placeholder:text-muted"
+                    className="border-border/60 bg-card text-foreground focus:border-primary/50 placeholder:text-muted w-24 rounded-lg border px-2 py-1.5 text-xs font-medium outline-none"
                   />
                 </div>
                 {sellBelowBuy && (
-                  <p className="text-[10px] text-warning mt-1">
+                  <p className="text-warning mt-1 text-[10px]">
                     ⚠ Must be higher than your buy price
                   </p>
                 )}
@@ -163,28 +159,28 @@ export function TokenRuleItem({
 
               {/* Trade amount */}
               <div className="flex items-center gap-2">
-                <label className="text-xs font-medium shrink-0">Trade amount</label>
+                <label className="shrink-0 text-xs font-medium">Trade amount</label>
                 <input
                   type="text"
                   value={form?.tradeAmount ?? ""}
                   onChange={(e) => onUpdate(sym, { tradeAmount: e.target.value })}
                   placeholder="100"
-                  className="w-24 rounded-lg border border-border/60 bg-card px-2 py-1.5 text-xs font-medium text-foreground outline-none focus:border-primary/50 placeholder:text-muted"
+                  className="border-border/60 bg-card text-foreground focus:border-primary/50 placeholder:text-muted w-24 rounded-lg border px-2 py-1.5 text-xs font-medium outline-none"
                 />
-                <span className="text-xs text-muted shrink-0">{baseToken}</span>
+                <span className="text-muted shrink-0 text-xs">{baseToken}</span>
               </div>
 
               {/* Rule summary */}
               {showSummary && (
-                <div className="rounded-lg bg-primary/5 border border-primary/20 px-3 py-2.5 space-y-1">
-                  <p className="text-xs font-semibold text-foreground">What the bot will do:</p>
-                  <p className="text-xs text-muted">
+                <div className="bg-primary/5 border-primary/20 space-y-1 rounded-lg border px-3 py-2.5">
+                  <p className="text-foreground text-xs font-semibold">What the bot will do:</p>
+                  <p className="text-muted text-xs">
                     • Buy {sym} when price &lt; ${form.buyThreshold}
                   </p>
-                  <p className="text-xs text-muted">
+                  <p className="text-muted text-xs">
                     • Sell {sym} when price &gt; ${form.sellThreshold}
                   </p>
-                  <p className="text-xs text-muted">
+                  <p className="text-muted text-xs">
                     • Trade ${form.tradeAmount} {baseToken} each time
                   </p>
                 </div>
@@ -196,7 +192,7 @@ export function TokenRuleItem({
           <button
             onClick={() => onSave(sym)}
             disabled={isPending || !canSave}
-            className="flex w-full items-center justify-center gap-2 rounded-xl bg-primary/20 py-2.5 text-xs font-semibold text-primary hover:bg-primary/30 disabled:opacity-50 transition-all"
+            className="bg-primary/20 text-primary hover:bg-primary/30 flex w-full items-center justify-center gap-2 rounded-xl py-2.5 text-xs font-semibold transition-all disabled:opacity-50"
           >
             {isPending ? (
               <>
@@ -214,17 +210,17 @@ export function TokenRuleItem({
       )}
       {showDisableConfirm && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
-          <div className="mx-4 w-full max-w-sm rounded-2xl border border-border/60 bg-card p-5 shadow-xl space-y-4">
+          <div className="border-border/60 bg-card mx-4 w-full max-w-sm space-y-4 rounded-2xl border p-5 shadow-xl">
             <div className="space-y-1">
               <p className="text-sm font-semibold">Disable automation for {sym}?</p>
-              <p className="text-xs text-muted">
+              <p className="text-muted text-xs">
                 This will remove the on-chain rule and stop automated trading for this token.
               </p>
             </div>
             <div className="flex gap-2">
               <button
                 onClick={() => setShowDisableConfirm(false)}
-                className="flex-1 rounded-xl border border-border/60 bg-card-2/40 py-2 text-xs font-semibold text-foreground hover:bg-muted/30 transition-all"
+                className="border-border/60 bg-card-2/40 text-foreground hover:bg-muted/30 flex-1 rounded-xl border py-2 text-xs font-semibold transition-all"
               >
                 Cancel
               </button>
@@ -234,7 +230,7 @@ export function TokenRuleItem({
                   onDisable(sym);
                 }}
                 disabled={isPending}
-                className="flex-1 rounded-xl border border-danger/40 bg-danger/10 py-2 text-xs font-semibold text-danger hover:bg-danger/20 disabled:opacity-50 transition-all"
+                className="border-danger/40 bg-danger/10 text-danger hover:bg-danger/20 flex-1 rounded-xl border py-2 text-xs font-semibold transition-all disabled:opacity-50"
               >
                 {isPending ? <Loader2 className="mx-auto h-3.5 w-3.5 animate-spin" /> : "Disable"}
               </button>

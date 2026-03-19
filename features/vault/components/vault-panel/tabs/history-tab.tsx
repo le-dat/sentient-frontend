@@ -5,7 +5,16 @@ import { useVaultHistory } from "@/lib/api/hooks";
 import type { HistoryItem } from "@/lib/api/types";
 import { zeroAddress } from "viem";
 import { TOKEN_DATA } from "../constants";
-import { ArrowDownToLine, ArrowUpFromLine, ArrowLeftRight, ExternalLink, RefreshCw, ShieldAlert, Check, Zap } from "lucide-react";
+import {
+  ArrowDownToLine,
+  ArrowUpFromLine,
+  ArrowLeftRight,
+  ExternalLink,
+  ShieldAlert,
+  Check,
+  Zap,
+} from "lucide-react";
+import { Skeleton } from "@/components/ui/skeleton";
 import { getExplorerBase, formatAmount } from "@/lib/utils";
 
 const EVENT_TYPE_FILTERS: { value: string; label: string }[] = [
@@ -29,25 +38,56 @@ function tokenSymbol(addr: string): string {
   return ADDR_TO_SYMBOL[a] ?? (a.startsWith("0x") ? a.slice(0, 6) + "…" : "—");
 }
 
-const EVENT_CONFIG: Record<string, { Icon: typeof Check; label: string; color: string; bg: string }> = {
-  TokenDeposited:             { Icon: ArrowDownToLine, label: "Deposit", color: "text-success",  bg: "bg-success/10"  },
-  TokenWithdrawn:             { Icon: ArrowUpFromLine, label: "Withdraw", color: "text-warning", bg: "bg-warning/10" },
-  SwapExecuted:               { Icon: ArrowLeftRight,  label: "Swap",    color: "text-blue-400", bg: "bg-blue-400/10" },
-  CrossChainShieldTriggered:  { Icon: ShieldAlert,     label: "Shield",  color: "text-primary",  bg: "bg-primary/10"  },
-  TokenRuleSet:               { Icon: Check,           label: "Rule",    color: "text-primary",  bg: "bg-primary/10"  },
-  VaultInitialized:           { Icon: Check,           label: "Init",    color: "text-primary",  bg: "bg-primary/10"  },
+const EVENT_CONFIG: Record<
+  string,
+  { Icon: typeof Check; label: string; color: string; bg: string }
+> = {
+  TokenDeposited: {
+    Icon: ArrowDownToLine,
+    label: "Deposit",
+    color: "text-success",
+    bg: "bg-success/10",
+  },
+  TokenWithdrawn: {
+    Icon: ArrowUpFromLine,
+    label: "Withdraw",
+    color: "text-warning",
+    bg: "bg-warning/10",
+  },
+  SwapExecuted: {
+    Icon: ArrowLeftRight,
+    label: "Swap",
+    color: "text-blue-400",
+    bg: "bg-blue-400/10",
+  },
+  CrossChainShieldTriggered: {
+    Icon: ShieldAlert,
+    label: "Shield",
+    color: "text-primary",
+    bg: "bg-primary/10",
+  },
+  TokenRuleSet: { Icon: Check, label: "Rule", color: "text-primary", bg: "bg-primary/10" },
+  VaultInitialized: { Icon: Check, label: "Init", color: "text-primary", bg: "bg-primary/10" },
 };
 
 function formatDetail(e: HistoryItem): string {
   const p = e.payload_json as Record<string, unknown>;
 
-  if (e.event_type === "TokenDeposited" && p.token != null && (p.amount != null || p.amountIn != null)) {
+  if (
+    e.event_type === "TokenDeposited" &&
+    p.token != null &&
+    (p.amount != null || p.amountIn != null)
+  ) {
     const sym = tokenSymbol(String(p.token));
     const dec = TOKEN_DATA[sym]?.decimals ?? 18;
     const amt = p.amount ?? p.amountIn;
     return `${formatAmount(String(amt), dec)} ${sym}`;
   }
-  if (e.event_type === "TokenWithdrawn" && p.token != null && (p.amount != null || p.amountOut != null)) {
+  if (
+    e.event_type === "TokenWithdrawn" &&
+    p.token != null &&
+    (p.amount != null || p.amountOut != null)
+  ) {
     const sym = tokenSymbol(String(p.token));
     const dec = TOKEN_DATA[sym]?.decimals ?? 18;
     const amt = p.amount ?? p.amountOut;
@@ -58,7 +98,7 @@ function formatDetail(e: HistoryItem): string {
     const symOut = tokenSymbol(String(p.tokenOut ?? ""));
     const decIn = TOKEN_DATA[symIn]?.decimals ?? 18;
     const decOut = TOKEN_DATA[symOut]?.decimals ?? 18;
-    const amtIn  = p.amountIn  != null ? formatAmount(String(p.amountIn),  decIn)  : "—";
+    const amtIn = p.amountIn != null ? formatAmount(String(p.amountIn), decIn) : "—";
     const amtOut = p.amountOut != null ? formatAmount(String(p.amountOut), decOut) : "—";
     return `${amtIn} ${symIn} → ${amtOut} ${symOut}`;
   }
@@ -75,8 +115,10 @@ function formatDetail(e: HistoryItem): string {
     const enabled = p.enabled != null ? (p.enabled ? "on" : "off") : null;
     const parts: string[] = [tokenSym];
     if (enabled) parts.push(enabled);
-    if (buyRaw != null && buyRaw > 0) parts.push(`Buy < $${buyRaw.toLocaleString(undefined, { maximumFractionDigits: 0 })}`);
-    if (sellRaw != null && sellRaw > 0) parts.push(`Sell > $${sellRaw.toLocaleString(undefined, { maximumFractionDigits: 0 })}`);
+    if (buyRaw != null && buyRaw > 0)
+      parts.push(`Buy < $${buyRaw.toLocaleString(undefined, { maximumFractionDigits: 0 })}`);
+    if (sellRaw != null && sellRaw > 0)
+      parts.push(`Sell > $${sellRaw.toLocaleString(undefined, { maximumFractionDigits: 0 })}`);
     return parts.join(" · ");
   }
   if (e.event_type === "VaultInitialized") {
@@ -86,26 +128,31 @@ function formatDetail(e: HistoryItem): string {
 }
 
 function EventRow({ item }: { item: HistoryItem }) {
-  const cfg = EVENT_CONFIG[item.event_type] ?? { Icon: Zap, label: item.event_type, color: "text-muted", bg: "bg-muted/10" };
+  const cfg = EVENT_CONFIG[item.event_type] ?? {
+    Icon: Zap,
+    label: item.event_type,
+    color: "text-muted",
+    bg: "bg-muted/10",
+  };
   const explorerBase = getExplorerBase(item.chain_id);
   const detail = formatDetail(item);
 
   return (
-    <div className="flex items-center gap-3 px-1 py-2.5 border-b border-border/30 last:border-0">
+    <div className="border-border/30 flex items-center gap-3 border-b px-1 py-2.5 last:border-0">
       <div className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-lg ${cfg.bg}`}>
         <cfg.Icon className={`h-3.5 w-3.5 ${cfg.color}`} />
       </div>
 
-      <div className="flex flex-1 flex-col min-w-0">
+      <div className="flex min-w-0 flex-1 flex-col">
         <span className={`text-xs font-semibold ${cfg.color}`}>{cfg.label}</span>
-        {detail && <span className="text-[11px] text-muted truncate">{detail}</span>}
+        {detail && <span className="text-muted truncate text-[11px]">{detail}</span>}
       </div>
 
       <a
         href={`${explorerBase}/tx/${item.tx_hash}`}
         target="_blank"
         rel="noopener noreferrer"
-        className="flex items-center gap-1 text-[11px] text-muted hover:text-foreground shrink-0"
+        className="text-muted hover:text-foreground flex shrink-0 items-center gap-1 text-[11px]"
       >
         {item.tx_hash.slice(0, 6)}…{item.tx_hash.slice(-4)}
         <ExternalLink className="h-3 w-3" />
@@ -135,9 +182,23 @@ export function HistoryTab({ vaultAddress, chainId }: HistoryTabProps) {
 
   if (isLoading) {
     return (
-      <div className="flex h-40 items-center justify-center gap-2 text-xs text-muted">
-        <RefreshCw className="h-4 w-4 animate-spin" />
-        Loading history…
+      <div className="space-y-3">
+        <Skeleton className="h-7 w-28" />
+        <div className="border-border/60 bg-card-2/40 rounded-xl border px-3 py-1">
+          {Array.from({ length: 5 }).map((_, i) => (
+            <div
+              key={i}
+              className="border-border/30 flex items-center gap-3 border-b px-1 py-2.5 last:border-0"
+            >
+              <Skeleton className="h-7 w-7 shrink-0 rounded-lg" />
+              <div className="flex min-w-0 flex-1 flex-col gap-1.5">
+                <Skeleton className="h-3 w-14" />
+                <Skeleton className="h-2.5 w-24" />
+              </div>
+              <Skeleton className="h-3 w-16 shrink-0" />
+            </div>
+          ))}
+        </div>
       </div>
     );
   }
@@ -159,11 +220,11 @@ export function HistoryTab({ vaultAddress, chainId }: HistoryTabProps) {
   return (
     <div className="space-y-3">
       <div className="flex items-center gap-2">
-        <label className="text-[10px] text-muted shrink-0">Filter:</label>
+        <label className="text-muted shrink-0 text-[10px]">Filter:</label>
         <select
           value={eventType}
           onChange={(e) => setEventType(e.target.value)}
-          className="rounded-lg border border-border/60 bg-card px-3 py-1.5 text-xs font-medium text-foreground outline-none focus:border-primary/50"
+          className="border-border/60 bg-card text-foreground focus:border-primary/50 rounded-lg border px-3 py-1.5 text-xs font-medium outline-none"
         >
           {EVENT_TYPE_FILTERS.map((f) => (
             <option key={f.value || "all"} value={f.value}>
@@ -174,11 +235,11 @@ export function HistoryTab({ vaultAddress, chainId }: HistoryTabProps) {
       </div>
 
       {items.length === 0 ? (
-        <div className="flex h-32 items-center justify-center rounded-xl border border-dashed border-border/60 text-xs text-muted text-center px-4">
+        <div className="border-border/60 text-muted flex h-32 items-center justify-center rounded-xl border border-dashed px-4 text-center text-xs">
           {emptyLabel}
         </div>
       ) : (
-        <div className="rounded-xl border border-border/60 bg-card-2/40 px-3 py-1">
+        <div className="border-border/60 bg-card-2/40 rounded-xl border px-3 py-1">
           {items.map((item, i) => (
             <EventRow key={`${item.tx_hash}-${item.log_index}-${i}`} item={item} />
           ))}
