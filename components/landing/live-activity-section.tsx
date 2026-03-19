@@ -31,7 +31,7 @@ const deploySteps = [
 
 export function LiveActivitySection() {
   return (
-    <section className="mx-auto max-w-6xl px-6 pb-24 pt-8">
+    <section className="mx-auto max-w-6xl px-6 pb-16 md:pb-24 pt-8">
       <RevealSection className="mb-12 py-4 text-center">
         <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-primary">Real-time</p>
         <h2 className="text-3xl font-bold">Live Activity</h2>

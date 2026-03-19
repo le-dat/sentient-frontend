@@ -99,7 +99,7 @@ export function HeroSection() {
         }}
       />
 
-      <div className="max-w-[1200px] mx-auto px-4 grid grid-cols-[1fr_340px] gap-[52px]">
+      <div className="max-w-[1200px] mx-auto px-4 grid grid-cols-1 md:grid-cols-[1fr_340px] gap-8 md:gap-[52px]">
         {/* LEFT */}
         <div className="flex flex-col pt-2">
           {/* Headline */}

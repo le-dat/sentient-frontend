@@ -9,7 +9,7 @@ import type { VaultItem } from "@/features/vault/types";
 
 export function useDashboardFlow() {
   const { address } = useAccount();
-  const { allChains, allVaults, availableChains, addChainAndVault, refreshVaults } = useDashboardState();
+  const { allChains, allVaults, availableChains, addChainAndVault, refreshVaults, isLoading } = useDashboardState();
   const { createVault, isCreating, error: vaultError } = useCreateVault();
 
   const [chainSelectOpen, setChainSelectOpen] = useState(false);
@@ -57,5 +57,6 @@ export function useDashboardFlow() {
     scrollToChain,
     handleChainSelect,
     refreshVaults,
+    isLoading,
   };
 }

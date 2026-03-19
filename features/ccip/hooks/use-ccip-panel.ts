@@ -22,11 +22,14 @@ interface UseCCIPPanelOptions {
   vaultOwner: string | null;
 }
 
+type PendingAction = "config" | "deposit" | "drip" | "shield" | null;
+
 export function useCCIPPanel({ vaultAddress, chainId, vaultOwner }: UseCCIPPanelOptions) {
   const { address: userAddress, isConnected } = useAccount();
 
   // Form state
   const [ccipRouterAddress, setCcipRouterAddress] = useState<string>("");
+  const [pendingAction, setPendingAction] = useState<PendingAction>(null);
   const [shieldToken, setShieldToken] = useState<string>(CCIP_BNM_BASE_SEPOLIA);
   const [shieldAmount, setShieldAmount] = useState("");
   const [shieldReceiver, setShieldReceiver] = useState("");
@@ -135,6 +138,7 @@ export function useCCIPPanel({ vaultAddress, chainId, vaultOwner }: UseCCIPPanel
   function handleSetCCIPConfig() {
     const router = ccipRouterAddress.trim() || defaultRouter;
     if (!router.startsWith("0x") || router.length !== 42) return;
+    setPendingAction("config");
     writeContract({
       address: vaultAddress,
       abi: VAULT_CCIP_ABI,
@@ -148,6 +152,7 @@ export function useCCIPPanel({ vaultAddress, chainId, vaultOwner }: UseCCIPPanel
     try {
       const value = parseEther(depositEthAmount);
       if (value <= 0n) return;
+      setPendingAction("deposit");
       writeContract({
         address: vaultAddress,
         abi: VAULT_CCIP_ABI,
@@ -160,6 +165,7 @@ export function useCCIPPanel({ vaultAddress, chainId, vaultOwner }: UseCCIPPanel
 
   function handleDrip() {
     if (!userAddress) return;
+    setPendingAction("drip");
     writeContract({
       address: CCIP_BNM_BASE_SEPOLIA,
       abi: CCIP_BNM_ABI,
@@ -173,6 +179,7 @@ export function useCCIPPanel({ vaultAddress, chainId, vaultOwner }: UseCCIPPanel
     if (!shieldToken || !shieldAmount || !recv) return;
     try {
       const amountParsed = parseUnits(shieldAmount, 18);
+      setPendingAction("shield");
       writeContract({
         address: vaultAddress,
         abi: VAULT_CCIP_ABI,
@@ -232,13 +239,12 @@ export function useCCIPPanel({ vaultAddress, chainId, vaultOwner }: UseCCIPPanel
     writeHash,
     writeError,
     resetWrite,
+    pendingAction,
     // Handlers
     handleSetCCIPConfig,
     handleDepositEth,
     handleDrip,
     handleEmergencyShield,
     canExecuteShield,
-    // Constants
-    DESTINATION_OPTIONS,
   };
 }

@@ -16,12 +16,6 @@ export type VaultItem = {
 export const TRADE_TOKENS = ["WETH", "LINK", "CCIP"];
 export const BASE_TOKENS = ["USDC"];
 
-export const THRESHOLD_HINTS: Record<string, { buy: string; sell: string }> = {
-  WETH: { buy: "2500", sell: "3200" },
-  LINK: { buy: "14", sell: "18" },
-  CCIP: { buy: "1", sell: "1.2" },
-};
-
 export type RuleData = {
   enabled: boolean;
   buyThreshold: string;

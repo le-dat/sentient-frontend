@@ -52,3 +52,49 @@ export function formatAmount(raw: bigint | string | number, decimals = 18): stri
 export function isValidAddress(addr: string): boolean {
   return /^0x[a-fA-F0-9]{40}$/.test(addr);
 }
+
+export function formatError(error: unknown): string {
+  if (error == null) return "An unknown error occurred";
+  if (typeof error === "string") return _cleanMessage(error);
+  if (typeof error === "object" && !Array.isArray(error)) {
+    const obj = error as Record<string, unknown>;
+    const apiMsg =
+      (typeof obj.error === "string" ? obj.error : null) ??
+      (typeof obj.detail === "string" ? obj.detail : null);
+    if (apiMsg) return _cleanMessage(apiMsg);
+  }
+  if (error instanceof Error) return _classifyMessage(error.message);
+  return "An unknown error occurred";
+}
+
+function _classifyMessage(raw: string): string {
+  const msg = raw.toLowerCase();
+  if (msg.includes("user rejected") || msg.includes("user denied"))
+    return "User rejected";
+  if (msg.includes("insufficient funds"))
+    return "Insufficient funds for gas";
+  if (msg.includes("nonce too low") || msg.includes("nonce has already been used"))
+    return "Nonce conflict, try again";
+  if (msg.includes("execution reverted") || msg.includes("contract reverted")) {
+    const revertMatch =
+      raw.match(/revert(?:ed)?\s+(?:reason\s*:\s*)?["']?([^"'\n]{1,80})["']?/i) ??
+      raw.match(/Error:\s+([A-Z][a-zA-Z0-9 ]{1,60})/);
+    if (revertMatch?.[1]) {
+      const reason = revertMatch[1].trim().replace(/['"]/g, "");
+      return reason.length > 0 ? reason : "Contract reverted";
+    }
+    return "Contract reverted";
+  }
+  return _cleanMessage(raw);
+}
+
+function _cleanMessage(raw: string): string {
+  let clean = raw
+    .replace(/\b0x[0-9a-fA-F]{8,}\b/g, "")
+    .replace(/\bABI:\s*\[.*?\]/gs, "")
+    .replace(/\s*Details:.*$/s, "")
+    .replace(/\s+/g, " ")
+    .trim();
+  if (clean.length > 200) clean = clean.slice(0, 200) + "…";
+  return clean || "An unknown error occurred";
+}
