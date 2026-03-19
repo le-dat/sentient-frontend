@@ -12,7 +12,7 @@ function isZeroAddr(addr: string): boolean {
 
 export function useDashboardState() {
   const [refreshKey, setRefreshKey] = useState(0);
-  const { chains: onChainChains, vaults: onChainVaults } = useDashboardOnChain(refreshKey);
+  const { chains: onChainChains, vaults: onChainVaults, isLoading } = useDashboardOnChain(refreshKey);
 
   const [addedChains, setAddedChains] = useState<ChainInfo[]>([]);
   const [addedVaults, setAddedVaults] = useState<VaultItem[]>([]);
@@ -55,5 +55,5 @@ export function useDashboardState() {
     setRefreshKey((k) => k + 1);
   }, []);
 
-  return { allChains, allVaults, availableChains, addChainAndVault, refreshVaults };
+  return { allChains, allVaults, availableChains, addChainAndVault, refreshVaults, isLoading };
 }

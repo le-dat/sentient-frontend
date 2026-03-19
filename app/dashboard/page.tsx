@@ -19,6 +19,7 @@ export default function DashboardPage() {
     scrollToChain,
     handleChainSelect,
     refreshVaults,
+    isLoading,
   } = useDashboardFlow();
 
   return (
@@ -28,8 +29,9 @@ export default function DashboardPage() {
           chains={allChains}
           onAddChain={() => setChainSelectOpen(true)}
           onChainClick={scrollToChain}
+          isLoading={isLoading}
         />
-        <VaultSection vaultsByChain={vaultsByChain} onSelect={setSelected} chainRefs={chainRefs} />
+        <VaultSection vaultsByChain={vaultsByChain} onSelect={setSelected} chainRefs={chainRefs} isLoading={isLoading} />
       </div>
 
       {selected && (

@@ -1,3 +1,4 @@
+import { ErrorDescription } from "@/components/ui/error-description";
 import { useDeposit } from "@/features/vault/hooks/use-deposit";
 import { type DepositToken } from "@/features/vault/hooks/use-token-list";
 import { useWithdraw } from "@/features/vault/hooks/use-withdraw";
@@ -9,29 +10,6 @@ import { SectionHeader } from "../section-header";
 import { TokenGroup } from "../token-group";
 import { TokenRow } from "../token-row";
 import { WithdrawModal } from "../withdraw-modal";
-
-const TEXT_LIMIT = 50;
-
-const ErrorDescription = ({ message }: { message: string }) => {
-  const words = message.split(" ");
-  const isLong = words.length > TEXT_LIMIT;
-  const [expanded, setExpanded] = useState(false);
-  const text = isLong && !expanded ? words.slice(0, TEXT_LIMIT).join(" ") + "…" : message;
-
-  return (
-    <span className="block text-xs max-h-24 overflow-y-auto overflow-wrap-normal">
-      {text}
-      {isLong && (
-        <button
-          onClick={() => setExpanded((v) => !v)}
-          className="ml-1 underline opacity-70 hover:opacity-100"
-        >
-          {expanded ? "Show less" : "Show more"}
-        </button>
-      )}
-    </span>
-  );
-};
 
 interface ConsoleTabProps {
   vaultAddress: `0x${string}`;

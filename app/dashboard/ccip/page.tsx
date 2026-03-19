@@ -7,6 +7,13 @@ import { CCIPPanel } from "@/features/ccip";
 import { useVaultsList } from "@/lib/api/hooks";
 import { CCIPPageSkeleton } from "@/features/ccip/components/ccip-page-skeleton";
 
+const Header = () => (
+  <h1 className="flex items-center gap-2 text-xl font-bold text-foreground">
+    <Shield className="h-5 w-5 text-primary" />
+    Config CCIP Cross-Chain
+  </h1>
+);
+
 function CCIPPageContent() {
   const { address: userAddress, isConnected } = useAccount();
   const { data: vaultsData, isLoading } = useVaultsList(
@@ -20,15 +27,7 @@ function CCIPPageContent() {
   if (!isConnected) {
     return (
       <div className="space-y-6 animate-in fade-in duration-300">
-        <div>
-          <h1 className="flex items-center gap-2 text-xl font-bold text-foreground">
-            <Shield className="h-5 w-5 text-primary" />
-            CCIP Cross-Chain
-          </h1>
-          <p className="mt-1 text-sm text-muted">
-            Configure CCIP router and execute Emergency Shield on your vault.
-          </p>
-        </div>
+        <Header />
         <div className="rounded-xl border border-border/50 bg-card-2/40 p-6 text-center">
           <p className="text-sm text-muted">Connect wallet to manage CCIP for your vault.</p>
         </div>
@@ -43,15 +42,7 @@ function CCIPPageContent() {
   if (!vault) {
     return (
       <div className="space-y-6 animate-in fade-in duration-300">
-        <div>
-          <h1 className="flex items-center gap-2 text-xl font-bold text-foreground">
-            <Shield className="h-5 w-5 text-primary" />
-            CCIP Cross-Chain
-          </h1>
-          <p className="mt-1 text-sm text-muted">
-            Configure CCIP router and execute Emergency Shield on your vault.
-          </p>
-        </div>
+        <Header />
         <div className="flex items-center gap-3 p-4 rounded-xl border border-warning/30 bg-warning/5">
           <AlertCircle className="h-5 w-5 shrink-0 text-warning" />
           <div>
@@ -67,16 +58,7 @@ function CCIPPageContent() {
 
   return (
     <div className="space-y-6 animate-in fade-in duration-300">
-      <div>
-        <h1 className="flex items-center gap-2 text-xl font-bold text-foreground">
-          <Shield className="h-5 w-5 text-primary" />
-          CCIP Cross-Chain
-        </h1>
-        <p className="mt-1 text-sm text-muted">
-          Configure CCIP router and execute Emergency Shield on your vault.
-        </p>
-      </div>
-
+      <Header />
       {myVaults.length > 1 && (
         <div className="rounded-xl border border-border/50 bg-card-2/40 p-3">
           <p className="text-[10px] text-muted mb-1">Your vault</p>

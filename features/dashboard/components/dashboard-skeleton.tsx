@@ -1,6 +1,6 @@
 import { Skeleton } from "@/components/ui/skeleton";
 
-function ChainCardSkeleton() {
+export function ChainCardSkeleton() {
   return (
     <div className="flex min-w-44 shrink-0 items-center gap-3 rounded-xl border border-border/40 bg-card/40 px-4 py-3">
       <Skeleton className="h-10 w-10 shrink-0 rounded-xl" />
@@ -12,7 +12,7 @@ function ChainCardSkeleton() {
   );
 }
 
-function VaultCardSkeleton() {
+export function VaultCardSkeleton() {
   return (
     <div className="rounded-2xl border border-border/40 bg-card/60 p-4">
       <div className="mb-3 flex items-center justify-between">
