@@ -17,26 +17,22 @@ function TopVaultRow({ vault }: { vault: VaultListItem }) {
   return (
     <div
       onClick={() => router.push(ROUTES.SEARCH_VAULT(vault.address))}
-      className="cursor-pointer flex items-center justify-between p-4 rounded-2xl border border-border/40 bg-card/40 hover:border-primary/40 hover:bg-card/70 transition-all group"
+      className="border-border/40 bg-card/40 hover:border-primary/40 hover:bg-card/70 group flex cursor-pointer items-center justify-between rounded-2xl border p-4 transition-all"
     >
-      <div className="flex-1 min-w-0 space-y-1">
+      <div className="min-w-0 flex-1 space-y-1">
         <div className="flex items-center gap-2">
-          <p className="font-mono text-sm font-semibold text-foreground">
+          <p className="text-foreground font-mono text-sm font-semibold">
             {shortAddress(vault.address)}
           </p>
         </div>
-        <p className="text-xs text-muted truncate">
+        <p className="text-muted truncate text-xs">
           {chainName}
-          {vault.owner != null && (
-            <> · Owner {shortAddress(vault.owner)}</>
-          )}
-          {vault.created_timestamp && (
-            <> · Created {formatTimestamp(vault.created_timestamp)}</>
-          )}
+          {vault.owner != null && <> · Owner {shortAddress(vault.owner)}</>}
+          {vault.created_timestamp && <> · Created {formatTimestamp(vault.created_timestamp)}</>}
         </p>
-        <p className="text-xs text-muted font-mono truncate">{vault.address}</p>
+        <p className="text-muted truncate font-mono text-xs">{vault.address}</p>
       </div>
-      <div className="text-xs text-muted opacity-0 group-hover:opacity-100 transition-opacity ml-4">
+      <div className="text-muted ml-4 text-xs opacity-0 transition-opacity group-hover:opacity-100">
         →
       </div>
     </div>
@@ -50,8 +46,8 @@ export function TopVaults() {
     return (
       <div className="space-y-4">
         <div className="flex items-center gap-2">
-          <Zap className="h-4 w-4 text-primary" />
-          <h2 className="text-sm font-semibold text-foreground uppercase tracking-wider">
+          <Zap className="text-primary h-4 w-4" />
+          <h2 className="text-foreground text-sm font-semibold tracking-wider uppercase">
             Top Vaults
           </h2>
         </div>
@@ -59,9 +55,9 @@ export function TopVaults() {
           {[0, 1, 2, 3, 4, 5].map((i) => (
             <div
               key={i}
-              className="flex items-center justify-between p-4 rounded-2xl border border-border/40 bg-card/40"
+              className="border-border/40 bg-card/40 flex items-center justify-between rounded-2xl border p-4"
             >
-              <div className="flex-1 min-w-0 space-y-2">
+              <div className="min-w-0 flex-1 space-y-2">
                 <Skeleton className="h-4 w-28 rounded" />
                 <Skeleton className="h-3 w-full rounded" />
                 <Skeleton className="h-3 w-full rounded" />
@@ -81,12 +77,12 @@ export function TopVaults() {
     return (
       <div className="space-y-4">
         <div className="flex items-center gap-2">
-          <Zap className="h-4 w-4 text-primary" />
-          <h2 className="text-sm font-semibold text-foreground uppercase tracking-wider">
+          <Zap className="text-primary h-4 w-4" />
+          <h2 className="text-foreground text-sm font-semibold tracking-wider uppercase">
             Top Vaults
           </h2>
         </div>
-        <div className="rounded-xl border border-destructive/30 bg-destructive/5 p-4 text-sm text-destructive">
+        <div className="border-destructive/30 bg-destructive/5 text-destructive rounded-xl border p-4 text-sm">
           {msg}
         </div>
       </div>
@@ -98,17 +94,15 @@ export function TopVaults() {
   return (
     <div className="space-y-4">
       <div className="flex items-center gap-2">
-        <Zap className="h-4 w-4 text-primary" />
-        <h2 className="text-sm font-semibold text-foreground uppercase tracking-wider">
+        <Zap className="text-primary h-4 w-4" />
+        <h2 className="text-foreground text-sm font-semibold tracking-wider uppercase">
           Top Vaults
         </h2>
-        {data && (
-          <span className="text-xs text-muted">({data.total} total)</span>
-        )}
+        {data && <span className="text-muted text-xs">({data.total} total)</span>}
       </div>
       <div className="space-y-3">
         {items.length === 0 ? (
-          <p className="text-sm text-muted py-6 text-center">
+          <p className="text-muted py-6 text-center text-sm">
             No vaults found. Run the indexer to sync from subgraph.
           </p>
         ) : (

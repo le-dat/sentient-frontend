@@ -13,28 +13,28 @@ export function DeactivateConfirmModal({ onCancel, onConfirm }: DeactivateConfir
       onClick={onCancel}
     >
       <div
-        className="w-[300px] rounded-2xl border border-border bg-card shadow-xl"
+        className="border-border bg-card w-[300px] rounded-2xl border shadow-xl"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex flex-col items-center px-6 pt-6 pb-4 text-center">
-          <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-full border border-danger/30 bg-danger/10">
-            <Power className="h-4 w-4 text-danger" />
+          <div className="border-danger/30 bg-danger/10 mb-3 flex h-10 w-10 items-center justify-center rounded-full border">
+            <Power className="text-danger h-4 w-4" />
           </div>
-          <p className="text-sm font-semibold text-foreground">Deactivate this vault?</p>
-          <p className="mt-1 text-xs text-muted">
+          <p className="text-foreground text-sm font-semibold">Deactivate this vault?</p>
+          <p className="text-muted mt-1 text-xs">
             The vault will stop executing automated strategies.
           </p>
         </div>
-        <div className="flex gap-2 border-t border-border/40 px-5 py-4">
+        <div className="border-border/40 flex gap-2 border-t px-5 py-4">
           <button
             onClick={onCancel}
-            className="flex-1 rounded-lg border border-border/60 py-2 text-xs text-muted transition-colors hover:text-foreground"
+            className="border-border/60 text-muted hover:text-foreground flex-1 rounded-lg border py-2 text-xs transition-colors"
           >
             Cancel
           </button>
           <button
             onClick={onConfirm}
-            className="flex-1 rounded-lg bg-danger/15 border border-danger/30 py-2 text-xs font-semibold text-danger transition-colors hover:bg-danger/25"
+            className="bg-danger/15 border-danger/30 text-danger hover:bg-danger/25 flex-1 rounded-lg border py-2 text-xs font-semibold transition-colors"
           >
             Deactivate
           </button>

@@ -7,24 +7,24 @@ interface RecentNotificationsProps {
 
 export function RecentNotifications({ notifications }: RecentNotificationsProps) {
   return (
-    <div className="rounded-2xl border border-border bg-card/80 p-5">
+    <div className="border-border bg-card/80 rounded-2xl border p-5">
       <div className="mb-4 flex items-center justify-between">
         <div>
           <p className="font-semibold">Recent Notifications</p>
-          <p className="text-xs text-muted">Last 24 hours of sent alerts</p>
+          <p className="text-muted text-xs">Last 24 hours of sent alerts</p>
         </div>
-        <span className="rounded-full border border-border bg-card-2/60 px-2.5 py-1 text-xs text-muted">
+        <span className="border-border bg-card-2/60 text-muted rounded-full border px-2.5 py-1 text-xs">
           {notifications.length} sent
         </span>
       </div>
 
       {notifications.length === 0 ? (
         <div className="flex flex-col items-center justify-center gap-2 py-10 text-center">
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-border bg-card-2/60 text-muted">
+          <div className="border-border bg-card-2/60 text-muted flex h-10 w-10 items-center justify-center rounded-xl border">
             <BellOff className="h-5 w-5" strokeWidth={1.5} />
           </div>
-          <p className="text-sm font-medium text-muted">No alerts yet</p>
-          <p className="text-xs text-muted/70">
+          <p className="text-muted text-sm font-medium">No alerts yet</p>
+          <p className="text-muted/70 text-xs">
             Alerts will appear here once your vaults start firing events.
           </p>
         </div>
@@ -33,15 +33,15 @@ export function RecentNotifications({ notifications }: RecentNotificationsProps)
           {notifications.map((n, i) => (
             <div
               key={i}
-              className="flex items-center gap-3 rounded-xl border border-border/60 bg-card-2/30 px-3 py-3 transition-colors hover:bg-card-2/60"
+              className="border-border/60 bg-card-2/30 hover:bg-card-2/60 flex items-center gap-3 rounded-xl border px-3 py-3 transition-colors"
             >
               <div className="min-w-0 flex-1">
                 <p className={`text-sm font-semibold ${n.textColor}`}>{n.type}</p>
-                <p className="text-xs text-muted">
+                <p className="text-muted text-xs">
                   {n.vault} · {n.chain}
                 </p>
               </div>
-              <span className="whitespace-nowrap text-xs text-muted">{n.time}</span>
+              <span className="text-muted text-xs whitespace-nowrap">{n.time}</span>
             </div>
           ))}
         </div>

@@ -15,18 +15,14 @@ import {
 
 export const vaultKeys = {
   all: ["vaults"] as const,
-  lists: (params?: ListVaultsParams) =>
-    [...vaultKeys.all, "list", params] as const,
+  lists: (params?: ListVaultsParams) => [...vaultKeys.all, "list", params] as const,
   detail: (address: string, params?: GetVaultParams) =>
     [...vaultKeys.all, "detail", address, params] as const,
   history: (address: string, params?: GetVaultHistoryParams) =>
     [...vaultKeys.all, "history", address, params] as const,
 };
 
-export function useVaultsList(
-  params: ListVaultsParams = {},
-  options?: { enabled?: boolean },
-) {
+export function useVaultsList(params: ListVaultsParams = {}, options?: { enabled?: boolean }) {
   return useQuery({
     queryKey: vaultKeys.lists(params),
     queryFn: () => listVaults(params),
@@ -42,10 +38,7 @@ export function useVaultDetail(address: string, params?: GetVaultParams) {
   });
 }
 
-export function useVaultHistory(
-  address: string,
-  params?: GetVaultHistoryParams,
-) {
+export function useVaultHistory(address: string, params?: GetVaultHistoryParams) {
   return useQuery({
     queryKey: vaultKeys.history(address, params),
     queryFn: () => getVaultHistory(address, params ?? {}),
@@ -55,8 +48,7 @@ export function useVaultHistory(
 
 export const ccipKeys = {
   config: ["ccip", "config"] as const,
-  estimateFee: (params: EstimateFeeRequest) =>
-    ["ccip", "estimate-fee", params] as const,
+  estimateFee: (params: EstimateFeeRequest) => ["ccip", "estimate-fee", params] as const,
 };
 
 export function useCCIPConfig(options?: { enabled?: boolean }) {
@@ -69,7 +61,7 @@ export function useCCIPConfig(options?: { enabled?: boolean }) {
 
 export function useCCIPEstimateFee(
   params: EstimateFeeRequest | null,
-  options?: { enabled?: boolean },
+  options?: { enabled?: boolean }
 ) {
   const hasValidParams =
     !!params &&
@@ -81,7 +73,10 @@ export function useCCIPEstimateFee(
   const enabled = Boolean((options?.enabled ?? true) && hasValidParams);
 
   return useQuery({
-    queryKey: hasValidParams && params ? ccipKeys.estimateFee(params) : ["ccip", "estimate-fee", "disabled"],
+    queryKey:
+      hasValidParams && params
+        ? ccipKeys.estimateFee(params)
+        : ["ccip", "estimate-fee", "disabled"],
     queryFn: () => (params ? estimateCCIPFee(params) : Promise.reject(new Error("No params"))),
     enabled,
   });

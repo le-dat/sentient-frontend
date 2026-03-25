@@ -6,10 +6,7 @@ type Context = { params: Promise<{ path: string[] }> };
 
 async function proxy(req: NextRequest, ctx: Context): Promise<NextResponse> {
   if (!BACKEND_URL) {
-    return NextResponse.json(
-      { detail: "API_URL is not configured" },
-      { status: 500 },
-    );
+    return NextResponse.json({ detail: "API_URL is not configured" }, { status: 500 });
   }
 
   const { path } = await ctx.params;
@@ -21,19 +18,12 @@ async function proxy(req: NextRequest, ctx: Context): Promise<NextResponse> {
   const forwardHeaders = new Headers();
   for (const [key, value] of req.headers.entries()) {
     const lower = key.toLowerCase();
-    if (
-      lower === "content-type" ||
-      lower === "accept" ||
-      lower === "authorization"
-    ) {
+    if (lower === "content-type" || lower === "accept" || lower === "authorization") {
       forwardHeaders.set(key, value);
     }
   }
 
-  const body =
-    req.method !== "GET" && req.method !== "HEAD"
-      ? await req.arrayBuffer()
-      : undefined;
+  const body = req.method !== "GET" && req.method !== "HEAD" ? await req.arrayBuffer() : undefined;
 
   const upstream = await fetch(targetUrl, {
     method: req.method,

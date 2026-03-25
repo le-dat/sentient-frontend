@@ -8,7 +8,7 @@ export const SectionHeader = ({
   children?: React.ReactNode;
 }) => (
   <div className="flex items-center justify-between">
-    <p className="text-sm font-bold text-foreground">{title}</p>
+    <p className="text-foreground text-sm font-bold">{title}</p>
     {children}
   </div>
 );

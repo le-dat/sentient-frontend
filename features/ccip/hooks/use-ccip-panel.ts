@@ -95,7 +95,11 @@ export function useCCIPPanel({ vaultAddress, chainId, vaultOwner }: UseCCIPPanel
     amountRaw = parseUnits(shieldAmount || "0", 18).toString();
   } catch {}
 
-  const { data: feeData, isLoading: feeLoading, isError: feeError } = useCCIPEstimateFee(
+  const {
+    data: feeData,
+    isLoading: feeLoading,
+    isError: feeError,
+  } = useCCIPEstimateFee(
     canEstimateFee && receiverAddr && amountRaw !== "0"
       ? {
           vault_address: vaultAddress,
@@ -106,7 +110,7 @@ export function useCCIPPanel({ vaultAddress, chainId, vaultOwner }: UseCCIPPanel
           receiver: receiverAddr,
         }
       : null,
-    { enabled: Boolean(canEstimateFee && receiverAddr && amountRaw !== "0") },
+    { enabled: Boolean(canEstimateFee && receiverAddr && amountRaw !== "0") }
   );
 
   // Derived balance/fee checks

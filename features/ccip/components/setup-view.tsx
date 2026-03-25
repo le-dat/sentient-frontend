@@ -17,13 +17,13 @@ export function SetupView({
 }) {
   return (
     <div className="space-y-3">
-      <p className="text-[11px] text-muted flex items-center gap-1.5">
+      <p className="text-muted flex items-center gap-1.5 text-[11px]">
         <AlertCircle className="h-3.5 w-3.5 shrink-0" />
         Set the Chainlink CCIP router to enable cross-chain Emergency Shield.
       </p>
 
       <div>
-        <label htmlFor="ccip-router" className="text-[10px] text-muted block mb-1">
+        <label htmlFor="ccip-router" className="text-muted mb-1 block text-[10px]">
           CCIP Router Address
         </label>
         <input
@@ -32,14 +32,14 @@ export function SetupView({
           value={ccipRouterAddress || defaultRouter}
           onChange={(e) => setCcipRouterAddress(e.target.value)}
           placeholder={defaultRouter}
-          className="w-full rounded-lg border border-border/60 bg-card px-3 py-2 text-xs font-mono text-foreground outline-none focus:border-primary/50"
+          className="border-border/60 bg-card text-foreground focus:border-primary/50 w-full rounded-lg border px-3 py-2 font-mono text-xs outline-none"
         />
       </div>
 
       <button
         onClick={onSubmit}
         disabled={isWritePending}
-        className="flex items-center gap-2 w-full justify-center rounded-xl bg-primary/20 py-2.5 text-xs font-semibold text-primary transition-all hover:bg-primary/30 disabled:opacity-50"
+        className="bg-primary/20 text-primary hover:bg-primary/30 flex w-full items-center justify-center gap-2 rounded-xl py-2.5 text-xs font-semibold transition-all disabled:opacity-50"
       >
         {isWritePending ? (
           <>

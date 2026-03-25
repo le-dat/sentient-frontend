@@ -133,14 +133,14 @@ export const ConsoleTab = ({
           <button
             onClick={() => setShowDeposit(true)}
             disabled={status === "approving" || status === "depositing"}
-            className="flex items-center gap-1.5 rounded-lg border border-primary/30 px-2.5 py-1 text-xs text-primary hover:bg-primary/10 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="border-primary/30 text-primary hover:bg-primary/10 flex items-center gap-1.5 rounded-lg border px-2.5 py-1 text-xs disabled:cursor-not-allowed disabled:opacity-50"
           >
             <Plus className="h-3 w-3" /> Deposit
           </button>
           <button
             onClick={() => setShowWithdraw(true)}
             disabled={vaultTokens.length === 0 || withdrawStatus === "withdrawing"}
-            className="flex items-center gap-1.5 rounded-lg border border-primary/30 px-2.5 py-1 text-xs text-primary hover:bg-primary/10 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="border-primary/30 text-primary hover:bg-primary/10 flex items-center gap-1.5 rounded-lg border px-2.5 py-1 text-xs disabled:cursor-not-allowed disabled:opacity-50"
           >
             <Minus className="h-3 w-3" /> Withdraw
           </button>
@@ -171,7 +171,7 @@ export const ConsoleTab = ({
             />
           ))
         ) : (
-          <div className="text-center text-md text-secondary py-3">Empty</div>
+          <div className="text-md text-secondary py-3 text-center">Empty</div>
         )}
       </TokenGroup>
     </div>

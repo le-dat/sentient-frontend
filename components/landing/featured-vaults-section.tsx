@@ -50,21 +50,23 @@ export function FeaturedVaultsSection() {
   return (
     <section id="vaults" className="mx-auto max-w-6xl px-6 py-16 md:py-32">
       <RevealSection className="mb-10 text-center">
-        <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-primary">Whale Tracking</p>
+        <p className="text-primary mb-3 text-xs font-semibold tracking-[0.2em] uppercase">
+          Whale Tracking
+        </p>
         <h2 className="text-3xl font-bold">Top Performing Vaults</h2>
-        <p className="mt-2 text-sm text-muted">Community&apos;s best automated vault strategies</p>
+        <p className="text-muted mt-2 text-sm">Community&apos;s best automated vault strategies</p>
       </RevealSection>
 
       <div className="grid gap-4 md:grid-cols-3">
         {featuredVaults.map((v, i) => (
           <RevealSection key={v.addr} delay={i * 100}>
-            <div className="group relative overflow-hidden rounded-2xl border border-border bg-card/80 transition-all hover:border-primary/40 hover:bg-card hover:shadow-[0_0_40px_rgba(79,140,255,0.08)]">
+            <div className="group border-border bg-card/80 hover:border-primary/40 hover:bg-card relative overflow-hidden rounded-2xl border transition-all hover:shadow-[0_0_40px_rgba(79,140,255,0.08)]">
               {/* Top accent */}
               <div
                 className={`h-0.5 w-full ${
                   v.pnlUp
-                    ? "bg-gradient-to-r from-success/60 to-transparent"
-                    : "bg-gradient-to-r from-danger/40 to-transparent"
+                    ? "from-success/60 bg-gradient-to-r to-transparent"
+                    : "from-danger/40 bg-gradient-to-r to-transparent"
                 }`}
               />
 
@@ -72,56 +74,68 @@ export function FeaturedVaultsSection() {
                 {/* Header */}
                 <div className="mb-4 flex items-start justify-between">
                   <div>
-                    <p className="font-mono text-xs text-muted">{v.addr}</p>
+                    <p className="text-muted font-mono text-xs">{v.addr}</p>
                     <p className="mt-1 text-base font-bold">{v.label}</p>
                     <div className="mt-1 flex items-center gap-1.5">
-                      <span className="h-2 w-2 rounded-full" style={{ backgroundColor: v.chainColor }} />
-                      <p className="text-xs text-muted">{v.chain}</p>
+                      <span
+                        className="h-2 w-2 rounded-full"
+                        style={{ backgroundColor: v.chainColor }}
+                      />
+                      <p className="text-muted text-xs">{v.chain}</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-1.5">
                     <span
                       className={`h-2 w-2 rounded-full ${
-                        v.status === "active" ? "animate-pulse bg-success" : "bg-muted"
+                        v.status === "active" ? "bg-success animate-pulse" : "bg-muted"
                       }`}
                     />
-                    <span className="text-xs capitalize text-muted">{v.status}</span>
+                    <span className="text-muted text-xs capitalize">{v.status}</span>
                   </div>
                 </div>
 
                 {/* Metrics */}
                 <div className="mb-4 grid grid-cols-3 gap-2">
-                  <div className="rounded-xl border border-border bg-card-2/50 px-2 py-2.5 text-center">
-                    <p className="text-[11px] text-muted">TVL</p>
+                  <div className="border-border bg-card-2/50 rounded-xl border px-2 py-2.5 text-center">
+                    <p className="text-muted text-[11px]">TVL</p>
                     <p className="mt-0.5 text-xs font-semibold">{v.tvl}</p>
                   </div>
-                  <div className="rounded-xl border border-border bg-card-2/50 px-2 py-2.5 text-center">
-                    <p className="text-[11px] text-muted">Execs</p>
+                  <div className="border-border bg-card-2/50 rounded-xl border px-2 py-2.5 text-center">
+                    <p className="text-muted text-[11px]">Execs</p>
                     <p className="mt-0.5 text-xs font-semibold">{v.executions}</p>
                   </div>
-                  <div className="rounded-xl border border-border bg-card-2/50 px-2 py-2.5 text-center">
-                    <p className="text-[11px] text-muted">P&amp;L</p>
-                    <p className={`mt-0.5 text-xs font-semibold ${v.pnlUp ? "text-success" : "text-danger"}`}>
+                  <div className="border-border bg-card-2/50 rounded-xl border px-2 py-2.5 text-center">
+                    <p className="text-muted text-[11px]">P&amp;L</p>
+                    <p
+                      className={`mt-0.5 text-xs font-semibold ${v.pnlUp ? "text-success" : "text-danger"}`}
+                    >
                       {v.pnl}
                     </p>
                   </div>
                 </div>
 
                 {/* Rule */}
-                <div className="rounded-xl border border-border bg-card-2/40 px-3 py-2.5">
-                  <p className="text-[11px] text-muted">Active Rule</p>
+                <div className="border-border bg-card-2/40 rounded-xl border px-3 py-2.5">
+                  <p className="text-muted text-[11px]">Active Rule</p>
                   <p className="mt-0.5 truncate text-xs font-medium">{v.rule}</p>
                 </div>
 
                 {/* Footer */}
                 <div className="mt-4 flex items-center justify-between">
-                  <span className="text-xs text-muted">{v.followers} followers</span>
+                  <span className="text-muted text-xs">{v.followers} followers</span>
                   <Link
                     href={ROUTES.DASHBOARD}
-                    className="flex items-center gap-1.5 rounded-lg border border-border px-3 py-1.5 text-xs font-medium transition-all hover:border-primary/50 hover:bg-primary/5 hover:text-primary"
+                    className="border-border hover:border-primary/50 hover:bg-primary/5 hover:text-primary flex items-center gap-1.5 rounded-lg border px-3 py-1.5 text-xs font-medium transition-all"
                   >
                     Track Vault
-                    <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" className="h-3 w-3">
+                    <svg
+                      viewBox="0 0 12 12"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="1.75"
+                      strokeLinecap="round"
+                      className="h-3 w-3"
+                    >
                       <path d="M2 6h8M6 2l4 4-4 4" />
                     </svg>
                   </Link>

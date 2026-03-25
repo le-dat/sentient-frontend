@@ -12,7 +12,7 @@ export function LandingNav() {
           href={ROUTES.DASHBOARD}
           target="_blank"
           rel="noopener noreferrer"
-          className="rounded-full bg-linear-to-r from-primary to-primary/80 px-5 py-2 text-sm font-semibold text-white shadow-md shadow-primary/20 transition-all hover:shadow-primary/35 hover:opacity-95"
+          className="from-primary to-primary/80 shadow-primary/20 hover:shadow-primary/35 rounded-full bg-linear-to-r px-5 py-2 text-sm font-semibold text-white shadow-md transition-all hover:opacity-95"
         >
           Launch App
         </Link>

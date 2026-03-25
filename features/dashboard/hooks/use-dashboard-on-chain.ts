@@ -1,24 +1,18 @@
-'use client'
+"use client";
 
 import { useEffect, useState } from "react";
 import { useAccount, usePublicClient } from "wagmi";
 import { zeroAddress } from "viem";
 import { formatAmount } from "@/lib/utils";
-import {
-  FACTORY_ADDRESS,
-  FACTORY_ABI,
-  ERC20_ABI,
-  VAULT_ABI,
-} from "@/lib/contracts";
+import { FACTORY_ADDRESS, FACTORY_ABI, ERC20_ABI, VAULT_ABI } from "@/lib/contracts";
 import { FACTORY_CHAIN } from "@/lib/constants/chains";
 import { VAULT_TOKENS, NATIVE_ETH_ADDRESS } from "@/lib/constants/tokens";
 import type { ChainInfo } from "@/features/dashboard/types";
 import type { VaultItem } from "@/features/vault/types";
 
 const ERC20_VAULT_TOKENS = VAULT_TOKENS.filter(
-  (t) => t.address.toLowerCase() !== NATIVE_ETH_ADDRESS.toLowerCase(),
+  (t) => t.address.toLowerCase() !== NATIVE_ETH_ADDRESS.toLowerCase()
 );
-
 
 export function useDashboardOnChain(refreshKey = 0) {
   const { address } = useAccount();
@@ -69,7 +63,7 @@ export function useDashboardOnChain(refreshKey = 0) {
             const result = erc20Results[i];
             if (result.status !== "success" || result.result === 0n) return;
             balanceParts.push(
-              `${formatAmount(result.result as bigint, token.decimals)} ${token.symbol}`,
+              `${formatAmount(result.result as bigint, token.decimals)} ${token.symbol}`
             );
           });
 
@@ -77,8 +71,7 @@ export function useDashboardOnChain(refreshKey = 0) {
             balanceParts.push(`${formatAmount(ethBalance, 18)} ETH`);
           }
 
-          const balance =
-            balanceParts.length > 0 ? balanceParts.join(" / ") : "—";
+          const balance = balanceParts.length > 0 ? balanceParts.join(" / ") : "—";
 
           setChains([{ ...FACTORY_CHAIN, vaultCount: 1 }]);
           setVaults([

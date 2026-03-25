@@ -2,7 +2,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 export function ChainCardSkeleton() {
   return (
-    <div className="flex min-w-44 shrink-0 items-center gap-3 rounded-xl border border-border/40 bg-card/40 px-4 py-3">
+    <div className="border-border/40 bg-card/40 flex min-w-44 shrink-0 items-center gap-3 rounded-xl border px-4 py-3">
       <Skeleton className="h-10 w-10 shrink-0 rounded-xl" />
       <div className="min-w-0 flex-1 space-y-1.5">
         <Skeleton className="h-3.5 w-20 rounded" />
@@ -14,7 +14,7 @@ export function ChainCardSkeleton() {
 
 export function VaultCardSkeleton() {
   return (
-    <div className="rounded-2xl border border-border/40 bg-card/60 p-4">
+    <div className="border-border/40 bg-card/60 rounded-2xl border p-4">
       <div className="mb-3 flex items-center justify-between">
         <Skeleton className="h-4 w-28 rounded" />
         <Skeleton className="h-5 w-16 rounded-full" />

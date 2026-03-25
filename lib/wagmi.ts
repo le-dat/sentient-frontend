@@ -5,7 +5,7 @@ const walletConnectProjectId = process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID;
 
 if (!walletConnectProjectId) {
   throw new Error(
-    "Missing NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID. Add it to your environment before starting the app.",
+    "Missing NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID. Add it to your environment before starting the app."
   );
 }
 

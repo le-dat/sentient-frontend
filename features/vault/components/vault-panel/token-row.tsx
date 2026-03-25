@@ -16,36 +16,36 @@ export const TokenRow = ({ symbol, amount, isSelected, isVault, onClick }: Token
   return (
     <button
       onClick={onClick}
-      className={`flex w-full items-center gap-3 border-b border-border/30 px-4 py-3 last:border-0 transition-all ${
+      className={`border-border/30 flex w-full items-center gap-3 border-b px-4 py-3 transition-all last:border-0 ${
         isSelected
-          ? "border-l-2 border-l-primary bg-primary/10"
-          : "opacity-40 hover:opacity-70 hover:bg-white/5"
+          ? "border-l-primary bg-primary/10 border-l-2"
+          : "opacity-40 hover:bg-white/5 hover:opacity-70"
       }`}
     >
       <div
-        className={`relative flex h-9 w-9 shrink-0 items-center justify-center rounded-full p-1.5 overflow-hidden ${isSelected ? "bg-primary/20 ring-1 ring-primary/40" : "bg-white/5"}`}
+        className={`relative flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-full p-1.5 ${isSelected ? "bg-primary/20 ring-primary/40 ring-1" : "bg-white/5"}`}
       >
         <TokenIcon
           symbol={symbol.toLowerCase()}
           size={24}
           variant="branded"
-          fallback={<div className="h-5 w-5 rounded-full bg-primary/20" />}
+          fallback={<div className="bg-primary/20 h-5 w-5 rounded-full" />}
         />
       </div>
       <div className="flex flex-1 flex-col items-start gap-0.5">
         <div className="flex items-center gap-2">
-          <span className="text-[14px] font-bold text-foreground">{info.name}</span>
-          <span className="text-xs font-medium text-muted">{symbol}</span>
+          <span className="text-foreground text-[14px] font-bold">{info.name}</span>
+          <span className="text-muted text-xs font-medium">{symbol}</span>
           {isVault && (
-            <span className="rounded-[4px] bg-primary/10 px-1.5 py-0.5 text-[9px] font-black uppercase text-primary">
+            <span className="bg-primary/10 text-primary rounded-[4px] px-1.5 py-0.5 text-[9px] font-black uppercase">
               vault
             </span>
           )}
         </div>
       </div>
       <div className="flex items-center gap-2">
-        {amount && <span className="text-xs font-bold text-foreground">{amount}</span>}
-        {isSelected && <Check className="h-4 w-4 text-primary" />}
+        {amount && <span className="text-foreground text-xs font-bold">{amount}</span>}
+        {isSelected && <Check className="text-primary h-4 w-4" />}
       </div>
     </button>
   );

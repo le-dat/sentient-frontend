@@ -2,18 +2,9 @@ import { getPriceFeedForToken } from "@/lib/constants/chainlink-feeds";
 import { VAULT_CCIP_ABI } from "@/lib/contracts";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { parseUnits, zeroAddress } from "viem";
-import {
-  useReadContracts,
-  useWaitForTransactionReceipt,
-  useWriteContract,
-} from "wagmi";
+import { useReadContracts, useWaitForTransactionReceipt, useWriteContract } from "wagmi";
 import { TOKEN_DATA } from "../components/vault-panel/constants";
-import {
-  DEFAULT_RULE,
-  RuleData,
-  TRADE_TOKENS,
-  parseRule,
-} from "../types";
+import { DEFAULT_RULE, RuleData, TRADE_TOKENS, parseRule } from "../types";
 
 interface UseVaultRulesOptions {
   vaultAddress: `0x${string}`;
@@ -49,15 +40,13 @@ export function useVaultRules({ vaultAddress, chainId }: UseVaultRulesOptions) {
 
   const { data: results, refetch: refetchAll } = useReadContracts({ contracts });
 
-  const rulesAndFeeds = TRADE_TOKENS.filter((s) => TOKEN_DATA[s]).map(
-    (sym, i) => {
-      const ruleRes = results?.[i * 2];
-      const feedRes = results?.[i * 2 + 1];
-      const rule = ruleRes?.status === "success" ? ruleRes.result : null;
-      const feed = feedRes?.status === "success" ? feedRes.result : null;
-      return { sym, rule, feed };
-    }
-  );
+  const rulesAndFeeds = TRADE_TOKENS.filter((s) => TOKEN_DATA[s]).map((sym, i) => {
+    const ruleRes = results?.[i * 2];
+    const feedRes = results?.[i * 2 + 1];
+    const rule = ruleRes?.status === "success" ? ruleRes.result : null;
+    const feed = feedRes?.status === "success" ? feedRes.result : null;
+    return { sym, rule, feed };
+  });
 
   // Sync form state from on-chain data
   useEffect(() => {
@@ -126,8 +115,7 @@ export function useVaultRules({ vaultAddress, chainId }: UseVaultRulesOptions) {
     const tradeRaw = enabled && tradeAmount ? parseUnits(tradeAmount, baseDec) : 0n;
 
     const feedData = rulesAndFeeds.find((r) => r.sym === sym);
-    const existingFeed =
-      (feedData?.feed as `0x${string}` | undefined) ?? zeroAddress;
+    const existingFeed = (feedData?.feed as `0x${string}` | undefined) ?? zeroAddress;
     const feedAddr = getPriceFeedForToken(chainId, sym);
     const needsPriceFeed = feedAddr && existingFeed === zeroAddress;
 

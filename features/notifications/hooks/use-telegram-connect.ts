@@ -67,7 +67,7 @@ export function useTelegramConnect() {
     try {
       const ok = await sendTelegramMessage(
         trimmed,
-        "✅ Connected! Sentient Finance alerts are now active for this account.",
+        "✅ Connected! Sentient Finance alerts are now active for this account."
       );
       if (!ok) return;
       localStorage.setItem(STORAGE_KEY, trimmed);
@@ -96,11 +96,17 @@ export function useTelegramConnect() {
     try {
       const ok = await sendTelegramMessage(
         chatId,
-        "✅ Test notification from Sentient Finance. Your alerts are working.",
+        "✅ Test notification from Sentient Finance. Your alerts are working."
       );
       if (ok) {
         toast.success("Test message sent to Telegram.");
-        appendToHistory({ type: "TestAlert", vault: "—", chain: "—", dot: "bg-primary", textColor: "text-primary" });
+        appendToHistory({
+          type: "TestAlert",
+          vault: "—",
+          chain: "—",
+          dot: "bg-primary",
+          textColor: "text-primary",
+        });
       }
     } catch {
       toast.error("Network error. Could not reach Telegram.");

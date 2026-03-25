@@ -9,7 +9,10 @@ export default function DashboardError({ reset }: { error: Error; reset: () => v
       title="Dashboard unavailable"
       description="Could not load dashboard data. Check API/GraphQL and retry."
       action={
-        <button onClick={reset} className="rounded-lg bg-primary px-4 py-2 font-semibold text-primary-foreground">
+        <button
+          onClick={reset}
+          className="bg-primary text-primary-foreground rounded-lg px-4 py-2 font-semibold"
+        >
           Retry
         </button>
       }

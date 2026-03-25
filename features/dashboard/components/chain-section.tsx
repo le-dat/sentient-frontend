@@ -13,7 +13,7 @@ interface ChainSectionProps {
 export function ChainSection({ chains, onAddChain, onChainClick, isLoading }: ChainSectionProps) {
   return (
     <section className="space-y-3">
-      <h2 className="text-sm font-semibold uppercase tracking-widest text-muted">Chains</h2>
+      <h2 className="text-muted text-sm font-semibold tracking-widest uppercase">Chains</h2>
       {isLoading ? (
         <div className="flex flex-wrap gap-3">
           <ChainCardSkeleton />

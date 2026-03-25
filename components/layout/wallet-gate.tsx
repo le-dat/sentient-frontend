@@ -16,19 +16,19 @@ export function WalletGate({ children }: { children: React.ReactNode }) {
   return (
     <>
       <div
-        className={!isAllowed ? "pointer-events-none select-none blur-sm brightness-50" : undefined}
+        className={!isAllowed ? "pointer-events-none blur-sm brightness-50 select-none" : undefined}
       >
         {children}
       </div>
       {!isAllowed && (
         <div className="fixed inset-0 z-40 flex items-center justify-center">
-          <div className="mx-4 flex w-full max-w-sm flex-col items-center gap-5 rounded-2xl border border-border/60 bg-card p-8 text-center shadow-2xl">
-            <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-border bg-card-2">
-              <Wallet className="h-6 w-6 text-muted" />
+          <div className="border-border/60 bg-card mx-4 flex w-full max-w-sm flex-col items-center gap-5 rounded-2xl border p-8 text-center shadow-2xl">
+            <div className="border-border bg-card-2 flex h-14 w-14 items-center justify-center rounded-2xl border">
+              <Wallet className="text-muted h-6 w-6" />
             </div>
             <div>
               <h2 className="text-lg font-semibold">Connect your wallet</h2>
-              <p className="mt-1.5 text-sm text-muted">
+              <p className="text-muted mt-1.5 text-sm">
                 You need to connect a wallet to access this page.
               </p>
             </div>

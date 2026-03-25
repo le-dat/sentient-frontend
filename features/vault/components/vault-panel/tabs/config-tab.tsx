@@ -15,7 +15,7 @@ interface ConfigTabProps {
 
 export function ConfigTab({ vaultAddress, chainId, preselectedToken }: ConfigTabProps) {
   const [expanded, setExpanded] = useState<Set<string>>(
-    new Set(preselectedToken ? [preselectedToken] : [TRADE_TOKENS[0]]),
+    new Set(preselectedToken ? [preselectedToken] : [TRADE_TOKENS[0]])
   );
 
   const {
@@ -41,13 +41,13 @@ export function ConfigTab({ vaultAddress, chainId, preselectedToken }: ConfigTab
   };
 
   return (
-    <div className="rounded-xl border border-border/60 bg-card-2/40 p-4 space-y-2">
+    <div className="border-border/60 bg-card-2/40 space-y-2 rounded-xl border p-4">
       <div className="flex items-center gap-2">
-        <label className="text-xs font-medium shrink-0">Settlement</label>
+        <label className="shrink-0 text-xs font-medium">Settlement</label>
         <select
           value={baseToken}
           onChange={(e) => setBaseToken(e.target.value)}
-          className="rounded-lg border border-border/60 bg-card px-3 py-2 text-xs font-medium text-foreground outline-none focus:border-primary/50"
+          className="border-border/60 bg-card text-foreground focus:border-primary/50 rounded-lg border px-3 py-2 text-xs font-medium outline-none"
         >
           {BASE_TOKENS.filter((s) => TOKEN_DATA[s]).map((s) => (
             <option key={s} value={s}>
@@ -58,9 +58,12 @@ export function ConfigTab({ vaultAddress, chainId, preselectedToken }: ConfigTab
       </div>
 
       {error && (
-        <div className="rounded-lg border border-danger/30 bg-danger/5 px-3 py-2 text-danger">
+        <div className="border-danger/30 bg-danger/5 text-danger rounded-lg border px-3 py-2">
           <ErrorDescription message={error.message} />
-          <button onClick={reset} className="mt-1 text-[10px] text-muted hover:text-foreground underline">
+          <button
+            onClick={reset}
+            className="text-muted hover:text-foreground mt-1 text-[10px] underline"
+          >
             Dismiss
           </button>
         </div>

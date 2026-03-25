@@ -1,7 +1,7 @@
 import { type NextRequest, NextResponse } from "next/server";
 
 const BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
-const APP_BASE_URL = process.env.NEXT_PUBLIC_APP_URL 
+const APP_BASE_URL = process.env.NEXT_PUBLIC_APP_URL;
 
 type ActionType = "emergency-shield" | "info";
 
@@ -60,9 +60,12 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
   if (!upstream.ok) {
     return NextResponse.json(
       { error: (data as { description?: string })?.description ?? "Telegram API error" },
-      { status: upstream.status },
+      { status: upstream.status }
     );
   }
 
-  return NextResponse.json({ ok: true, messageId: (data as { result?: { message_id: number } })?.result?.message_id });
+  return NextResponse.json({
+    ok: true,
+    messageId: (data as { result?: { message_id: number } })?.result?.message_id,
+  });
 }

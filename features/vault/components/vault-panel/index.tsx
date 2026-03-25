@@ -33,7 +33,7 @@ export function VaultPanel({ vault, onClose, onRefresh }: VaultPanelProps) {
   const vaultSymbols = useMemo(() => new Set(vaultTokens.map((t) => t.symbol)), [vaultTokens]);
   const systemTokens = useMemo(
     () => STABLE_COINS.filter((s) => !vaultSymbols.has(s)),
-    [vaultSymbols],
+    [vaultSymbols]
   );
 
   const handleCopy = () => {
@@ -46,20 +46,20 @@ export function VaultPanel({ vault, onClose, onRefresh }: VaultPanelProps) {
     <div className="fixed inset-0 z-50 flex">
       <div className="flex-1 bg-black/40 backdrop-blur-sm" onClick={onClose} />
 
-      <div className="flex h-full w-full max-w-none flex-col bg-card/95 backdrop-blur-xl md:max-w-[540px] md:border-l md:border-border/60">
+      <div className="bg-card/95 md:border-border/60 flex h-full w-full max-w-none flex-col backdrop-blur-xl md:max-w-[540px] md:border-l">
         {/* Header Section */}
         <header className="flex items-start justify-between px-5 pt-5 pb-4">
           <div>
             <div className="flex items-center gap-2">
-              <p className="break-all text-sm font-bold md:text-base">{shortAddress(vault.addr)}</p>
+              <p className="text-sm font-bold break-all md:text-base">{shortAddress(vault.addr)}</p>
               <button onClick={handleCopy} className="text-muted hover:text-foreground">
-                {copied ? <Check className="h-3 w-3 text-success" /> : <Copy className="h-3 w-3" />}
+                {copied ? <Check className="text-success h-3 w-3" /> : <Copy className="h-3 w-3" />}
               </button>
             </div>
             <div className="mt-1 flex items-center gap-2">
               <StatusBadge active={isActive} />
-              <span className="text-xs text-muted">·</span>
-              <span className="text-xs text-muted">{vault.chain}</span>
+              <span className="text-muted text-xs">·</span>
+              <span className="text-muted text-xs">{vault.chain}</span>
             </div>
           </div>
           <div className="flex gap-1">
@@ -71,9 +71,9 @@ export function VaultPanel({ vault, onClose, onRefresh }: VaultPanelProps) {
                   setIsActive(true);
                 }
               }}
-              className={`h-8 w-8 flex items-center justify-center rounded-lg border transition-all ${
+              className={`flex h-8 w-8 items-center justify-center rounded-lg border transition-all ${
                 isActive
-                  ? "border-success/60 text-success bg-success/15 shadow-[0_0_10px_rgba(52,211,153,0.25)] ring-1 ring-success/20"
+                  ? "border-success/60 text-success bg-success/15 ring-success/20 shadow-[0_0_10px_rgba(52,211,153,0.25)] ring-1"
                   : "border-border/60 text-muted hover:text-foreground hover:border-border"
               }`}
             >
@@ -81,7 +81,7 @@ export function VaultPanel({ vault, onClose, onRefresh }: VaultPanelProps) {
             </button>
             <button
               onClick={onClose}
-              className="h-8 w-8 flex items-center justify-center rounded-lg border border-border/60 text-muted"
+              className="border-border/60 text-muted flex h-8 w-8 items-center justify-center rounded-lg border"
             >
               <X className="h-3.5 w-3.5" />
             </button>
@@ -89,15 +89,15 @@ export function VaultPanel({ vault, onClose, onRefresh }: VaultPanelProps) {
         </header>
 
         {/* Navigation */}
-        <nav className="flex border-b border-border/50 px-5">
+        <nav className="border-border/50 flex border-b px-5">
           {tabItems.map(({ id, label, Icon }) => (
             <button
               key={id}
               onClick={() => setActiveTab(id as Tab)}
-              className={`flex items-center gap-1.5 px-1 pb-2.5 pt-1 text-xs font-medium mr-5 border-b-2 transition-colors ${
+              className={`mr-5 flex items-center gap-1.5 border-b-2 px-1 pt-1 pb-2.5 text-xs font-medium transition-colors ${
                 activeTab === id
-                  ? "border-red-500 text-foreground"
-                  : "border-transparent text-muted hover:text-foreground"
+                  ? "text-foreground border-red-500"
+                  : "text-muted hover:text-foreground border-transparent"
               }`}
             >
               <Icon className="h-3 w-3" />
@@ -107,7 +107,7 @@ export function VaultPanel({ vault, onClose, onRefresh }: VaultPanelProps) {
         </nav>
 
         {/* Scrollable Content */}
-        <main className="flex-1 overflow-y-auto p-5 space-y-6">
+        <main className="flex-1 space-y-6 overflow-y-auto p-5">
           {activeTab === "console" && (
             <ConsoleTab
               vaultAddress={vault.addr as `0x${string}`}

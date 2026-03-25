@@ -8,15 +8,15 @@ This frontend integrates with Chainlink **Price Feeds** and **CCIP** (cross-chai
 
 ### Files Using Chainlink
 
-| File | Purpose |
-|------|---------|
-| [`lib/constants/chainlink-feeds.ts`](lib/constants/chainlink-feeds.ts) | Chainlink price feed addresses (USD) per chain |
+| File                                                                                                           | Purpose                                                 |
+| -------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------- |
+| [`lib/constants/chainlink-feeds.ts`](lib/constants/chainlink-feeds.ts)                                         | Chainlink price feed addresses (USD) per chain          |
 | [`components/dashboard/vault-panel/tabs/config-tab.tsx`](components/dashboard/vault-panel/tabs/config-tab.tsx) | `setPriceFeed`, `getPriceFeedForToken` for vault config |
-| [`components/query/ccip-panel.tsx`](components/query/ccip-panel.tsx) | CCIP config UI, Emergency Shield |
-| [`app/dashboard/ccip/page.tsx`](app/dashboard/ccip/page.tsx) | CCIP Cross-Chain page |
-| [`lib/api/client.ts`](lib/api/client.ts) | `getCCIPConfig`, `estimateCCIPFee` API calls |
-| [`lib/api/hooks.ts`](lib/api/hooks.ts) | `useCCIPConfig`, `useCCIPEstimateFee` hooks |
-| [`lib/api/types.ts`](lib/api/types.ts) | `CCIPConfigResponse`, `CCIPChainConfig` types |
+| [`components/query/ccip-panel.tsx`](components/query/ccip-panel.tsx)                                           | CCIP config UI, Emergency Shield                        |
+| [`app/dashboard/ccip/page.tsx`](app/dashboard/ccip/page.tsx)                                                   | CCIP Cross-Chain page                                   |
+| [`lib/api/client.ts`](lib/api/client.ts)                                                                       | `getCCIPConfig`, `estimateCCIPFee` API calls            |
+| [`lib/api/hooks.ts`](lib/api/hooks.ts)                                                                         | `useCCIPConfig`, `useCCIPEstimateFee` hooks             |
+| [`lib/api/types.ts`](lib/api/types.ts)                                                                         | `CCIPConfigResponse`, `CCIPChainConfig` types           |
 
 ## App Flow Summary
 

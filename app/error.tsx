@@ -13,7 +13,7 @@ export default function GlobalError({ reset }: { error: Error; reset: () => void
           action={
             <button
               onClick={reset}
-              className="rounded-lg bg-primary px-4 py-2 font-semibold text-primary-foreground"
+              className="bg-primary text-primary-foreground rounded-lg px-4 py-2 font-semibold"
             >
               Try again
             </button>

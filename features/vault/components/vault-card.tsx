@@ -12,7 +12,7 @@ export function VaultCard({
   return (
     <div
       onClick={() => onSelect(vault)}
-      className="cursor-pointer rounded-2xl border border-border bg-card/80 p-4 transition-all hover:border-primary/40 hover:bg-card"
+      className="border-border bg-card/80 hover:border-primary/40 hover:bg-card cursor-pointer rounded-2xl border p-4 transition-all"
     >
       <div className="mb-3 flex items-center justify-between">
         <p className="font-mono text-sm font-semibold">{shortAddress(vault.addr)}</p>
@@ -26,7 +26,7 @@ export function VaultCard({
 
         <div>
           <p className="text-muted">Owner</p>
-          <p className="mt-0.5 font-medium font-mono truncate" title={vault.owner ?? ""}>
+          <p className="mt-0.5 truncate font-mono font-medium" title={vault.owner ?? ""}>
             {vault.owner
               ? vault.owner.length > 14
                 ? `${vault.owner.slice(0, 6)}...${vault.owner.slice(-4)}`

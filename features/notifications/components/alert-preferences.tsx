@@ -7,13 +7,13 @@ interface AlertPreferencesProps {
 
 export function AlertPreferences({ prefs, onToggle }: AlertPreferencesProps) {
   return (
-    <div className="rounded-2xl border border-border bg-card/80 p-5">
+    <div className="border-border bg-card/80 rounded-2xl border p-5">
       <div className="mb-4 flex items-center justify-between">
         <div>
           <p className="font-semibold">Alert Preferences</p>
-          <p className="text-xs text-muted">Choose which events trigger a notification</p>
+          <p className="text-muted text-xs">Choose which events trigger a notification</p>
         </div>
-        <span className="rounded-full border border-border bg-card-2/60 px-2.5 py-1 text-xs text-muted">
+        <span className="border-border bg-card-2/60 text-muted rounded-full border px-2.5 py-1 text-xs">
           {prefs.filter((p) => p.enabled).length} / {prefs.length} active
         </span>
       </div>
@@ -39,7 +39,7 @@ export function AlertPreferences({ prefs, onToggle }: AlertPreferencesProps) {
                 >
                   {pref.label}
                 </p>
-                <p className="mt-0.5 text-xs text-muted">{pref.desc}</p>
+                <p className="text-muted mt-0.5 text-xs">{pref.desc}</p>
               </div>
             </div>
             <div

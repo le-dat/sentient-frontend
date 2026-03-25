@@ -24,9 +24,15 @@ export function VaultGasSection({
   return (
     <div className="space-y-1.5">
       {/* Balance — always visible */}
-      <p className="text-[11px] text-muted">
+      <p className="text-muted text-[11px]">
         Vault ETH:{" "}
-        <span className={!hasEnoughEth && feeWei > 0n ? "text-danger font-semibold" : "font-semibold text-foreground"}>
+        <span
+          className={
+            !hasEnoughEth && feeWei > 0n
+              ? "text-danger font-semibold"
+              : "text-foreground font-semibold"
+          }
+        >
           {vaultEthBalanceFormatted}
         </span>
       </p>
@@ -34,7 +40,7 @@ export function VaultGasSection({
       {/* Deposit row — only when insufficient */}
       {!hasEnoughEth && (
         <div className="flex items-center gap-1.5">
-          <label htmlFor="gas-deposit" className="text-[11px] text-muted shrink-0">
+          <label htmlFor="gas-deposit" className="text-muted shrink-0 text-[11px]">
             Add gas
           </label>
           <input
@@ -43,12 +49,12 @@ export function VaultGasSection({
             value={depositEthAmount}
             onChange={(e) => setDepositEthAmount(e.target.value)}
             placeholder="0.003"
-            className="w-16 rounded border border-border/60 bg-card px-2 py-0.5 text-[11px] font-mono"
+            className="border-border/60 bg-card w-16 rounded border px-2 py-0.5 font-mono text-[11px]"
           />
           <button
             onClick={onDeposit}
             disabled={isWritePending || !canDepositEth}
-            className="rounded bg-primary/20 px-2 py-0.5 text-[11px] font-semibold text-primary hover:bg-primary/30 disabled:opacity-50"
+            className="bg-primary/20 text-primary hover:bg-primary/30 rounded px-2 py-0.5 text-[11px] font-semibold disabled:opacity-50"
           >
             Deposit ETH
           </button>

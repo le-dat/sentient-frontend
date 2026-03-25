@@ -26,28 +26,27 @@ export function FeeStatus({
   return (
     <>
       {feeLoading && canEstimateFee && (
-        <p className="text-[11px] text-muted flex items-center gap-1">
+        <p className="text-muted flex items-center gap-1 text-[11px]">
           <Loader2 className="h-3 w-3 animate-spin" />
           Estimating fee...
         </p>
       )}
 
       {feeData && (
-        <p className="text-[11px] text-muted">
-          Est. fee:{" "}
-          <span className="font-semibold text-foreground">{feeData.fee_eth} ETH</span>
+        <p className="text-muted text-[11px]">
+          Est. fee: <span className="text-foreground font-semibold">{feeData.fee_eth} ETH</span>
           {ethNeeded && <span className="text-danger ml-1">(need {ethNeeded} more)</span>}
         </p>
       )}
 
       {feeError && canEstimateFee && (
-        <p className="text-[11px] text-muted">
+        <p className="text-muted text-[11px]">
           Fee estimate unavailable. Proceeding with 0.003 ETH minimum.
         </p>
       )}
 
       {(!hasEnoughToken || !hasEnoughEth) && amountEntered && (
-        <p className="text-[11px] text-danger">
+        <p className="text-danger text-[11px]">
           Deposit CCIP-BnM and ETH to vault first. Vault pays the fee.
         </p>
       )}

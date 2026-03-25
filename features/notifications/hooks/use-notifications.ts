@@ -5,16 +5,14 @@ import { notificationAlertPrefs } from "../fixtures";
 import type { RecentNotification } from "../types";
 import { getHistory, timeAgo, NOTIFICATION_ADDED_EVENT } from "../lib/notification-history";
 
-function toRecentNotifications(
-  history: ReturnType<typeof getHistory>,
-): RecentNotification[] {
+function toRecentNotifications(history: ReturnType<typeof getHistory>): RecentNotification[] {
   return history.map((h) => ({ ...h, time: timeAgo(h.sentAt) }));
 }
 
 export function useNotifications() {
   const [alertPrefs, setAlertPrefs] = useState(notificationAlertPrefs);
-  const [recentNotifications, setRecentNotifications] = useState<RecentNotification[]>(
-    () => (typeof window === "undefined" ? [] : toRecentNotifications(getHistory())),
+  const [recentNotifications, setRecentNotifications] = useState<RecentNotification[]>(() =>
+    typeof window === "undefined" ? [] : toRecentNotifications(getHistory())
   );
 
   useEffect(() => {
@@ -32,7 +30,7 @@ export function useNotifications() {
         const next = { ...p, enabled: !p.enabled };
         next.onToggle?.(next.enabled);
         return next;
-      }),
+      })
     );
   }
 

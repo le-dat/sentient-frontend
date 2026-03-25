@@ -12,6 +12,9 @@ export const CHAINLINK_PRICE_FEEDS: Record<number, Record<string, `0x${string}`>
   },
 };
 
-export function getPriceFeedForToken(chainId: number, tokenSymbol: string): `0x${string}` | undefined {
+export function getPriceFeedForToken(
+  chainId: number,
+  tokenSymbol: string
+): `0x${string}` | undefined {
   return CHAINLINK_PRICE_FEEDS[chainId]?.[tokenSymbol];
 }

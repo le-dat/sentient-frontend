@@ -8,8 +8,8 @@ import { useVaultsList } from "@/lib/api/hooks";
 import { CCIPPageSkeleton } from "@/features/ccip/components/ccip-page-skeleton";
 
 const Header = () => (
-  <h1 className="flex items-center gap-2 text-xl font-bold text-foreground">
-    <Shield className="h-5 w-5 text-primary" />
+  <h1 className="text-foreground flex items-center gap-2 text-xl font-bold">
+    <Shield className="text-primary h-5 w-5" />
     Config CCIP Cross-Chain
   </h1>
 );
@@ -18,7 +18,7 @@ function CCIPPageContent() {
   const { address: userAddress, isConnected } = useAccount();
   const { data: vaultsData, isLoading } = useVaultsList(
     { owner: userAddress ?? undefined, limit: 10 },
-    { enabled: !!userAddress },
+    { enabled: !!userAddress }
   );
 
   const myVaults = vaultsData?.items ?? [];
@@ -26,10 +26,10 @@ function CCIPPageContent() {
 
   if (!isConnected) {
     return (
-      <div className="space-y-6 animate-in fade-in duration-300">
+      <div className="animate-in fade-in space-y-6 duration-300">
         <Header />
-        <div className="rounded-xl border border-border/50 bg-card-2/40 p-6 text-center">
-          <p className="text-sm text-muted">Connect wallet to manage CCIP for your vault.</p>
+        <div className="border-border/50 bg-card-2/40 rounded-xl border p-6 text-center">
+          <p className="text-muted text-sm">Connect wallet to manage CCIP for your vault.</p>
         </div>
       </div>
     );
@@ -41,13 +41,13 @@ function CCIPPageContent() {
 
   if (!vault) {
     return (
-      <div className="space-y-6 animate-in fade-in duration-300">
+      <div className="animate-in fade-in space-y-6 duration-300">
         <Header />
-        <div className="flex items-center gap-3 p-4 rounded-xl border border-warning/30 bg-warning/5">
-          <AlertCircle className="h-5 w-5 shrink-0 text-warning" />
+        <div className="border-warning/30 bg-warning/5 flex items-center gap-3 rounded-xl border p-4">
+          <AlertCircle className="text-warning h-5 w-5 shrink-0" />
           <div>
-            <p className="text-sm font-medium text-foreground">No vault found</p>
-            <p className="text-xs text-muted mt-0.5">
+            <p className="text-foreground text-sm font-medium">No vault found</p>
+            <p className="text-muted mt-0.5 text-xs">
               Create a vault first (e.g. via setup script), then return here to configure CCIP.
             </p>
           </div>
@@ -57,12 +57,12 @@ function CCIPPageContent() {
   }
 
   return (
-    <div className="space-y-6 animate-in fade-in duration-300">
+    <div className="animate-in fade-in space-y-6 duration-300">
       <Header />
       {myVaults.length > 1 && (
-        <div className="rounded-xl border border-border/50 bg-card-2/40 p-3">
-          <p className="text-[10px] text-muted mb-1">Your vault</p>
-          <p className="text-xs font-mono text-foreground break-all">{vault.address}</p>
+        <div className="border-border/50 bg-card-2/40 rounded-xl border p-3">
+          <p className="text-muted mb-1 text-[10px]">Your vault</p>
+          <p className="text-foreground font-mono text-xs break-all">{vault.address}</p>
         </div>
       )}
 

@@ -38,7 +38,7 @@ export function DepositModal({ onClose, onConfirm, status, error }: DepositModal
         (t) =>
           t.symbol.toLowerCase().includes(q) ||
           t.name.toLowerCase().includes(q) ||
-          t.address.toLowerCase().includes(q),
+          t.address.toLowerCase().includes(q)
       )
       .slice(0, 50);
   }, [tokens, query]);
@@ -54,7 +54,7 @@ export function DepositModal({ onClose, onConfirm, status, error }: DepositModal
       onClick={canClose ? onClose : undefined}
     >
       <div
-        className="relative flex w-[calc(100vw-2rem)] flex-col rounded-2xl border border-border bg-card shadow-xl md:w-[360px]"
+        className="border-border bg-card relative flex w-[calc(100vw-2rem)] flex-col rounded-2xl border shadow-xl md:w-[360px]"
         style={{ maxHeight: "80vh" }}
         onClick={(e) => e.stopPropagation()}
       >
@@ -64,7 +64,7 @@ export function DepositModal({ onClose, onConfirm, status, error }: DepositModal
           <button
             onClick={onClose}
             disabled={!canClose}
-            className="flex h-7 w-7 items-center justify-center rounded-full text-muted transition-colors hover:text-foreground disabled:opacity-40 disabled:cursor-not-allowed"
+            className="text-muted hover:text-foreground flex h-7 w-7 items-center justify-center rounded-full transition-colors disabled:cursor-not-allowed disabled:opacity-40"
           >
             <X className="h-3.5 w-3.5" />
           </button>
@@ -72,35 +72,35 @@ export function DepositModal({ onClose, onConfirm, status, error }: DepositModal
 
         {/* Status notification */}
         {isPending && (
-          <div className="mx-5 mb-3 flex items-center gap-2 rounded-lg border border-primary/40 bg-primary/10 px-4 py-3">
-            <Loader2 className="h-4 w-4 shrink-0 animate-spin text-primary" />
-            <p className="text-sm font-medium text-primary">
+          <div className="border-primary/40 bg-primary/10 mx-5 mb-3 flex items-center gap-2 rounded-lg border px-4 py-3">
+            <Loader2 className="text-primary h-4 w-4 shrink-0 animate-spin" />
+            <p className="text-primary text-sm font-medium">
               {status === "approving" ? "Approving token…" : "Depositing…"}
             </p>
           </div>
         )}
         {status === "done" && (
-          <div className="mx-5 mb-3 flex items-center gap-2 rounded-lg border border-success/40 bg-success/10 px-4 py-3">
-            <p className="text-sm font-medium text-success">Deposit confirmed!</p>
+          <div className="border-success/40 bg-success/10 mx-5 mb-3 flex items-center gap-2 rounded-lg border px-4 py-3">
+            <p className="text-success text-sm font-medium">Deposit confirmed!</p>
           </div>
         )}
         {status === "error" && error && (
-          <div className="mx-5 mb-3 flex items-center gap-2 rounded-lg border border-danger/40 bg-danger/10 px-4 py-3">
-            <p className="text-sm font-medium text-danger">{error}</p>
+          <div className="border-danger/40 bg-danger/10 mx-5 mb-3 flex items-center gap-2 rounded-lg border px-4 py-3">
+            <p className="text-danger text-sm font-medium">{error}</p>
           </div>
         )}
 
         {/* Search */}
         <div className="px-5 pb-3">
-          <div className="flex items-center gap-2 rounded-lg border border-border/60 bg-card-2/40 px-3 py-2 focus-within:border-primary/50">
-            <Search className="h-3.5 w-3.5 shrink-0 text-muted" />
+          <div className="border-border/60 bg-card-2/40 focus-within:border-primary/50 flex items-center gap-2 rounded-lg border px-3 py-2">
+            <Search className="text-muted h-3.5 w-3.5 shrink-0" />
             <input
               autoFocus
               type="text"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Search by name, symbol or address…"
-              className="flex-1 bg-transparent text-xs outline-none placeholder:text-muted"
+              className="placeholder:text-muted flex-1 bg-transparent text-xs outline-none"
             />
             {query && (
               <button onClick={() => setQuery("")} className="text-muted hover:text-foreground">
@@ -111,18 +111,29 @@ export function DepositModal({ onClose, onConfirm, status, error }: DepositModal
         </div>
 
         {/* Token list */}
-        <div className="flex-1 overflow-y-auto border-y border-border/40">
+        <div className="border-border/40 flex-1 overflow-y-auto border-y">
           {isLoading && (
             <div className="flex h-32 items-center justify-center">
-              <svg className="h-5 w-5 animate-spin text-primary" viewBox="0 0 24 24" fill="none">
-                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3" />
-                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z" />
+              <svg className="text-primary h-5 w-5 animate-spin" viewBox="0 0 24 24" fill="none">
+                <circle
+                  className="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  strokeWidth="3"
+                />
+                <path
+                  className="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+                />
               </svg>
             </div>
           )}
 
           {!isLoading && !error && filtered.length === 0 && (
-            <p className="py-8 text-center text-xs text-muted">No tokens found</p>
+            <p className="text-muted py-8 text-center text-xs">No tokens found</p>
           )}
 
           {!isLoading &&
@@ -133,35 +144,33 @@ export function DepositModal({ onClose, onConfirm, status, error }: DepositModal
                 <button
                   key={token.address}
                   onClick={() => setSelectedToken(token)}
-                  className={`flex w-full items-center gap-3 border-b border-border/20 px-5 py-3 last:border-0 transition-all ${
-                    isSelected
-                      ? "bg-primary/10"
-                      : "hover:bg-white/5"
+                  className={`border-border/20 flex w-full items-center gap-3 border-b px-5 py-3 transition-all last:border-0 ${
+                    isSelected ? "bg-primary/10" : "hover:bg-white/5"
                   }`}
                 >
                   <div
                     className={`flex h-8 w-8 shrink-0 items-center justify-center overflow-hidden rounded-full ${
-                      isSelected ? "ring-1 ring-primary/50" : "bg-white/5"
+                      isSelected ? "ring-primary/50 ring-1" : "bg-white/5"
                     }`}
                   >
                     <TokenIcon symbol={token.symbol} size={28} variant="branded" />
                   </div>
 
                   <div className="flex flex-1 flex-col items-start">
-                    <span className="text-xs font-semibold leading-tight">{token.symbol}</span>
-                    <span className="text-[10px] text-muted">{token.name}</span>
+                    <span className="text-xs leading-tight font-semibold">{token.symbol}</span>
+                    <span className="text-muted text-[10px]">{token.name}</span>
                   </div>
 
-                  {isSelected && <div className="h-2 w-2 rounded-full bg-primary" />}
+                  {isSelected && <div className="bg-primary h-2 w-2 rounded-full" />}
                 </button>
               );
             })}
         </div>
 
         {/* Amount + actions */}
-        <div className="px-5 py-4 space-y-3">
+        <div className="space-y-3 px-5 py-4">
           <div
-            className={`flex items-center gap-2 rounded-lg border px-3 py-2 transition-colors focus-within:border-primary/50 ${
+            className={`focus-within:border-primary/50 flex items-center gap-2 rounded-lg border px-3 py-2 transition-colors ${
               selectedToken ? "border-border/60" : "border-border/30 opacity-50"
             }`}
           >
@@ -172,10 +181,10 @@ export function DepositModal({ onClose, onConfirm, status, error }: DepositModal
               onChange={(e) => setAmount(e.target.value)}
               placeholder="0.00"
               disabled={!selectedToken}
-              className="flex-1 bg-transparent text-sm outline-none placeholder:text-muted disabled:cursor-not-allowed"
+              className="placeholder:text-muted flex-1 bg-transparent text-sm outline-none disabled:cursor-not-allowed"
             />
             {selectedToken && (
-              <span className="text-xs font-semibold text-muted">{selectedToken.symbol}</span>
+              <span className="text-muted text-xs font-semibold">{selectedToken.symbol}</span>
             )}
           </div>
 
@@ -183,14 +192,14 @@ export function DepositModal({ onClose, onConfirm, status, error }: DepositModal
             <button
               onClick={onClose}
               disabled={!canClose}
-              className="flex-1 rounded-lg border border-border/60 py-2 text-xs text-muted transition-colors hover:text-foreground disabled:opacity-40 disabled:cursor-not-allowed"
+              className="border-border/60 text-muted hover:text-foreground flex-1 rounded-lg border py-2 text-xs transition-colors disabled:cursor-not-allowed disabled:opacity-40"
             >
               Cancel
             </button>
             <button
               onClick={handleConfirm}
               disabled={!selectedToken || !amount || Number(amount) <= 0 || isPending}
-              className="flex-1 rounded-lg bg-primary py-2 text-xs font-semibold text-white transition-opacity disabled:opacity-40 disabled:cursor-not-allowed"
+              className="bg-primary flex-1 rounded-lg py-2 text-xs font-semibold text-white transition-opacity disabled:cursor-not-allowed disabled:opacity-40"
             >
               {isPending ? (
                 <span className="flex items-center justify-center gap-1.5">

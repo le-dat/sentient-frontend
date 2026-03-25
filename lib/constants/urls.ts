@@ -8,11 +8,11 @@ import {
 
 /** Block explorer base URLs keyed by chain ID. */
 export const EXPLORER_BASE: Record<number, string> = {
-  [FACTORY_CHAIN.id]:     "https://sepolia.basescan.org",
-  [BASE_CHAIN_ID]:        "https://basescan.org",
-  [ETH_CHAIN_ID]:         "https://etherscan.io",
+  [FACTORY_CHAIN.id]: "https://sepolia.basescan.org",
+  [BASE_CHAIN_ID]: "https://basescan.org",
+  [ETH_CHAIN_ID]: "https://etherscan.io",
   [ETH_SEPOLIA_CHAIN_ID]: "https://sepolia.etherscan.io",
-  [ARBITRUM_CHAIN_ID]:    "https://arbiscan.io",
+  [ARBITRUM_CHAIN_ID]: "https://arbiscan.io",
 };
 
 /** Fallback explorer when chain is not mapped. */

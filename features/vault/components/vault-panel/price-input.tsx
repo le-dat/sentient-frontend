@@ -10,12 +10,12 @@ export const PriceInput = ({
   onChange: (v: string) => void;
 }) => (
   <div>
-    <label className="text-xs text-muted">{label}</label>
+    <label className="text-muted text-xs">{label}</label>
     <input
       type="number"
       value={value}
       onChange={(e) => onChange(e.target.value)}
-      className="mt-1 w-full rounded-lg border border-border/60 bg-card px-3 py-2 text-xs outline-none focus:border-primary/50"
+      className="border-border/60 bg-card focus:border-primary/50 mt-1 w-full rounded-lg border px-3 py-2 text-xs outline-none"
     />
   </div>
 );

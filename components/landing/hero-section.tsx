@@ -36,17 +36,17 @@ const FEATURE_TAGS = [
 
 function StatsSection() {
   return (
-    <div className="hs-in-6 mt-16 border-t border-border/50">
+    <div className="hs-in-6 border-border/50 mt-16 border-t">
       <div className="hs-stats-grid">
         {STATS.map((s, i) => (
           <div key={i} className="hs-stat-cell">
             <div className="hs-stat-shimmer" />
             {s.badge && (
-              <span className="absolute right-4 top-[18px] rounded-[4px] border border-primary/20 bg-primary/[0.08] px-[7px] py-[2px] font-mono text-[10px] font-bold tracking-[0.04em] text-primary">
+              <span className="border-primary/20 bg-primary/[0.08] text-primary absolute top-[18px] right-4 rounded-[4px] border px-[7px] py-[2px] font-mono text-[10px] font-bold tracking-[0.04em]">
                 {s.badge}
               </span>
             )}
-            <p className="mb-1.5 text-[clamp(26px,3vw,38px)] font-extrabold leading-none tracking-[-0.03em] text-[#e6eeff]">
+            <p className="mb-1.5 text-[clamp(26px,3vw,38px)] leading-none font-extrabold tracking-[-0.03em] text-[#e6eeff]">
               <CountUp
                 to={s.value}
                 decimals={s.decimals ?? 0}
@@ -54,7 +54,7 @@ function StatsSection() {
                 suffix={s.suffix}
               />
             </p>
-            <p className="m-0 font-mono text-[10px] uppercase tracking-[0.12em] text-muted/35">
+            <p className="text-muted/35 m-0 font-mono text-[10px] tracking-[0.12em] uppercase">
               {s.label}
             </p>
           </div>
@@ -99,7 +99,7 @@ export function HeroSection() {
         }}
       />
 
-      <div className="max-w-[1200px] mx-auto px-4 grid grid-cols-1 md:grid-cols-[1fr_340px] gap-8 md:gap-[52px]">
+      <div className="mx-auto grid max-w-[1200px] grid-cols-1 gap-8 px-4 md:grid-cols-[1fr_340px] md:gap-[52px]">
         {/* LEFT */}
         <div className="flex flex-col pt-2">
           {/* Headline */}
@@ -129,7 +129,7 @@ export function HeroSection() {
             {FEATURE_TAGS.map((label) => (
               <span
                 key={label}
-                className="rounded-[4px] border border-border/60 bg-card/60 px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.08em] text-muted/55"
+                className="border-border/60 bg-card/60 text-muted/55 rounded-[4px] border px-2.5 py-1 font-mono text-[10px] tracking-[0.08em] uppercase"
               >
                 {label}
               </span>
@@ -139,7 +139,7 @@ export function HeroSection() {
 
         <div>
           {/* Subtext — names both user paths: deploy or inspect */}
-          <p className="hs-in-3 mb-10 max-w-[430px] font-mono text-[12.5px] leading-[1.85] text-muted/55">
+          <p className="hs-in-3 text-muted/55 mb-10 max-w-[430px] font-mono text-[12.5px] leading-[1.85]">
             {`// Price triggers, circuit breakers, cross-chain monitoring.`}
             <br />
             {`// Deploy a vault in minutes — or track any wallet on-chain.`}
@@ -160,14 +160,14 @@ export function HeroSection() {
             <button
               onClick={handleSearch}
               disabled={!address.trim()}
-              className="hs-btn-secondary w-full justify-center disabled:opacity-40 disabled:cursor-not-allowed"
+              className="hs-btn-secondary w-full justify-center disabled:cursor-not-allowed disabled:opacity-40"
             >
               Inspect Wallet →
             </button>
           </div>
 
           {/* Chain status list with brand colors */}
-          <div className="hs-in-5 mt-9 flex flex-wrap items-center gap-0 font-mono text-[10px] uppercase tracking-widest">
+          <div className="hs-in-5 mt-9 flex flex-wrap items-center gap-0 font-mono text-[10px] tracking-widest uppercase">
             {CHAINS.map((c, i) => (
               <span key={c.name} className="flex items-center">
                 <span
@@ -175,7 +175,7 @@ export function HeroSection() {
                   style={{ background: c.color, boxShadow: `0 0 5px ${c.color}80` }}
                 />
                 <span className="text-muted/35">{c.name}</span>
-                {i < CHAINS.length - 1 && <span className="mx-3 text-muted/20">·</span>}
+                {i < CHAINS.length - 1 && <span className="text-muted/20 mx-3">·</span>}
               </span>
             ))}
           </div>

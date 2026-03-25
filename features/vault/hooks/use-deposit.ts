@@ -9,8 +9,6 @@ import type { DepositToken } from "./use-token-list";
 
 export type DepositStatus = "idle" | "approving" | "depositing" | "done" | "error";
 
-
-
 export function useDeposit(vaultAddress: `0x${string}`) {
   const { address } = useAccount();
   const publicClient = usePublicClient();

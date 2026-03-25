@@ -54,17 +54,17 @@ export function Navbar({ right, showActiveState = false, className }: NavbarProp
 
   return (
     <header
-      className={`sticky top-0 z-50 border-b border-border/60 bg-background/90 backdrop-blur-xl ${className ?? ""}`}
+      className={`border-border/60 bg-background/90 sticky top-0 z-50 border-b backdrop-blur-xl ${className ?? ""}`}
     >
       {/* Top accent gradient line */}
-      <div className="h-px w-full bg-linear-to-r from-transparent via-primary/50 to-transparent" />
+      <div className="via-primary/50 h-px w-full bg-linear-to-r from-transparent to-transparent" />
 
       <div className="mx-auto flex max-w-6xl items-center justify-between px-3 py-3 md:px-6">
         {/* Logo + desktop nav */}
         <div className="flex items-center gap-8">
           <Link
             href={ROUTES.HOME}
-            className="flex items-center gap-1 text-lg font-bold tracking-tight text-foreground"
+            className="text-foreground flex items-center gap-1 text-lg font-bold tracking-tight"
           >
             <Image
               src="/logo.png"
@@ -76,7 +76,7 @@ export function Navbar({ right, showActiveState = false, className }: NavbarProp
             entient
           </Link>
 
-          <div className="hidden h-4 w-px bg-border/60 md:block" />
+          <div className="bg-border/60 hidden h-4 w-px md:block" />
 
           <nav className="hidden items-center gap-0.5 md:flex">
             {NAV_ITEMS.map((item) => {
@@ -104,14 +104,14 @@ export function Navbar({ right, showActiveState = false, className }: NavbarProp
       </div>
 
       {/* Mobile nav */}
-      <div className="flex gap-1 overflow-x-auto border-t border-border/40 px-4 py-2 md:hidden">
+      <div className="border-border/40 flex gap-1 overflow-x-auto border-t px-4 py-2 md:hidden">
         {NAV_ITEMS.map((item) => {
           const active = isActive(item.href, item.exact);
           return (
             <Link
               key={item.href}
               href={item.href}
-              className={`flex items-center gap-1.5 whitespace-nowrap rounded-lg px-3 py-1.5 text-xs font-medium transition-colors ${
+              className={`flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-medium whitespace-nowrap transition-colors ${
                 active
                   ? "bg-primary/10 text-primary"
                   : "text-muted hover:bg-card hover:text-foreground"

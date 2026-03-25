@@ -24,26 +24,26 @@ export function SearchBar({ defaultValue = "" }: { defaultValue?: string }) {
   };
 
   return (
-    <div className="relative group w-full mx-auto animate-fadeUp">
-      <div className="absolute -inset-1 bg-linear-to-r from-primary/20 via-primary/10 to-transparent rounded-2xl blur opacity-25 group-hover:opacity-40 transition duration-700"></div>
+    <div className="group animate-fadeUp relative mx-auto w-full">
+      <div className="from-primary/20 via-primary/10 absolute -inset-1 rounded-2xl bg-linear-to-r to-transparent opacity-25 blur transition duration-700 group-hover:opacity-40"></div>
       <form
         onSubmit={handleSearch}
-        className="relative flex items-center bg-card-2/40 backdrop-blur-xl border border-border/40 rounded-2xl p-1.5 shadow-2xl focus-within:border-primary/40 transition-all duration-300"
+        className="bg-card-2/40 border-border/40 focus-within:border-primary/40 relative flex items-center rounded-2xl border p-1.5 shadow-2xl backdrop-blur-xl transition-all duration-300"
       >
-        <div className="flex-1 flex items-center px-4">
-          <Search className="h-5 w-5 text-muted/60 mr-3 shrink-0" />
+        <div className="flex flex-1 items-center px-4">
+          <Search className="text-muted/60 mr-3 h-5 w-5 shrink-0" />
           <input
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search address or domain"
-            className="w-full bg-transparent border-none outline-none text-foreground py-2 md:py-3 text-base md:text-lg placeholder:text-muted/30"
+            className="text-foreground placeholder:text-muted/30 w-full border-none bg-transparent py-2 text-base outline-none md:py-3 md:text-lg"
           />
         </div>
         <button
           type="submit"
           disabled={isSearching || !query.trim()}
-          className="bg-primary hover:bg-primary/90 text-primary-foreground h-10 md:h-12 px-4 md:px-6 rounded-xl font-medium transition-all flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-primary/10 cursor-pointer active:scale-95"
+          className="bg-primary hover:bg-primary/90 text-primary-foreground shadow-primary/10 flex h-10 cursor-pointer items-center gap-2 rounded-xl px-4 font-medium shadow-lg transition-all active:scale-95 disabled:cursor-not-allowed disabled:opacity-50 md:h-12 md:px-6"
         >
           {isSearching ? (
             <Loader2 className="h-5 w-5 animate-spin" />

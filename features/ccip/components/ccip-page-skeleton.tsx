@@ -13,7 +13,7 @@ export function CCIPPageSkeleton() {
       </div>
 
       {/* Panel card */}
-      <div className="rounded-xl border border-border/50 bg-card-2/40 p-4 space-y-4">
+      <div className="border-border/50 bg-card-2/40 space-y-4 rounded-xl border p-4">
         <Skeleton className="h-2.5 w-28 rounded" />
 
         {/* Input row */}

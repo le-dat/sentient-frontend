@@ -13,9 +13,9 @@ export function TokenChip({
 }) {
   return (
     <div>
-      <label className="text-[10px] text-muted block mb-1">Token (CCIP-BnM)</label>
-      <div className="flex items-center gap-1.5 rounded-lg border border-border/60 bg-card px-2.5 py-1.5">
-        <span className="text-[11px] font-mono text-muted flex-1">
+      <label className="text-muted mb-1 block text-[10px]">Token (CCIP-BnM)</label>
+      <div className="border-border/60 bg-card flex items-center gap-1.5 rounded-lg border px-2.5 py-1.5">
+        <span className="text-muted flex-1 font-mono text-[11px]">
           {shieldToken.slice(0, 6)}…{shieldToken.slice(-4)}
         </span>
         <button
@@ -28,9 +28,13 @@ export function TokenChip({
       </div>
 
       {vaultTokenBalanceFormatted != null && (
-        <p className="text-[11px] text-muted mt-1">
+        <p className="text-muted mt-1 text-[11px]">
           Vault CCIP-BnM:{" "}
-          <span className={!hasEnoughToken ? "text-danger font-semibold" : "font-semibold text-foreground"}>
+          <span
+            className={
+              !hasEnoughToken ? "text-danger font-semibold" : "text-foreground font-semibold"
+            }
+          >
             {vaultTokenBalanceFormatted}
           </span>
         </p>

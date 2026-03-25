@@ -20,7 +20,7 @@ export function ChainSelectModal({
       onClick={isCreating ? undefined : onClose}
     >
       <div
-        className="relative w-80 rounded-2xl border border-border bg-card p-5 shadow-xl"
+        className="border-border bg-card relative w-80 rounded-2xl border p-5 shadow-xl"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="mb-4 flex items-center justify-between">
@@ -28,7 +28,7 @@ export function ChainSelectModal({
           <button
             onClick={onClose}
             disabled={isCreating}
-            className="flex h-7 w-7 items-center justify-center rounded-full text-muted transition-colors hover:text-foreground disabled:opacity-40"
+            className="text-muted hover:text-foreground flex h-7 w-7 items-center justify-center rounded-full transition-colors disabled:opacity-40"
           >
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
               <path
@@ -52,22 +52,22 @@ export function ChainSelectModal({
                 <button
                   onClick={() => onSelect(chain)}
                   disabled={disabled}
-                  className="flex w-full items-center gap-3 rounded-xl border border-transparent px-3 py-2.5 text-left transition-colors hover:border-primary/30 hover:bg-primary/5 disabled:cursor-not-allowed disabled:opacity-40"
+                  className="hover:border-primary/30 hover:bg-primary/5 flex w-full items-center gap-3 rounded-xl border border-transparent px-3 py-2.5 text-left transition-colors disabled:cursor-not-allowed disabled:opacity-40"
                 >
-                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-muted/20 overflow-hidden">
+                  <div className="bg-muted/20 flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-full">
                     <ChainLogo chainId={chain.id} className="h-7 w-7" />
                   </div>
                   <div className="flex-1">
-                    <p className="font-medium leading-tight">{chain.name}</p>
-                    <p className="text-xs text-muted">{chain.symbol}</p>
+                    <p className="leading-tight font-medium">{chain.name}</p>
+                    <p className="text-muted text-xs">{chain.symbol}</p>
                   </div>
                   {hasVault && (
-                    <span className="rounded-full bg-success/15 px-2 py-0.5 text-[10px] font-semibold text-success">
+                    <span className="bg-success/15 text-success rounded-full px-2 py-0.5 text-[10px] font-semibold">
                       Created
                     </span>
                   )}
                   {!supported && (
-                    <span className="rounded-full bg-muted/20 px-2 py-0.5 text-[10px] font-medium text-muted">
+                    <span className="bg-muted/20 text-muted rounded-full px-2 py-0.5 text-[10px] font-medium">
                       Soon
                     </span>
                   )}
@@ -77,12 +77,12 @@ export function ChainSelectModal({
           })}
         </ul>
 
-        {error && <p className="mt-3 text-xs text-danger">{error}</p>}
+        {error && <p className="text-danger mt-3 text-xs">{error}</p>}
 
         {/* Loading overlay */}
         {isCreating && (
-          <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 rounded-2xl bg-card/80 backdrop-blur-sm">
-            <svg className="h-7 w-7 animate-spin text-primary" viewBox="0 0 24 24" fill="none">
+          <div className="bg-card/80 absolute inset-0 flex flex-col items-center justify-center gap-3 rounded-2xl backdrop-blur-sm">
+            <svg className="text-primary h-7 w-7 animate-spin" viewBox="0 0 24 24" fill="none">
               <circle
                 className="opacity-25"
                 cx="12"
@@ -97,7 +97,7 @@ export function ChainSelectModal({
                 d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
               />
             </svg>
-            <p className="text-xs text-muted">Creating vault on-chain…</p>
+            <p className="text-muted text-xs">Creating vault on-chain…</p>
           </div>
         )}
       </div>

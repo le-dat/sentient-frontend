@@ -69,10 +69,8 @@ export function formatError(error: unknown): string {
 
 function _classifyMessage(raw: string): string {
   const msg = raw.toLowerCase();
-  if (msg.includes("user rejected") || msg.includes("user denied"))
-    return "User rejected";
-  if (msg.includes("insufficient funds"))
-    return "Insufficient funds for gas";
+  if (msg.includes("user rejected") || msg.includes("user denied")) return "User rejected";
+  if (msg.includes("insufficient funds")) return "Insufficient funds for gas";
   if (msg.includes("nonce too low") || msg.includes("nonce has already been used"))
     return "Nonce conflict, try again";
   if (msg.includes("execution reverted") || msg.includes("contract reverted")) {

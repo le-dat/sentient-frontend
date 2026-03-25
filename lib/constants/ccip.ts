@@ -1,7 +1,7 @@
 import { FACTORY_CHAIN, ETH_SEPOLIA_CHAIN_ID } from "@/lib/constants/chains";
 
 export const CCIP_ROUTERS: Record<number, `0x${string}`> = {
-  [FACTORY_CHAIN.id]:     "0xD3b06cEbF099CE7DA4AcCf578aaebFDBd6e88a93" as `0x${string}`,
+  [FACTORY_CHAIN.id]: "0xD3b06cEbF099CE7DA4AcCf578aaebFDBd6e88a93" as `0x${string}`,
   [ETH_SEPOLIA_CHAIN_ID]: "0x0BF3dE8c5D3e8A2B34D2BEeB17ABfCeBaf363A59" as `0x${string}`,
 };
 

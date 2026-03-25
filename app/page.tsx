@@ -21,9 +21,9 @@ export default function Home() {
       <FeaturesSection />
       <LiveActivitySection />
 
-      <footer className="border-t border-border/60 px-6 py-10">
+      <footer className="border-border/60 border-t px-6 py-10">
         <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 md:flex-row">
-          <p className="text-xs text-muted mx-auto">
+          <p className="text-muted mx-auto text-xs">
             © 2026 Sentient Finance · Built on Chainlink · All rights reserved
           </p>
         </div>

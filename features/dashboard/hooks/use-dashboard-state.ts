@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import { useCallback, useState } from "react";
 import { useDashboardOnChain } from "./use-dashboard-on-chain";
 import { SUPPORTED_CHAINS } from "@/lib/constants/chains";
@@ -12,7 +12,11 @@ function isZeroAddr(addr: string): boolean {
 
 export function useDashboardState() {
   const [refreshKey, setRefreshKey] = useState(0);
-  const { chains: onChainChains, vaults: onChainVaults, isLoading } = useDashboardOnChain(refreshKey);
+  const {
+    chains: onChainChains,
+    vaults: onChainVaults,
+    isLoading,
+  } = useDashboardOnChain(refreshKey);
 
   const [addedChains, setAddedChains] = useState<ChainInfo[]>([]);
   const [addedVaults, setAddedVaults] = useState<VaultItem[]>([]);

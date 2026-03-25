@@ -2,8 +2,8 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 function ConnectionCardSkeleton({ accent }: { accent?: boolean }) {
   return (
-    <div className="overflow-hidden rounded-2xl border border-border/40 bg-card/60">
-      {accent && <div className="h-0.5 w-full bg-border/30" />}
+    <div className="border-border/40 bg-card/60 overflow-hidden rounded-2xl border">
+      {accent && <div className="bg-border/30 h-0.5 w-full" />}
       <div className="p-5">
         <div className="flex items-start justify-between gap-4">
           <div className="flex items-start gap-3">
@@ -27,7 +27,7 @@ function ConnectionCardSkeleton({ accent }: { accent?: boolean }) {
 
 function ToggleRowSkeleton() {
   return (
-    <div className="flex items-center justify-between rounded-xl border border-border/40 px-4 py-3">
+    <div className="border-border/40 flex items-center justify-between rounded-xl border px-4 py-3">
       <div className="flex items-center gap-3">
         <Skeleton className="h-1.5 w-1.5 rounded-full" />
         <div className="space-y-1">
@@ -42,7 +42,7 @@ function ToggleRowSkeleton() {
 
 function NotificationRowSkeleton() {
   return (
-    <div className="flex items-center gap-3 rounded-xl border border-border/40 px-3 py-3">
+    <div className="border-border/40 flex items-center gap-3 rounded-xl border px-3 py-3">
       <Skeleton className="h-2 w-2 shrink-0 rounded-full" />
       <div className="min-w-0 flex-1 space-y-1">
         <Skeleton className="h-3.5 w-24 rounded" />
@@ -67,7 +67,7 @@ export function NotificationsSkeleton() {
         {/* RIGHT — Alert preferences + Recent notifications */}
         <div className="space-y-5">
           {/* Alert preferences */}
-          <div className="rounded-2xl border border-border/40 bg-card/60 p-5">
+          <div className="border-border/40 bg-card/60 rounded-2xl border p-5">
             <div className="mb-4 flex items-center justify-between">
               <div className="space-y-1.5">
                 <Skeleton className="h-4 w-36 rounded" />
@@ -84,7 +84,7 @@ export function NotificationsSkeleton() {
           </div>
 
           {/* Recent notifications */}
-          <div className="rounded-2xl border border-border/40 bg-card/60 p-5">
+          <div className="border-border/40 bg-card/60 rounded-2xl border p-5">
             <div className="mb-4 flex items-center justify-between">
               <div className="space-y-1.5">
                 <Skeleton className="h-4 w-40 rounded" />

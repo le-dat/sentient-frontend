@@ -14,7 +14,7 @@ interface VaultSectionProps {
 export function VaultSection({ vaultsByChain, onSelect, chainRefs, isLoading }: VaultSectionProps) {
   return (
     <section className="space-y-3">
-      <h2 className="text-sm font-semibold uppercase tracking-widest text-muted">Vaults</h2>
+      <h2 className="text-muted text-sm font-semibold tracking-widest uppercase">Vaults</h2>
       {isLoading ? (
         <div className="flex flex-col gap-6">
           <div className="flex flex-col gap-3">
@@ -33,7 +33,7 @@ export function VaultSection({ vaultsByChain, onSelect, chainRefs, isLoading }: 
               }}
               className="flex flex-col gap-3"
             >
-              <p className="text-xs font-medium text-muted">{chainName}</p>
+              <p className="text-muted text-xs font-medium">{chainName}</p>
               {chainVaults.map((v) => (
                 <VaultCard key={v.addr} vault={v} onSelect={onSelect} />
               ))}

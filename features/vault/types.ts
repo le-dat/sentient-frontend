@@ -52,7 +52,7 @@ export function parseRule(rule: unknown): RuleData | null {
   let baseToken = "USDC";
   if (baseAddr) {
     const sym = Object.entries(TOKEN_DATA).find(
-      ([, v]) => v.address.toLowerCase() === String(baseAddr).toLowerCase(),
+      ([, v]) => v.address.toLowerCase() === String(baseAddr).toLowerCase()
     )?.[0];
     if (sym && BASE_TOKENS.includes(sym)) baseToken = sym;
   }

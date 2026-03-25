@@ -11,5 +11,7 @@ export function StatusChip({
     success: "bg-success/20 text-success",
   };
 
-  return <span className={`rounded-full px-2 py-1 text-xs font-medium ${cls[status]}`}>{status}</span>;
+  return (
+    <span className={`rounded-full px-2 py-1 text-xs font-medium ${cls[status]}`}>{status}</span>
+  );
 }

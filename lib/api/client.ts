@@ -50,7 +50,7 @@ export interface ListVaultsParams {
 }
 
 export async function listVaults(
-  params: ListVaultsParams = {},
+  params: ListVaultsParams = {}
 ): Promise<PaginatedResponse<VaultListItem>> {
   const url = buildUrl("/api/v1/vaults", {
     chain: params.chain,
@@ -85,7 +85,7 @@ export interface GetVaultHistoryParams {
 
 export async function getVaultHistory(
   address: string,
-  params: GetVaultHistoryParams = {},
+  params: GetVaultHistoryParams = {}
 ): Promise<PaginatedResponse<HistoryItem>> {
   const url = buildUrl(`/api/v1/vaults/${encodeURIComponent(address)}/history`, {
     chain: params.chain,

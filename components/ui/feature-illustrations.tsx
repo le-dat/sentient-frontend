@@ -3,7 +3,7 @@
 export const CoinStackIllustration = () => (
   <div className="relative h-32 w-48">
     {/* Sparkle (on hover maybe?) or always there with low opacity? */}
-    <div className="absolute left-10 top-2 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+    <div className="absolute top-2 left-10 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
         <path
           d="M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2 12L9.5 9.5L12 2Z"
@@ -79,7 +79,7 @@ export const CoinStackIllustration = () => (
     </div>
 
     {/* Small Stack on right */}
-    <div className="absolute bottom-4 right-12 transition-transform duration-300 group-hover:-translate-y-1">
+    <div className="absolute right-12 bottom-4 transition-transform duration-300 group-hover:-translate-y-1">
       <svg width="40" height="50" viewBox="0 0 40 50" fill="none">
         {[0, 8].map((y) => (
           <g key={y} transform={`translate(0, ${y})`}>
@@ -141,7 +141,7 @@ export const CoinStackIllustration = () => (
     </div>
 
     {/* Molecule Connect (on hover) */}
-    <div className="absolute right-4 top-10 opacity-0 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-1">
+    <div className="absolute top-10 right-4 opacity-0 transition-all duration-300 group-hover:translate-x-1 group-hover:opacity-100">
       <svg width="32" height="32" viewBox="0 0 32 32" fill="none" className="stroke-black">
         <circle cx="16" cy="16" r="4" fill="white" stroke="black" strokeWidth="1.5" />
         <circle cx="28" cy="8" r="3" fill="black" />
@@ -156,7 +156,7 @@ export const CoinStackIllustration = () => (
 );
 
 export const RuleBasedIllustration = () => (
-  <div className="relative h-32 w-48 group text-foreground">
+  <div className="group text-foreground relative h-32 w-48">
     <div className="absolute inset-0 flex items-center justify-center transition-transform duration-300 group-hover:-translate-y-2">
       <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
         <path
@@ -169,7 +169,7 @@ export const RuleBasedIllustration = () => (
       </svg>
     </div>
     {/* Floating gear elements */}
-    <div className="absolute right-8 top-12 opacity-0 transition-all duration-300 group-hover:opacity-100">
+    <div className="absolute top-12 right-8 opacity-0 transition-all duration-300 group-hover:opacity-100">
       <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
         <circle cx="10" cy="10" r="4" stroke="black" strokeWidth="2" fill="white" />
         {[0, 45, 90, 135, 180, 225, 270, 315].map((deg) => (
@@ -189,7 +189,7 @@ export const RuleBasedIllustration = () => (
 );
 
 export const RiskShieldIllustration = () => (
-  <div className="relative h-32 w-48 group text-foreground">
+  <div className="group text-foreground relative h-32 w-48">
     <div className="absolute inset-0 flex items-center justify-center transition-transform duration-300 group-hover:-translate-y-2">
       <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
         <path
@@ -217,7 +217,7 @@ export const RiskShieldIllustration = () => (
 );
 
 export const CrossChainIllustration = () => (
-  <div className="relative h-32 w-48 group text-foreground">
+  <div className="group text-foreground relative h-32 w-48">
     <div className="absolute inset-0 flex items-center justify-center transition-transform duration-300 group-hover:-translate-y-2">
       <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
         <circle

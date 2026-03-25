@@ -6,4 +6,3 @@ export { DashboardSkeleton } from "./components/dashboard-skeleton";
 export { useDashboardFlow } from "./hooks/use-dashboard-flow";
 export { useDashboardState } from "./hooks/use-dashboard-state";
 export type { ChainInfo, MetricCard } from "./types";
-

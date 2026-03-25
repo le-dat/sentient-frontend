@@ -22,10 +22,7 @@ async function answerCallbackQuery(callbackQueryId: string, text?: string): Prom
   });
 }
 
-async function editMessageReplyMarkup(
-  chatId: number | string,
-  messageId: number,
-): Promise<void> {
+async function editMessageReplyMarkup(chatId: number | string, messageId: number): Promise<void> {
   await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/editMessageReplyMarkup`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -67,18 +64,18 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
       if (isWallet) {
         await sendMessage(
           chatId,
-          `Connected! Your Chat ID is: <code>${chatId}</code>\n\nVault wallet: <code>${walletArg}</code>\n\nPaste your Chat ID into the Sentient app to complete setup.`,
+          `Connected! Your Chat ID is: <code>${chatId}</code>\n\nVault wallet: <code>${walletArg}</code>\n\nPaste your Chat ID into the Sentient app to complete setup.`
         );
       } else {
         await sendMessage(
           chatId,
-          `Welcome to Sentient Finance Bot!\n\nYour Chat ID is: <code>${chatId}</code>\n\nPaste this into the app to connect alerts.`,
+          `Welcome to Sentient Finance Bot!\n\nYour Chat ID is: <code>${chatId}</code>\n\nPaste this into the app to connect alerts.`
         );
       }
     } else if (text === "/connect") {
       await sendMessage(
         chatId,
-        `Your Chat ID is: <code>${chatId}</code>\n\nCopy this and paste it into the Sentient app.`,
+        `Your Chat ID is: <code>${chatId}</code>\n\nCopy this and paste it into the Sentient app.`
       );
     }
   }

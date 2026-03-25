@@ -17,7 +17,7 @@ export function ErrorDescription({ message }: ErrorDescriptionProps) {
   const text = isLong && !expanded ? words.slice(0, TEXT_LIMIT).join(" ") + "…" : formatted;
 
   return (
-    <span className="block text-xs max-h-24 overflow-y-auto overflow-wrap-normal">
+    <span className="overflow-wrap-normal block max-h-24 overflow-y-auto text-xs">
       {text}
       {isLong && (
         <button

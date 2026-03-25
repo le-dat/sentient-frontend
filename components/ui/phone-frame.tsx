@@ -2,7 +2,7 @@ export function PhoneFrame({ children }: { children: React.ReactNode }) {
   return (
     <div className="w-full transition-transform duration-300 ease-out hover:-translate-y-7">
       {/* Outer bezel */}
-      <div className="relative rounded-[44px] border-[6px] border-foreground/10 bg-foreground/5 p-[3px] shadow-[0_0_0_1px_rgba(255,255,255,0.06),0_20px_60px_rgba(0,0,0,0.5)]">
+      <div className="border-foreground/10 bg-foreground/5 relative rounded-[44px] border-[6px] p-[3px] shadow-[0_0_0_1px_rgba(255,255,255,0.06),0_20px_60px_rgba(0,0,0,0.5)]">
         {/* Inner shell */}
         <div className="flex min-h-[580px] flex-col overflow-hidden rounded-[38px] bg-[#0d0d12]">
           {/* Status bar */}
@@ -38,9 +38,9 @@ export function PhoneFrame({ children }: { children: React.ReactNode }) {
             </div>
           </div>
           {/* Content */}
-          <div className="flex flex-1 flex-col px-4 pb-5 pt-2">{children}</div>
+          <div className="flex flex-1 flex-col px-4 pt-2 pb-5">{children}</div>
           {/* Home indicator */}
-          <div className="flex justify-center pb-3 pt-1">
+          <div className="flex justify-center pt-1 pb-3">
             <div className="h-1 w-28 rounded-full bg-white/20" />
           </div>
         </div>

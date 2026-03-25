@@ -30,7 +30,9 @@ for (const t of Object.values(TOKEN_DATA)) {
 }
 
 function resolveToken(address: string) {
-  return ADDRESS_TO_TOKEN[address.toLowerCase()] ?? { symbol: address.slice(0, 6) + "…", decimals: 18 };
+  return (
+    ADDRESS_TO_TOKEN[address.toLowerCase()] ?? { symbol: address.slice(0, 6) + "…", decimals: 18 }
+  );
 }
 
 function fmt(raw: bigint, decimals: number) {
@@ -125,7 +127,9 @@ export function useVaultHistory(vaultAddress: `0x${string}`) {
     }
 
     fetchLogs();
-    return () => { cancelled = true; };
+    return () => {
+      cancelled = true;
+    };
   }, [publicClient, vaultAddress]);
 
   return { txs, isLoading, error };

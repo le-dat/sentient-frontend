@@ -31,15 +31,16 @@ export default function DashboardPage() {
           onChainClick={scrollToChain}
           isLoading={isLoading}
         />
-        <VaultSection vaultsByChain={vaultsByChain} onSelect={setSelected} chainRefs={chainRefs} isLoading={isLoading} />
+        <VaultSection
+          vaultsByChain={vaultsByChain}
+          onSelect={setSelected}
+          chainRefs={chainRefs}
+          isLoading={isLoading}
+        />
       </div>
 
       {selected && (
-        <VaultPanel
-          vault={selected}
-          onClose={() => setSelected(null)}
-          onRefresh={refreshVaults}
-        />
+        <VaultPanel vault={selected} onClose={() => setSelected(null)} onRefresh={refreshVaults} />
       )}
 
       {chainSelectOpen && (

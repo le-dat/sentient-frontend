@@ -11,7 +11,7 @@ export function useInView(ref: { current: Element | null }) {
       ([e]) => {
         if (e.isIntersecting) setInView(true);
       },
-      { threshold: 0.1 },
+      { threshold: 0.1 }
     );
     obs.observe(el);
     return () => obs.disconnect();
