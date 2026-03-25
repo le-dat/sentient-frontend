@@ -16,9 +16,16 @@ interface WithdrawModalProps {
   onClose: () => void;
   onConfirm: (symbol: string, amount: string) => void;
   status: WithdrawStatus;
+  error: string | null;
 }
 
-export function WithdrawModal({ vaultTokens, onClose, onConfirm, status }: WithdrawModalProps) {
+export function WithdrawModal({
+  vaultTokens,
+  onClose,
+  onConfirm,
+  status,
+  error,
+}: WithdrawModalProps) {
   const [selectedToken, setSelectedToken] = useState<VaultToken | null>(null);
   const [amount, setAmount] = useState("");
 
@@ -57,6 +64,24 @@ export function WithdrawModal({ vaultTokens, onClose, onConfirm, status }: Withd
             <X className="h-3.5 w-3.5" />
           </button>
         </div>
+
+        {/* Status notification */}
+        {isPending && (
+          <div className="border-primary/40 bg-primary/10 mx-5 mb-3 flex items-center gap-2 rounded-lg border px-4 py-3">
+            <Loader2 className="text-primary h-4 w-4 shrink-0 animate-spin" />
+            <p className="text-primary text-sm font-medium">Withdrawing…</p>
+          </div>
+        )}
+        {status === "done" && (
+          <div className="border-success/40 bg-success/10 mx-5 mb-3 flex items-center gap-2 rounded-lg border px-4 py-3">
+            <p className="text-success text-sm font-medium">Withdraw confirmed!</p>
+          </div>
+        )}
+        {status === "error" && error && (
+          <div className="border-danger/40 bg-danger/10 mx-5 mb-3 flex items-center gap-2 rounded-lg border px-4 py-3">
+            <p className="text-danger text-sm font-medium">{error}</p>
+          </div>
+        )}
 
         <div className="border-border/40 flex-1 overflow-y-auto border-y">
           {vaultTokens.length === 0 ? (
