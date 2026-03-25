@@ -16,16 +16,9 @@ interface WithdrawModalProps {
   onClose: () => void;
   onConfirm: (symbol: string, amount: string) => void;
   status: WithdrawStatus;
-  error: string | null;
 }
 
-export function WithdrawModal({
-  vaultTokens,
-  onClose,
-  onConfirm,
-  status,
-  error,
-}: WithdrawModalProps) {
+export function WithdrawModal({ vaultTokens, onClose, onConfirm, status }: WithdrawModalProps) {
   const [selectedToken, setSelectedToken] = useState<VaultToken | null>(null);
   const [amount, setAmount] = useState("");
 
@@ -50,7 +43,7 @@ export function WithdrawModal({
       onClick={canClose ? onClose : undefined}
     >
       <div
-        className="relative flex w-[360px] flex-col rounded-2xl border border-border bg-card shadow-xl"
+        className="border-border bg-card relative flex w-[360px] flex-col rounded-2xl border shadow-xl"
         style={{ maxHeight: "80vh" }}
         onClick={(e) => e.stopPropagation()}
       >
@@ -59,15 +52,15 @@ export function WithdrawModal({
           <button
             onClick={onClose}
             disabled={!canClose}
-            className="flex h-7 w-7 items-center justify-center rounded-full text-muted transition-colors hover:text-foreground disabled:opacity-40 disabled:cursor-not-allowed"
+            className="text-muted hover:text-foreground flex h-7 w-7 items-center justify-center rounded-full transition-colors disabled:cursor-not-allowed disabled:opacity-40"
           >
             <X className="h-3.5 w-3.5" />
           </button>
         </div>
 
-        <div className="flex-1 overflow-y-auto border-y border-border/40">
+        <div className="border-border/40 flex-1 overflow-y-auto border-y">
           {vaultTokens.length === 0 ? (
-            <p className="py-8 text-center text-xs text-muted">No tokens to withdraw</p>
+            <p className="text-muted py-8 text-center text-xs">No tokens to withdraw</p>
           ) : (
             vaultTokens.map((t) => {
               const isSelected = selectedToken?.symbol === t.symbol;
@@ -75,31 +68,31 @@ export function WithdrawModal({
                 <button
                   key={t.symbol}
                   onClick={() => setSelectedToken(t)}
-                  className={`flex w-full items-center gap-3 border-b border-border/20 px-5 py-3 last:border-0 transition-all ${
+                  className={`border-border/20 flex w-full items-center gap-3 border-b px-5 py-3 transition-all last:border-0 ${
                     isSelected ? "bg-primary/10" : "hover:bg-white/5"
                   }`}
                 >
                   <div
                     className={`flex h-8 w-8 shrink-0 items-center justify-center overflow-hidden rounded-full ${
-                      isSelected ? "ring-1 ring-primary/50" : "bg-white/5"
+                      isSelected ? "ring-primary/50 ring-1" : "bg-white/5"
                     }`}
                   >
                     <TokenIcon symbol={t.symbol} size={28} variant="branded" />
                   </div>
                   <div className="flex flex-1 flex-col items-start">
-                    <span className="text-xs font-semibold leading-tight">{t.symbol}</span>
-                    <span className="text-[10px] text-muted">Balance: {t.amount}</span>
+                    <span className="text-xs leading-tight font-semibold">{t.symbol}</span>
+                    <span className="text-muted text-[10px]">Balance: {t.amount}</span>
                   </div>
-                  {isSelected && <div className="h-2 w-2 rounded-full bg-primary" />}
+                  {isSelected && <div className="bg-primary h-2 w-2 rounded-full" />}
                 </button>
               );
             })
           )}
         </div>
 
-        <div className="px-5 py-4 space-y-3">
+        <div className="space-y-3 px-5 py-4">
           <div
-            className={`flex items-center gap-2 rounded-lg border px-3 py-2 transition-colors focus-within:border-primary/50 ${
+            className={`focus-within:border-primary/50 flex items-center gap-2 rounded-lg border px-3 py-2 transition-colors ${
               selectedToken ? "border-border/60" : "border-border/30 opacity-50"
             }`}
           >
@@ -110,10 +103,10 @@ export function WithdrawModal({
               onChange={(e) => setAmount(e.target.value)}
               placeholder="0.00"
               disabled={!selectedToken}
-              className="flex-1 bg-transparent text-sm outline-none placeholder:text-muted disabled:cursor-not-allowed"
+              className="placeholder:text-muted flex-1 bg-transparent text-sm outline-none disabled:cursor-not-allowed"
             />
             {selectedToken && (
-              <span className="text-xs font-semibold text-muted">{selectedToken.symbol}</span>
+              <span className="text-muted text-xs font-semibold">{selectedToken.symbol}</span>
             )}
           </div>
 
@@ -121,14 +114,14 @@ export function WithdrawModal({
             <button
               onClick={onClose}
               disabled={!canClose}
-              className="flex-1 rounded-lg border border-border/60 py-2 text-xs text-muted transition-colors hover:text-foreground disabled:opacity-40 disabled:cursor-not-allowed"
+              className="border-border/60 text-muted hover:text-foreground flex-1 rounded-lg border py-2 text-xs transition-colors disabled:cursor-not-allowed disabled:opacity-40"
             >
               Cancel
             </button>
             <button
               onClick={handleConfirm}
               disabled={!selectedToken || !amount || Number(amount) <= 0 || isPending}
-              className="flex-1 rounded-lg bg-primary py-2 text-xs font-semibold text-white transition-opacity disabled:opacity-40 disabled:cursor-not-allowed"
+              className="bg-primary flex-1 rounded-lg py-2 text-xs font-semibold text-white transition-opacity disabled:cursor-not-allowed disabled:opacity-40"
             >
               {isPending ? (
                 <span className="flex items-center justify-center gap-1.5">

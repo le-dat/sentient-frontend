@@ -25,30 +25,68 @@ interface CCIPPanelProps {
 // ─── main panel ───────────────────────────────────────────────────────────────
 
 export function CCIPPanel({ vaultAddress, chainId, vaultOwner }: CCIPPanelProps) {
-  const state = useCCIPPanel({ vaultAddress, chainId, vaultOwner });
+  const {
+    isConnected,
+    isOwner,
+    isWritePending,
+    pendingAction,
+    writeHash,
+    writeError,
+    resetWrite,
+    ccipNotSet,
+    ccipRouterAddress,
+    setCcipRouterAddress,
+    defaultRouter,
+    handleSetCCIPConfig,
+    shieldToken,
+    vaultTokenBalanceFormatted,
+    hasEnoughToken,
+    shieldAmount,
+    setShieldAmount,
+    shieldReceiver,
+    userAddress,
+    setShieldReceiver,
+    destSelector,
+    setDestSelector,
+    vaultEthBalanceFormatted,
+    hasEnoughEth,
+    feeWei,
+    depositEthAmount,
+    setDepositEthAmount,
+    canDepositEth,
+    handleDepositEth,
+    feeLoading,
+    feeData,
+    feeError,
+    canEstimateFee,
+    ethNeeded,
+    handleEmergencyShield,
+    canExecuteShield,
+    handleDrip,
+  } = useCCIPPanel({ vaultAddress, chainId, vaultOwner });
 
   const TOAST_ID = "ccip";
 
   // ── write state → toast ──────────────────────────────────────────────────
 
   useEffect(() => {
-    if (!state.isWritePending) return;
+    if (!isWritePending) return;
     const labels: Record<string, { title: string; description: string }> = {
-      config:  { title: "Setting CCIP router…",       description: "Waiting for transaction." },
-      deposit: { title: "Depositing ETH…",             description: "Waiting for transaction." },
-      drip:    { title: "Dripping CCIP-BnM…",          description: "Waiting for transaction." },
-      shield:  { title: "Executing Emergency Shield…", description: "Sending cross-chain message." },
+      config: { title: "Setting CCIP router…", description: "Waiting for transaction." },
+      deposit: { title: "Depositing ETH…", description: "Waiting for transaction." },
+      drip: { title: "Dripping CCIP-BnM…", description: "Waiting for transaction." },
+      shield: { title: "Executing Emergency Shield…", description: "Sending cross-chain message." },
     };
-    const { title, description } = labels[state.pendingAction ?? ""] ?? {
+    const { title, description } = labels[pendingAction ?? ""] ?? {
       title: "Processing…",
       description: "Waiting for transaction.",
     };
     toast.loading(title, { id: TOAST_ID, description });
-  }, [state.isWritePending, state.pendingAction]);
+  }, [isWritePending, pendingAction]);
 
   useEffect(() => {
-    if (!state.writeHash) return;
-    const explorerUrl = `${getExplorerBase(chainId)}/tx/${state.writeHash}`;
+    if (!writeHash) return;
+    const explorerUrl = `${getExplorerBase(chainId)}/tx/${writeHash}`;
     toast.success("Transaction submitted", {
       id: TOAST_ID,
       description: (
@@ -57,26 +95,26 @@ export function CCIPPanel({ vaultAddress, chainId, vaultOwner }: CCIPPanelProps)
         </a>
       ),
     });
-    state.resetWrite();
-  }, [state.writeHash, chainId, state.resetWrite]);
+    resetWrite();
+  }, [writeHash, chainId, resetWrite]);
 
   useEffect(() => {
-    if (!state.writeError) return;
+    if (!writeError) return;
     toast.error("Transaction failed", {
       id: TOAST_ID,
-      description: <ErrorDescription message={state.writeError} />,
+      description: <ErrorDescription message={writeError} />,
       duration: Infinity,
     });
-    state.resetWrite();
-  }, [state.writeError, state.resetWrite]);
+    resetWrite();
+  }, [writeError, resetWrite]);
 
   // ── auth guards ──────────────────────────────────────────────────────────
 
-  if (!state.isConnected) {
+  if (!isConnected) {
     return <GuardCard message="Connect wallet to configure CCIP or execute Emergency Shield." />;
   }
 
-  if (!state.isOwner) {
+  if (!isOwner) {
     return <GuardCard message="Only vault owner can configure CCIP or execute Emergency Shield." />;
   }
 
@@ -84,72 +122,68 @@ export function CCIPPanel({ vaultAddress, chainId, vaultOwner }: CCIPPanelProps)
 
   return (
     <div className="space-y-4">
-      <div className="rounded-xl border border-border/50 bg-card-2/40 p-4 space-y-4">
-
+      <div className="border-border/50 bg-card-2/40 space-y-4 rounded-xl border p-4">
         {/* ── state: ccip not configured ── */}
-        {state.ccipNotSet ? (
+        {ccipNotSet ? (
           <SetupView
-            ccipRouterAddress={state.ccipRouterAddress}
-            setCcipRouterAddress={state.setCcipRouterAddress}
-            defaultRouter={state.defaultRouter}
-            isWritePending={state.isWritePending}
-            onSubmit={state.handleSetCCIPConfig}
+            ccipRouterAddress={ccipRouterAddress}
+            setCcipRouterAddress={setCcipRouterAddress}
+            defaultRouter={defaultRouter}
+            isWritePending={isWritePending}
+            onSubmit={handleSetCCIPConfig}
           />
         ) : (
-
           /* ── state: ccip configured ── */
           <div className="grid grid-cols-[1fr_1fr] gap-4">
-
             {/* left col: shield form */}
             <div className="space-y-3">
-
               {/* token balance */}
               <TokenChip
-                shieldToken={state.shieldToken}
-                vaultTokenBalanceFormatted={state.vaultTokenBalanceFormatted}
-                hasEnoughToken={state.hasEnoughToken}
+                shieldToken={shieldToken}
+                vaultTokenBalanceFormatted={vaultTokenBalanceFormatted}
+                hasEnoughToken={hasEnoughToken}
               />
 
               {/* amount */}
               <div>
-                <label htmlFor="shield-amount" className="text-[10px] text-muted block mb-1">
+                <label htmlFor="shield-amount" className="text-muted mb-1 block text-[10px]">
                   Amount
                 </label>
                 <input
                   id="shield-amount"
                   type="text"
-                  value={state.shieldAmount}
-                  onChange={(e) => state.setShieldAmount(e.target.value)}
+                  value={shieldAmount}
+                  onChange={(e) => setShieldAmount(e.target.value)}
                   placeholder="1"
-                  className="w-full rounded-lg border border-border/60 bg-card px-3 py-2 text-xs font-medium text-foreground outline-none focus:border-primary/50"
+                  className="border-border/60 bg-card text-foreground focus:border-primary/50 w-full rounded-lg border px-3 py-2 text-xs font-medium outline-none"
                 />
               </div>
 
               {/* receiver */}
               <div>
-                <label htmlFor="shield-receiver" className="text-[10px] text-muted block mb-1">
+                <label htmlFor="shield-receiver" className="text-muted mb-1 block text-[10px]">
                   Receiver
                 </label>
                 <input
                   id="shield-receiver"
                   type="text"
-                  value={state.shieldReceiver || state.userAddress || ""}
-                  onChange={(e) => state.setShieldReceiver(e.target.value)}
-                  placeholder={state.userAddress ?? "0x..."}
-                  className="w-full rounded-lg border border-border/60 bg-card px-3 py-2 text-xs font-mono text-foreground outline-none focus:border-primary/50"
+                  value={shieldReceiver || userAddress || ""}
+                  onChange={(e) => setShieldReceiver(e.target.value)}
+                  placeholder={userAddress ?? "0x..."}
+                  className="border-border/60 bg-card text-foreground focus:border-primary/50 w-full rounded-lg border px-3 py-2 font-mono text-xs outline-none"
                 />
               </div>
 
               {/* destination chain */}
               <div>
-                <label htmlFor="dest-chain" className="text-[10px] text-muted block mb-1">
+                <label htmlFor="dest-chain" className="text-muted mb-1 block text-[10px]">
                   Destination Chain
                 </label>
                 <select
                   id="dest-chain"
-                  value={state.destSelector.toString()}
-                  onChange={(e) => state.setDestSelector(BigInt(e.target.value))}
-                  className="w-full rounded-lg border border-border/60 bg-card px-3 py-2 text-xs font-medium text-foreground outline-none focus:border-primary/50"
+                  value={destSelector.toString()}
+                  onChange={(e) => setDestSelector(BigInt(e.target.value))}
+                  className="border-border/60 bg-card text-foreground focus:border-primary/50 w-full rounded-lg border px-3 py-2 text-xs font-medium outline-none"
                 >
                   {DESTINATION_OPTIONS.map((opt) => (
                     <option key={opt.selector.toString()} value={opt.selector.toString()}>
@@ -161,35 +195,35 @@ export function CCIPPanel({ vaultAddress, chainId, vaultOwner }: CCIPPanelProps)
 
               {/* eth balance + conditional deposit row */}
               <VaultGasSection
-                vaultEthBalanceFormatted={state.vaultEthBalanceFormatted}
-                hasEnoughEth={state.hasEnoughEth}
-                feeWei={state.feeWei}
-                depositEthAmount={state.depositEthAmount}
-                setDepositEthAmount={state.setDepositEthAmount}
-                canDepositEth={state.canDepositEth}
-                isWritePending={state.isWritePending}
-                onDeposit={state.handleDepositEth}
+                vaultEthBalanceFormatted={vaultEthBalanceFormatted}
+                hasEnoughEth={hasEnoughEth}
+                feeWei={feeWei}
+                depositEthAmount={depositEthAmount}
+                setDepositEthAmount={setDepositEthAmount}
+                canDepositEth={canDepositEth}
+                isWritePending={isWritePending}
+                onDeposit={handleDepositEth}
               />
 
               {/* fee / warning messages */}
               <FeeStatus
-                feeLoading={state.feeLoading}
-                feeData={state.feeData}
-                feeError={state.feeError}
-                canEstimateFee={state.canEstimateFee}
-                ethNeeded={state.ethNeeded}
-                hasEnoughToken={state.hasEnoughToken}
-                hasEnoughEth={state.hasEnoughEth}
-                shieldAmount={state.shieldAmount}
+                feeLoading={feeLoading}
+                feeData={feeData}
+                feeError={feeError}
+                canEstimateFee={canEstimateFee}
+                ethNeeded={ethNeeded}
+                hasEnoughToken={hasEnoughToken}
+                hasEnoughEth={hasEnoughEth}
+                shieldAmount={shieldAmount}
               />
 
               {/* shield action */}
               <button
-                onClick={state.handleEmergencyShield}
-                disabled={!state.canExecuteShield}
-                className="flex items-center gap-2 w-full justify-center rounded-xl bg-warning/20 py-2.5 text-xs font-semibold text-warning transition-all hover:bg-warning/30 disabled:opacity-50"
+                onClick={handleEmergencyShield}
+                disabled={!canExecuteShield}
+                className="bg-warning/20 text-warning hover:bg-warning/30 flex w-full items-center justify-center gap-2 rounded-xl py-2.5 text-xs font-semibold transition-all disabled:opacity-50"
               >
-                {state.isWritePending ? (
+                {isWritePending ? (
                   <>
                     <Loader2 className="h-3.5 w-3.5 animate-spin" />
                     Sending...
@@ -205,16 +239,12 @@ export function CCIPPanel({ vaultAddress, chainId, vaultOwner }: CCIPPanelProps)
 
             {/* right col: drip faucet + explorer */}
             <div className="space-y-2">
-              <DripFaucet
-                onDrip={state.handleDrip}
-                isPending={state.isWritePending}
-                hasUser={!!state.userAddress}
-              />
+              <DripFaucet onDrip={handleDrip} isPending={isWritePending} hasUser={!!userAddress} />
               <a
                 href={`${CCIP_EXPLORER_BASE}/address/${vaultAddress}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-center gap-2 w-full rounded-lg border border-primary/40 bg-primary/10 py-2 px-3 text-xs font-semibold text-primary hover:bg-primary/20 transition-colors"
+                className="border-primary/40 bg-primary/10 text-primary hover:bg-primary/20 flex w-full items-center justify-center gap-2 rounded-lg border px-3 py-2 text-xs font-semibold transition-colors"
               >
                 <ExternalLink className="h-3.5 w-3.5" />
                 Open CCIP Explorer
