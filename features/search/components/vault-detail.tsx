@@ -69,7 +69,17 @@ function formatEventDetail(e: HistoryItem): string {
       const tokenIn = (p.tokenIn as string | undefined) ?? "";
       const tokenOut = (p.tokenOut as string | undefined) ?? "";
       if (amtIn != null && amtOut != null) {
-        return `${formatAmount(amtIn, tokenDecimals(tokenIn))} ${tokenIn} → ${formatAmount(amtOut, tokenDecimals(tokenOut))} ${tokenOut}`.trim();
+        const formattedIn = formatAmount(amtIn, tokenDecimals(tokenIn));
+        const formattedOut = formatAmount(amtOut, tokenDecimals(tokenOut));
+        const tokenPart =
+          tokenIn && tokenOut
+            ? ` ${tokenIn} → ${formattedOut} ${tokenOut}`
+            : tokenIn
+              ? ` ${tokenIn}`
+              : tokenOut
+                ? ` → ${formattedOut} ${tokenOut}`
+                : "";
+        return `${formattedIn}${tokenPart}`.trim();
       }
       if (amtIn != null) return `${formatAmount(amtIn, tokenDecimals(tokenIn))} ${tokenIn}`.trim();
       if (amtOut != null)
@@ -117,8 +127,9 @@ function isRecentlyActive(ts: string | null): boolean {
 
 function computeActivityLevel(eventCount: number, createdTimestamp: string | null): string {
   if (!createdTimestamp) return "New vault";
-  const ageDays = (Date.now() - new Date(createdTimestamp).getTime()) / (1000 * 60 * 60 * 24);
-  if (ageDays <= 0) return "New vault";
+  const ageMs = Date.now() - new Date(createdTimestamp).getTime();
+  if (!Number.isFinite(ageMs) || ageMs <= 0) return "New vault";
+  const ageDays = ageMs / (1000 * 60 * 60 * 24);
   const rate = eventCount / ageDays;
   if (rate >= 5) return "Very active";
   if (rate >= 1) return "Active daily";
@@ -130,6 +141,7 @@ function computeActivityLevel(eventCount: number, createdTimestamp: string | nul
 function timeAgo(ts: string | null): string {
   if (!ts) return "—";
   const diff = Date.now() - new Date(ts).getTime();
+  if (!Number.isFinite(diff)) return "—";
   const seconds = Math.floor(diff / 1000);
   if (seconds < 60) return "just now";
   const minutes = Math.floor(seconds / 60);
