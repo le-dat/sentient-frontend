@@ -16,7 +16,7 @@ export const SUPPORTED_CHAINS: ChainInfo[] = [
 ];
 
 /** Chain where the vault factory is deployed. */
-export const FACTORY_CHAIN = SUPPORTED_CHAINS[0]; // Base Sepolia
+export const FACTORY_CHAIN = SUPPORTED_CHAINS.find((c) => c.id === 84532)!; // Base Sepolia
 
 /** Named chain IDs — single source of truth for all numeric chain ID references. */
 export const BASE_CHAIN_ID = SUPPORTED_CHAINS[1].id; // 8453

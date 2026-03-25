@@ -40,13 +40,16 @@ export function useVaultRules({ vaultAddress, chainId }: UseVaultRulesOptions) {
 
   const { data: results, refetch: refetchAll } = useReadContracts({ contracts });
 
-  const rulesAndFeeds = TRADE_TOKENS.filter((s) => TOKEN_DATA[s]).map((sym, i) => {
-    const ruleRes = results?.[i * 2];
-    const feedRes = results?.[i * 2 + 1];
-    const rule = ruleRes?.status === "success" ? ruleRes.result : null;
-    const feed = feedRes?.status === "success" ? feedRes.result : null;
-    return { sym, rule, feed };
-  });
+  const rulesAndFeeds = useMemo(() => {
+    const filteredTokens = TRADE_TOKENS.filter((s) => TOKEN_DATA[s]);
+    return filteredTokens.map((sym, i) => {
+      const ruleRes = results?.[i * 2];
+      const feedRes = results?.[i * 2 + 1];
+      const rule = ruleRes?.status === "success" ? ruleRes.result : null;
+      const feed = feedRes?.status === "success" ? feedRes.result : null;
+      return { sym, rule, feed };
+    });
+  }, [results]);
 
   // Sync form state from on-chain data
   useEffect(() => {

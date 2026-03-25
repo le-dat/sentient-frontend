@@ -42,7 +42,7 @@ export const TOKEN_DATA = Object.fromEntries(TOKEN_DEFINITIONS.map((t) => [t.sym
 /** Flat array alias (used by multicall loops). */
 export const VAULT_TOKENS = TOKEN_DEFINITIONS;
 
-export const STABLE_COINS: TokenSymbol[] = ["ETH", "USDC", "WETH", "LINK", "CCIP"];
+export const SWAP_TOKENS: TokenSymbol[] = ["ETH", "USDC", "WETH", "LINK", "CCIP"];
 
 /** Sentinel address representing native ETH in token lists / deposit flows. */
 export const NATIVE_ETH_ADDRESS = "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE" as const;

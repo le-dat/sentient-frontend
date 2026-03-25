@@ -4,10 +4,10 @@ export function PhoneFrame({ children }: { children: React.ReactNode }) {
       {/* Outer bezel */}
       <div className="border-foreground/10 bg-foreground/5 relative rounded-[44px] border-[6px] p-[3px] shadow-[0_0_0_1px_rgba(255,255,255,0.06),0_20px_60px_rgba(0,0,0,0.5)]">
         {/* Inner shell */}
-        <div className="flex min-h-[580px] flex-col overflow-hidden rounded-[38px] bg-[#0d0d12]">
+        <div className="bg-background flex min-h-[580px] flex-col overflow-hidden rounded-[38px]">
           {/* Status bar */}
           <div className="flex items-center justify-between px-6 pt-4 pb-2">
-            <span className="text-xs font-semibold text-white/70">21:54</span>
+            <span className="text-xs font-semibold text-white/70">9:41</span>
             {/* Dynamic island */}
             <div className="h-5 w-20 rounded-full bg-black" />
             <div className="flex items-center gap-1.5">

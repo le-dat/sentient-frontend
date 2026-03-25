@@ -5,7 +5,7 @@ import { FACTORY_CHAIN } from "@/lib/constants/chains";
 import { shortAddress } from "@/lib/utils";
 import { Check, Copy, Power, X } from "lucide-react";
 import { useMemo, useState } from "react";
-import { STABLE_COINS, tabItems } from "./constants";
+import { SWAP_TOKENS, tabItems } from "./constants";
 import { StatusBadge } from "./status-badge";
 import { ConfigTab } from "./tabs/config-tab";
 import { ConsoleTab } from "./tabs/console-tab";
@@ -32,7 +32,7 @@ export function VaultPanel({ vault, onClose, onRefresh }: VaultPanelProps) {
   const vaultTokens = useMemo(() => parseTokens(vault.balance), [vault.balance]);
   const vaultSymbols = useMemo(() => new Set(vaultTokens.map((t) => t.symbol)), [vaultTokens]);
   const systemTokens = useMemo(
-    () => STABLE_COINS.filter((s) => !vaultSymbols.has(s)),
+    () => SWAP_TOKENS.filter((s) => !vaultSymbols.has(s)),
     [vaultSymbols]
   );
 

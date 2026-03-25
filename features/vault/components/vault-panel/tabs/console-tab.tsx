@@ -171,7 +171,7 @@ export const ConsoleTab = ({
             />
           ))
         ) : (
-          <div className="text-md text-secondary py-3 text-center">Empty</div>
+          <div className="text-secondary py-3 text-center text-sm">Empty</div>
         )}
       </TokenGroup>
     </div>
